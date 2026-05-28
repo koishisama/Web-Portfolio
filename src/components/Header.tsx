@@ -49,9 +49,6 @@ export default function Header() {
               {item.label}
             </NavLink>
           ))}
-          <Link className="nav-cta" to="/contact">
-            Resume
-          </Link>
         </nav>
       </div>
     </header>

@@ -85,7 +85,7 @@ export default function AboutPage() {
 
       <ContactCTA
         title="Open the contact page for links and updates."
-        description="Email, GitHub, LinkedIn, and resume details can be added there."
+        description="Email, GitHub, and LinkedIn details can be added there."
       />
     </>
   );

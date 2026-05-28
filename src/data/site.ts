@@ -54,11 +54,6 @@ export const siteMeta = {
       label: "LinkedIn",
       value: "linkedin.com/in/your-handle",
       note: "Use this for recruiter-facing professional context."
-    },
-    {
-      label: "Resume",
-      value: "Resume PDF",
-      note: "Replace this label with your downloadable resume when it is ready."
     }
   ]
 } as const;

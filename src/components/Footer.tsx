@@ -21,7 +21,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-note">
-          <p>Resume and professional links can be added from the contact page.</p>
+          <p>Professional links can be added from the contact page.</p>
           <p>The current build now uses real project media from the local asset library.</p>
         </div>
       </div>

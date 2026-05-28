@@ -10,8 +10,7 @@ export default function ContactPage() {
           <p className="eyebrow">Contact</p>
           <h1 className="display-title">Contact and external links</h1>
           <p className="lead">
-            Use these cards to add your recruiter-facing links, email, and downloadable
-            resume details.
+            Use these cards to add your recruiter-facing links and contact details.
           </p>
         </div>
       </section>
@@ -20,8 +19,8 @@ export default function ContactPage() {
         <div className="page-shell">
           <SectionHeading
             eyebrow="Contact Cards"
-            title="Ready for email, GitHub, LinkedIn, and resume"
-            description="Replace the temporary values below with your real contact details and downloadable files."
+            title="Ready for email, GitHub, and LinkedIn"
+            description="Replace the temporary values below with your real contact details and links."
           />
           <div className="contact-grid">
             {siteMeta.contactCards.map((card) => (

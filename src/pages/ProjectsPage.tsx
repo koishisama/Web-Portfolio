@@ -56,7 +56,7 @@ export default function ProjectsPage() {
 
       <ContactCTA
         title="Open the contact page for links and details."
-        description="Use it for email, GitHub, LinkedIn, and resume updates."
+        description="Use it for email, GitHub, and LinkedIn updates."
       />
     </>
   );
