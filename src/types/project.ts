@@ -1,4 +1,4 @@
-export type ProjectCategory = "game" | "environment";
+export type ProjectCategory = "game" | "environment" | "vfx";
 
 export type ProjectStatus = "ready" | "placeholder";
 
@@ -8,6 +8,14 @@ export type VisualAsset = {
   alt: string;
   accent: string;
   overlay: string;
+  src?: string;
+  poster?: string;
+  mediaType?: "image" | "video";
+  objectPosition?: string;
+  autoPlay?: boolean;
+  muted?: boolean;
+  loop?: boolean;
+  controls?: boolean;
   eyebrow?: string;
   tags?: string[];
 };

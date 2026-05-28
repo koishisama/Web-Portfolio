@@ -6,8 +6,8 @@ type ContactCTAProps = {
 };
 
 export default function ContactCTA({
-  title = "Ready to replace placeholders with final media and recruiter-ready details.",
-  description = "This scaffold is built to accept polished screenshots, gameplay clips, resume links, and external profiles without changing the page structure."
+  title = "Open the contact page for links and details.",
+  description = "Use it for email, GitHub, LinkedIn, and resume updates."
 }: ContactCTAProps) {
   return (
     <section className="page-section">
@@ -19,9 +19,9 @@ export default function ContactCTA({
             <p className="section-description">{description}</p>
           </div>
           <div className="button-row">
-            <Link className="button button--primary" to="/contact">
-              Open Contact Page
-            </Link>
+          <Link className="button button--primary" to="/contact">
+            Open Contact Page
+          </Link>
             <Link className="button button--ghost" to="/projects">
               Review Project Layout
             </Link>

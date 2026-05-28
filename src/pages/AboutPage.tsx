@@ -43,10 +43,10 @@ export default function AboutPage() {
           </div>
           <div className="panel">
             <p className="eyebrow">Education Context</p>
-            <h2>Student work presented with production-minded structure</h2>
+            <h2>Student projects with hands-on production roles</h2>
             <p>
-              The scaffold treats school projects as real portfolio cases by emphasizing
-              ownership, process, and outcome rather than assignment labels alone.
+              Most of the work here comes from student projects, with a focus on clear
+              ownership across implementation, VFX, and environment production.
             </p>
           </div>
         </div>
@@ -56,8 +56,8 @@ export default function AboutPage() {
         <div className="page-shell">
           <SectionHeading
             eyebrow="Focus Areas"
-            title="Three strengths framed as one hybrid profile"
-            description="The site is organized to show how coding, VFX, and environment production reinforce each other."
+            title="Main areas of work"
+            description="Programming, VFX, and environment production are the three main areas across the current projects."
           />
           <div className="contribution-grid">
             {focusAreas.map((area) => (
@@ -74,8 +74,8 @@ export default function AboutPage() {
         <div className="page-shell">
           <SectionHeading
             eyebrow="Toolkit"
-            title="Tools already wired into the portfolio scaffold"
-            description="This list is pulled from shared site data so it can be updated in one place."
+            title="Tools used across these projects"
+            description="A small selection of software and workflows used across the current work."
           />
           <div className="panel tools-panel">
             <ToolStack tools={siteMeta.tools} />
@@ -84,8 +84,8 @@ export default function AboutPage() {
       </Reveal>
 
       <ContactCTA
-        title="The About page is ready for your real bio and links."
-        description="Replace placeholder identity details and extend this page with awards, timeline, or professional experience once you are ready."
+        title="Open the contact page for links and updates."
+        description="Email, GitHub, LinkedIn, and resume details can be added there."
       />
     </>
   );

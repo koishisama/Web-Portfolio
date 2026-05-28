@@ -49,9 +49,9 @@ export default function Header() {
               {item.label}
             </NavLink>
           ))}
-          <a className="nav-cta" href="#resume-placeholder">
+          <Link className="nav-cta" to="/contact">
             Resume
-          </a>
+          </Link>
         </nav>
       </div>
     </header>

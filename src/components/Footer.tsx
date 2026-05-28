@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="page-shell footer-grid">
         <div>
-          <p className="eyebrow">Portfolio Scaffold</p>
+          <p className="eyebrow">Game Portfolio</p>
           <h2 className="footer-title">{siteMeta.ownerName}</h2>
           <p className="footer-copy">
             A hybrid game portfolio focused on systems, effects, and environment work.
@@ -21,8 +21,8 @@ export default function Footer() {
         </div>
 
         <div className="footer-note">
-          <p id="resume-placeholder">Resume link placeholder</p>
-          <p>Swap contact links and project media once final assets are ready.</p>
+          <p>Resume and professional links can be added from the contact page.</p>
+          <p>The current build now uses real project media from the local asset library.</p>
         </div>
       </div>
     </footer>

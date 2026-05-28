@@ -7,13 +7,15 @@ type GalleryGridProps = {
   title?: string;
   description?: string;
   gallery: VisualAsset[];
+  captionMode?: "none" | "all" | "video";
 };
 
 export default function GalleryGrid({
-  eyebrow = "Media Gallery",
-  title = "Placeholder media blocks ready for real screenshots and renders",
+  eyebrow = "Media",
+  title = "Project media",
   description,
-  gallery
+  gallery,
+  captionMode = "none"
 }: GalleryGridProps) {
   return (
     <section className="page-section">
@@ -21,7 +23,16 @@ export default function GalleryGrid({
         <SectionHeading eyebrow={eyebrow} title={title} description={description} />
         <div className="gallery-grid">
           {gallery.map((asset) => (
-            <MediaPlaceholder key={asset.title} asset={asset} />
+            <MediaPlaceholder
+              key={asset.title}
+              asset={asset}
+              variant="gallery"
+              showCaption={
+                captionMode === "all" ||
+                (captionMode === "video" && asset.mediaType === "video")
+              }
+              className={`gallery-media gallery-media--${asset.mediaType ?? "image"}${asset.mediaType === "video" ? asset.controls ? " gallery-media--interactive" : " gallery-media--loop" : ""}`}
+            />
           ))}
         </div>
       </div>

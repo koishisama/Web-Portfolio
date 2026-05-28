@@ -55,15 +55,15 @@ export default function ProjectCaseStudyPage() {
 
       <ContributionGrid
         contributions={project.contributions}
-        description="Contribution cards are driven from the shared project registry so the case-study layout stays reusable."
+        description="Main contribution areas for the project."
       />
 
       <Reveal className="page-section">
         <div className="page-shell">
           <SectionHeading
-            eyebrow="Systems and Notes"
-            title="Expandable narrative blocks for technical detail, process, and outcomes"
-            description="Each section below is already scaffolded for longer writeups, diagrams, breakdowns, or inserted media."
+            eyebrow="Notes"
+            title="Process and project details"
+            description="Selected notes on implementation, art direction, and scene development."
           />
           <div className="stack-gap">
             {project.caseStudySections.map((section) => (
@@ -89,12 +89,12 @@ export default function ProjectCaseStudyPage() {
 
       <GalleryGrid
         gallery={project.gallery}
-        description="These gallery panels are intentionally styled as placeholder media targets so real stills, GIFs, or render crops can replace them later."
+        captionMode={project.category === "vfx" ? "all" : "video"}
       />
 
       <ContactCTA
-        title={`The ${project.title} route is wired and ready for final media.`}
-        description="Replace the placeholder frames with real screenshots, renders, or gameplay clips by updating the centralized project data and swapping in asset URLs."
+        title={`More details can be added to ${project.title} over time.`}
+        description="Additional implementation notes, links, and supporting material can be added later."
       />
     </>
   );

@@ -1,45 +1,49 @@
 export const siteMeta = {
-  ownerName: "Your Name",
-  brandMark: "YN",
-  roleLabel: "Programmer, VFX Artist, and Environment Designer",
+  ownerName: "Hongtao Gao",
+  brandMark: "HG",
+  roleLabel: "Programmer, VFX Artist, and Environment Modeler",
   heroStatement:
-    "Building playable worlds through game systems, real-time effects, and environment craft.",
+    "Building game systems, real-time effects, and environment work in Unity.",
   heroSummary:
-    "This portfolio is designed as a recruiter-friendly showcase for hybrid game work across programming, VFX, and environment production.",
+    "Selected work across gameplay programming, VFX, AR interaction, and environment production.",
   aboutIntro:
-    "I build game experiences that connect technical problem solving with visual clarity. My work spans gameplay logic, effects-driven feedback, environment modeling, and scene presentation.",
+    "I work across gameplay programming, real-time VFX, and environment modeling, with a focus on clear playable results.",
   aboutDetails: [
-    "My portfolio focuses on Unity-based development, scene building, and interactive world presentation through a practical production mindset.",
-    "The current version is scaffolded to support richer media drops, process notes, and polished case studies as more project assets are added."
+    "Most of my work is built in Unity and presented through game projects, environment studies, and short VFX pieces.",
+    "I enjoy combining systems, visual feedback, and scene building in the same workflow."
   ],
   tools: [
     "Unity",
     "C#",
-    "Blender",
     "Maya",
     "Substance Painter",
-    "Photoshop",
     "Shader Graph",
-    "VR Interaction",
+    "FMOD",
+    "AR Interaction",
     "Environment Modeling"
   ],
   categoryCopy: {
     game: {
       title: "Game Projects",
       description:
-        "Playable work with a focus on systems, effects, interaction, and moment-to-moment feedback."
+        "Playable work focused on systems, interaction, and real-time feedback."
+    },
+    vfx: {
+      title: "VFX Studies",
+      description:
+        "Short real-time effect studies focused on timing, motion, and impact."
     },
     environment: {
       title: "Environment Projects",
       description:
-        "Scene-building work centered on modeling, composition, spatial storytelling, and environment polish."
+        "Scene work focused on modeling, composition, lighting, and presentation."
     }
   },
   contactCards: [
     {
       label: "Email",
-      value: "your.email@example.com",
-      note: "Replace with your preferred contact address."
+      value: "mm2212425586@gmail.com",
+      note: "Primary contact email."
     },
     {
       label: "GitHub",
@@ -54,7 +58,7 @@ export const siteMeta = {
     {
       label: "Resume",
       value: "Resume PDF",
-      note: "Swap this placeholder with your real downloadable resume."
+      note: "Replace this label with your downloadable resume when it is ready."
     }
   ]
 } as const;

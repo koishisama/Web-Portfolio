@@ -31,10 +31,7 @@ export default function ProjectsPage() {
         <div className="page-shell">
           <p className="eyebrow">Project Index</p>
           <h1 className="display-title">Projects</h1>
-          <p className="lead">
-            Browse the full scaffold by category, with Rhythm-Rider preserved as the main
-            attention anchor.
-          </p>
+          <p className="lead">Browse the work by category.</p>
           <ProjectFilter activeFilter={filter} onChange={setFilter} />
         </div>
       </section>
@@ -42,9 +39,9 @@ export default function ProjectsPage() {
       <Reveal className="page-section">
         <div className="page-shell">
           <SectionHeading
-            eyebrow="Project Layout"
-            title="An editorial grid with one dominant flagship tile"
-            description="The list is filtered from one typed project registry so cards and case-study routes stay synchronized."
+            eyebrow="All Projects"
+            title="Game, VFX, and environment work"
+            description="Filter the work by category and open each project for more detail."
           />
           <div className="stack-gap">
             {showFeatured ? <FeaturedProjectCard project={featuredProject} /> : null}
@@ -58,8 +55,8 @@ export default function ProjectsPage() {
       </Reveal>
 
       <ContactCTA
-        title="Each project card already resolves to a real route."
-        description="When final screenshots, videos, and external links are ready, they can be dropped into the shared project data without rewriting the page architecture."
+        title="Open the contact page for links and details."
+        description="Use it for email, GitHub, LinkedIn, and resume updates."
       />
     </>
   );

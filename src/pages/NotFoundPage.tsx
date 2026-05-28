@@ -7,7 +7,7 @@ export default function NotFoundPage() {
         <p className="eyebrow">404</p>
         <h1 className="display-title">Page not found</h1>
         <p className="lead">
-          The requested route is not available in the current portfolio scaffold.
+          The requested route is not available in the current portfolio build.
         </p>
         <div className="button-row">
           <Link className="button button--primary" to="/">

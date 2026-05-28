@@ -7,11 +7,20 @@ import ToolStack from "../components/ToolStack";
 import ContactCTA from "../components/ContactCTA";
 import { featuredProject, getProjectsByCategory, projects } from "../data/projects";
 import { siteMeta } from "../data/site";
+import type { ProjectCategory } from "../types/project";
+
+const categoryOrder: ProjectCategory[] = ["game", "vfx", "environment"];
 
 export default function HomePage() {
   const gameProjects = getProjectsByCategory("game");
+  const vfxProjects = getProjectsByCategory("vfx");
   const environmentProjects = getProjectsByCategory("environment");
   const supportingProjects = projects.filter((project) => project.slug !== featuredProject.slug);
+  const categoryCounts: Record<ProjectCategory, number> = {
+    game: gameProjects.length,
+    vfx: vfxProjects.length,
+    environment: environmentProjects.length
+  };
 
   return (
     <>
@@ -20,21 +29,18 @@ export default function HomePage() {
       <Reveal className="page-section">
         <div className="page-shell">
           <SectionHeading
-            eyebrow="Portfolio Structure"
-            title="Two project lanes built around one strong flagship case study"
-            description="The homepage leads with Rhythm-Rider, then divides the rest of the work into playable projects and environment-focused scenes."
+            eyebrow="Project Groups"
+            title="Games, VFX studies, and environment work"
+            description="The work is grouped into playable projects, short VFX studies, and environment scenes."
           />
           <div className="category-grid">
-            <article className="panel category-card">
-              <p className="eyebrow">{siteMeta.categoryCopy.game.title}</p>
-              <h3>{gameProjects.length} projects</h3>
-              <p>{siteMeta.categoryCopy.game.description}</p>
-            </article>
-            <article className="panel category-card">
-              <p className="eyebrow">{siteMeta.categoryCopy.environment.title}</p>
-              <h3>{environmentProjects.length} projects</h3>
-              <p>{siteMeta.categoryCopy.environment.description}</p>
-            </article>
+            {categoryOrder.map((category) => (
+              <article key={category} className="panel category-card">
+                <p className="eyebrow">{siteMeta.categoryCopy[category].title}</p>
+                <h3>{categoryCounts[category]} projects</h3>
+                <p>{siteMeta.categoryCopy[category].description}</p>
+              </article>
+            ))}
           </div>
         </div>
       </Reveal>
@@ -42,9 +48,9 @@ export default function HomePage() {
       <Reveal className="page-section">
         <div className="page-shell">
           <SectionHeading
-            eyebrow="Featured Work"
-            title="A recruiter-facing hierarchy that starts with the strongest hybrid project"
-            description="Rhythm-Rider anchors the site, while the remaining projects support range across environment and interaction work."
+            eyebrow="Selected Work"
+            title="Projects across gameplay, VFX, AR, and environments"
+            description="A mix of game work, standalone effects, and scene-based studies."
           />
           <div className="stack-gap">
             <FeaturedProjectCard project={featuredProject} />
@@ -61,8 +67,8 @@ export default function HomePage() {
         <div className="page-shell about-band">
           <div>
             <SectionHeading
-              eyebrow="About This Portfolio"
-              title="A scaffold built for gameplay, VFX, and environment storytelling"
+              eyebrow="About"
+              title="Programming, VFX, and environment work"
               description={siteMeta.aboutIntro}
             />
             <div className="body-copy">
@@ -72,7 +78,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="panel tools-panel">
-            <p className="eyebrow">Tools and Skills</p>
+            <p className="eyebrow">Tools</p>
             <ToolStack tools={siteMeta.tools} />
           </div>
         </div>

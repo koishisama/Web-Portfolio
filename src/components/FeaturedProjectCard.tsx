@@ -10,10 +10,10 @@ export default function FeaturedProjectCard({ project }: FeaturedProjectCardProp
   return (
     <article className="featured-project">
       <div className="featured-project__visual">
-        <MediaPlaceholder asset={project.heroImage} />
+        <MediaPlaceholder asset={project.thumbnail} />
       </div>
       <div className="featured-project__body">
-        <p className="eyebrow">Featured Case Study</p>
+        <p className="eyebrow">Selected Project</p>
         <h3>{project.title}</h3>
         <p className="lead-small">{project.summary}</p>
         <ul className="feature-list">

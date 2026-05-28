@@ -1,21 +1,51 @@
-import type { ProjectCategory, ProjectRecord } from "../types/project";
+import type { ProjectCategory, ProjectRecord, VisualAsset } from "../types/project";
+
+const assetPath = (relativePath: string) =>
+  new URL(`../../Assets/${relativePath}`, import.meta.url).href;
 
 const createAsset = (
+  config: Omit<VisualAsset, "alt"> & { alt?: string }
+): VisualAsset => ({
+  ...config,
+  alt: config.alt ?? `${config.title} media`
+});
+
+const createImageAsset = (
   title: string,
   caption: string,
   accent: string,
   overlay: string,
-  eyebrow?: string,
-  tags?: string[]
-) => ({
-  title,
-  caption,
-  alt: `${title} placeholder media`,
-  accent,
-  overlay,
-  eyebrow,
-  tags
-});
+  relativePath: string,
+  options: Partial<VisualAsset> = {}
+) =>
+  createAsset({
+    title,
+    caption,
+    accent,
+    overlay,
+    src: assetPath(relativePath),
+    mediaType: "image",
+    ...options
+  });
+
+const createVideoAsset = (
+  title: string,
+  caption: string,
+  accent: string,
+  overlay: string,
+  relativePath: string,
+  options: Partial<VisualAsset> = {}
+) =>
+  createAsset({
+    title,
+    caption,
+    accent,
+    overlay,
+    src: assetPath(relativePath),
+    mediaType: "video",
+    controls: true,
+    ...options
+  });
 
 export const projects: ProjectRecord[] = [
   {
@@ -23,512 +53,883 @@ export const projects: ProjectRecord[] = [
     title: "Rhythm-Rider",
     category: "game",
     subtitle:
-      "A Unity rhythm racing project combining gameplay systems, VFX feedback, and stylized environment direction.",
+      "A Unity rhythm racing game that combines gameplay programming, stylized VFX, and neon environment design in one student project.",
     roles: ["Programmer", "VFX Artist", "Environment Designer"],
-    tools: ["Unity", "C#", "Shader Graph", "Timeline", "Post-processing"],
+    tools: ["Unity", "C#", "FMOD", "Shader Graph", "Level Design"],
     projectType: "Student team project",
-    heroImage: createAsset(
-      "Rhythm-Rider Hero",
-      "Flagship project media slot for a gameplay trailer or marquee still.",
+    heroImage: createVideoAsset(
+      "Rhythm-Rider",
+      "Ambient background footage for the opening section.",
       "#3dd9d6",
-      "radial-gradient(circle at 20% 20%, rgba(61, 217, 214, 0.55), transparent 45%), linear-gradient(135deg, rgba(8, 15, 23, 0.95), rgba(10, 28, 33, 0.8))",
-      "Flagship Project",
-      ["Unity", "Rhythm", "Racing"]
+      "linear-gradient(180deg, rgba(5, 10, 16, 0.12), rgba(5, 10, 16, 0.62))",
+      "Rhythm Rider background.mp4",
+      {
+        poster: assetPath(
+          "Rhythm Rider images resources/Screenshot 2026-05-28 205923.png"
+        ),
+        eyebrow: "Selected Project",
+        tags: ["Unity", "Rhythm", "Racing"],
+        autoPlay: true,
+        muted: true,
+        loop: false,
+        controls: false,
+        alt: "Rhythm-Rider opening background footage"
+      }
     ),
-    thumbnail: createAsset(
-      "Rhythm-Rider Preview",
-      "Homepage and projects index preview frame.",
+    thumbnail: createImageAsset(
+      "Rhythm-Rider",
+      "A street-level frame that captures the neon identity of the project world.",
       "#61f7cb",
-      "linear-gradient(135deg, rgba(6, 13, 19, 1), rgba(18, 40, 46, 0.88))",
-      "Featured",
-      ["Programming", "VFX", "Environment"]
+      "linear-gradient(180deg, rgba(4, 9, 14, 0.1), rgba(4, 9, 14, 0.7))",
+      "Rhythm Rider images resources/Screenshot 2026-05-28 205923.png",
+      {
+        eyebrow: "Featured",
+        tags: ["Programming", "VFX", "Environment"],
+        alt: "Rhythm-Rider environment preview screenshot"
+      }
     ),
     summary:
-      "Rhythm-Rider is the strongest anchor for the site because it demonstrates hybrid authorship across gameplay programming, VFX response, and environment design within one cohesive racing experience.",
+      "A Unity rhythm racing project that brings together gameplay programming, stylized VFX, and neon environment design.",
     highlights: [
-      "Designed to showcase a complete mix of technical and visual ownership.",
-      "Built in Unity with system-level implementation and stylized feedback loops.",
-      "Structured as the main recruiter-facing case study for the portfolio."
+      "Gameplay programming in Unity with C#.",
+      "Stylized VFX for speed, timing, and impact.",
+      "Neon environment design built for readability and mood."
     ],
     gallery: [
-      createAsset(
-        "Gameplay Capture",
-        "Reserved for in-race footage and rhythm timing feedback.",
-        "#38c1f6",
-        "linear-gradient(135deg, rgba(6, 18, 29, 0.96), rgba(15, 48, 69, 0.82))",
-        "Gameplay"
+      createVideoAsset(
+        "Demonstration Video",
+        "Gameplay footage from the current Rhythm-Rider build.",
+        "#34d7ff",
+        "linear-gradient(180deg, rgba(6, 14, 19, 0.06), rgba(6, 14, 19, 0.3))",
+        "Rhythm Rider demonstration video2.mp4",
+        {
+          poster: assetPath(
+            "Rhythm Rider images resources/Screenshot 2026-05-28 225208.png"
+          ),
+          eyebrow: "Demonstration Video",
+          tags: ["Prototype", "Unity"]
+        }
       ),
-      createAsset(
-        "Effects Breakdown",
-        "Reserved for boost, hit, or timing-driven effects moments.",
-        "#78ffd6",
-        "linear-gradient(135deg, rgba(9, 17, 21, 0.95), rgba(18, 54, 41, 0.84))",
-        "VFX"
+      createImageAsset(
+        "Track Overview",
+        "A clean gameplay frame that emphasizes road layout, HUD, and city signage.",
+        "#53d9ff",
+        "linear-gradient(180deg, rgba(6, 16, 24, 0.08), rgba(6, 16, 24, 0.42))",
+        "Rhythm Rider images resources/Screenshot 2026-05-28 184834.png",
+        {
+          eyebrow: "Gameplay Still",
+          tags: ["UI", "Track Framing"]
+        }
       ),
-      createAsset(
-        "Environment Frame",
-        "Reserved for track mood, set dressing, and scene composition stills.",
-        "#ffd06a",
-        "linear-gradient(135deg, rgba(21, 14, 8, 0.95), rgba(57, 35, 18, 0.82))",
-        "Environment"
-      )
-    ],
+      createImageAsset(
+        "Street Composition",
+        "A second gameplay still focused on the project logo, road flow, and skyline framing.",
+        "#79ffe2",
+        "linear-gradient(180deg, rgba(8, 12, 18, 0.08), rgba(8, 12, 18, 0.5))",
+        "Rhythm Rider images resources/Screenshot 2026-05-28 184852.png",
+        {
+          eyebrow: "Environment"
+        }
+      ),
+        createImageAsset(
+          "City Identity Shot",
+          "A wider environment-focused shot showing the visual language of the track and surrounding buildings.",
+        "#d2a0ff",
+        "linear-gradient(180deg, rgba(12, 8, 18, 0.08), rgba(12, 8, 18, 0.46))",
+        "Rhythm Rider images resources/Screenshot 2026-05-28 205923.png",
+          {
+            eyebrow: "World Building"
+          }
+        ),
+        createImageAsset(
+          "Neon Track View",
+          "A new gameplay frame showing the project from another racing angle.",
+          "#5de6ff",
+          "linear-gradient(180deg, rgba(6, 14, 24, 0.08), rgba(6, 14, 24, 0.42))",
+          "Rhythm Rider images resources/Screenshot 2026-05-28 225108.png",
+          {
+            eyebrow: "Gameplay"
+          }
+        ),
+        createImageAsset(
+          "City Lane Shot",
+          "A closer street-level frame with more emphasis on the road and surrounding signs.",
+          "#7bffe0",
+          "linear-gradient(180deg, rgba(7, 14, 18, 0.08), rgba(7, 14, 18, 0.42))",
+          "Rhythm Rider images resources/Screenshot 2026-05-28 225154.png",
+          {
+            eyebrow: "Street View"
+          }
+        ),
+        createImageAsset(
+          "Gameplay Environment Frame",
+          "A new still focused on track atmosphere, lighting, and environment density.",
+          "#8fd4ff",
+          "linear-gradient(180deg, rgba(7, 12, 18, 0.08), rgba(7, 12, 18, 0.42))",
+          "Rhythm Rider images resources/Screenshot 2026-05-28 225208.png",
+          {
+            eyebrow: "Environment"
+          }
+        )
+      ],
     contributions: [
       {
         title: "Programming",
         summary:
-          "The case study should foreground gameplay systems, event logic, and player-facing responsiveness.",
+          "Focused on gameplay flow, logic, and player feedback.",
         bullets: [
-          "Gameplay implementation in Unity with C#.",
-          "System ownership for core playable flow and feedback loops.",
-          "Clear structure for describing rhythm timing, movement, or race-state logic."
+          "Implemented gameplay logic inside Unity using C#.",
+          "Built the playable structure that supports rhythm racing flow.",
+          "Used system feedback to connect movement, score, and timing."
         ]
       },
       {
         title: "VFX",
         summary:
-          "The VFX column should show how effects supported speed, timing, and impact clarity.",
+          "Focused on feedback, atmosphere, and speed effects.",
         bullets: [
-          "Moment-based effects tied to player actions or timing cues.",
-          "Readable visual feedback for boost, rhythm, and state changes.",
-          "Placeholder media slots ready for close-up effect shots."
+          "Post-processing and a rain system for atmosphere.",
+          "Hit shake and a red screen border for damage feedback.",
+          "Car trails and visible wind streaks for speed."
         ]
       },
       {
         title: "Environment Design",
         summary:
-          "The environment section should prove scene authorship rather than treating the setting as background only.",
+          "Focused on shaping a neon track space that stays readable in motion.",
         bullets: [
-          "Track and scene presentation aligned with the game's tempo and identity.",
-          "Visual framing for movement, readability, and energy.",
-          "A clear place to discuss environment decisions once final media is added."
+          "Designed a neon city setting that fits the project tone.",
+          "Used signage, road framing, and layout to guide attention.",
+          "Balanced atmosphere with gameplay readability."
         ]
       }
     ],
     facts: [
       { label: "Engine", value: "Unity" },
-      { label: "Role", value: "Programming, VFX, Environment Design" },
-      { label: "Project Type", value: "Student game project" },
-      { label: "Status", value: "Media-ready case study scaffold" }
+      { label: "Focus", value: "Rhythm racing gameplay and VFX feedback" },
+      { label: "Role", value: "Programming, VFX, and environment design" },
+      { label: "Media", value: "Gameplay video and environment screenshots" }
     ],
     caseStudySections: [
       {
         title: "Project Overview",
         body: [
-          "This page is structured to position Rhythm-Rider as the portfolio's flagship case. It leads with clarity on what the game is, what role you held, and why the project matters for recruiting.",
-          "When real assets are added, this section should become the opening elevator pitch for the project."
+          "Rhythm-Rider is a student project developed in Unity around a rhythm racing concept.",
+          "My work on the project covered programming, VFX, and environment design."
         ],
         bullets: [
-          "Explain the game in one sentence.",
-          "Describe what made the project technically and visually interesting.",
-          "Set up why your hybrid role matters."
+          "Unity-based rhythm racing concept",
+          "Student project with hybrid responsibilities",
+          "Core showcase for programming and VFX range"
         ]
       },
       {
-        title: "Systems and Features",
+        title: "Systems and Feedback",
         body: [
-          "The case study scaffold includes a dedicated section for implementation details so the page can grow into a serious recruiter-facing technical breakdown.",
-          "It is already shaped to support rhythm sync, feedback systems, player state, VFX timing, and environment support."
+          "The game is built around timing, movement, and player response.",
+          "The project media shows how gameplay, HUD, and effects work together during play."
         ],
         bullets: [
-          "Gameplay systems",
-          "Rhythm or timing logic",
-          "Player feedback and response",
-          "Environment support for readability"
+          "Gameplay structure and race flow",
+          "Timing and response logic",
+          "Visual feedback connected to player state"
         ]
       },
       {
-        title: "Results and Reflection",
+        title: "Visual Direction and Effects",
         body: [
-          "The closing section is designed to hold lessons learned, outcomes, and what this project says about your role on a team.",
-          "Once filled with real details, this becomes the strongest recruiting proof on the site."
+          "The environment and effects were designed to keep the scene energetic and readable.",
+          "Neon signage, road framing, and lighting help support both atmosphere and play clarity."
         ]
       }
     ],
     reflection:
-      "Rhythm-Rider should read as the portfolio's most complete case study, balancing technical explanation, visual polish, and clear ownership.",
+      "This project brings gameplay programming, VFX, and environment work together in one playable piece.",
     status: "ready"
   },
   {
-    slug: "vr-interactive-scene",
-    title: "VR Interactive Scene",
+    slug: "single-vfx-studies",
+    title: "Single VFX Studies",
+    category: "vfx",
+    subtitle:
+      "A focused set of standalone effect clips exploring timing, motion, and readable real-time visual impact.",
+    roles: ["VFX Artist"],
+    tools: ["Unity", "Shader Graph", "Post-processing", "Timing Studies"],
+    projectType: "Standalone VFX studies",
+    heroImage: createVideoAsset(
+      "Storm VFX Hero",
+      "A standalone effect clip used to introduce the VFX studies section.",
+      "#7fd3ff",
+      "linear-gradient(180deg, rgba(5, 12, 18, 0.12), rgba(5, 12, 18, 0.62))",
+      "Single VFXs/storm.mp4",
+      {
+        eyebrow: "VFX Studies",
+        tags: ["Storm", "Timing"],
+        autoPlay: true,
+        muted: true,
+        loop: true,
+        controls: false,
+        alt: "Standalone storm visual effect clip"
+      }
+    ),
+    thumbnail: createVideoAsset(
+      "Electric Sphere",
+      "A short looping VFX study.",
+      "#86f4e0",
+      "linear-gradient(180deg, rgba(7, 14, 14, 0.12), rgba(7, 14, 14, 0.62))",
+      "Single VFXs/Lighting Ball.mp4",
+      {
+        eyebrow: "VFX",
+        tags: ["Lighting", "Effects"],
+        autoPlay: true,
+        muted: true,
+        loop: true,
+        controls: false,
+          alt: "Lighting ball visual effect preview"
+        }
+      ),
+    summary:
+      "A set of short real-time effect studies focused on timing, motion, and impact.",
+    highlights: [
+      "Short studies built around clear effect ideas.",
+      "Focused on motion, energy, and visual timing.",
+      "Presented as quick looping clips."
+    ],
+      gallery: [
+        createVideoAsset(
+          "Electric Sphere",
+          "An energy sphere that fires lightning toward a target.",
+          "#86f4e0",
+          "linear-gradient(180deg, rgba(7, 14, 14, 0.06), rgba(7, 14, 14, 0.3))",
+          "Single VFXs/Lighting Ball.mp4",
+          {
+            autoPlay: true,
+            muted: true,
+            loop: true,
+            controls: false
+          }
+        ),
+        createVideoAsset(
+          "GPU Tornado",
+          "A tornado effect simulated with GPU particles.",
+          "#7fd3ff",
+          "linear-gradient(180deg, rgba(5, 12, 18, 0.06), rgba(5, 12, 18, 0.3))",
+          "Single VFXs/storm.mp4",
+          {
+            autoPlay: true,
+            muted: true,
+            loop: true,
+            controls: false
+          }
+        ),
+        createVideoAsset(
+          "Layered Water Ring",
+          "A composite water ring built from stacked effects.",
+          "#8ff9ff",
+          "linear-gradient(180deg, rgba(7, 13, 18, 0.06), rgba(7, 13, 18, 0.3))",
+          "Single VFXs/Water Ring effect.mp4",
+          {
+            autoPlay: true,
+            muted: true,
+            loop: true,
+            controls: false
+          }
+        )
+      ],
+    contributions: [
+      {
+        title: "Standalone Effect Design",
+        summary:
+          "Focused effect studies presented outside a full game scene.",
+        bullets: [
+          "Built as self-contained visual studies.",
+          "Centered on clarity, motion, and readable timing.",
+          "Useful for showing VFX range as its own discipline."
+        ]
+      },
+      {
+        title: "Visual Language",
+        summary:
+          "Each study is built around a direct visual idea and readable motion.",
+        bullets: [
+          "Explored lighting-driven and energy-driven forms.",
+          "Used compact clips to foreground the effect itself.",
+          "Separated these studies from other projects to keep each section clear."
+        ]
+      }
+    ],
+    facts: [
+      { label: "Focus", value: "Standalone real-time visual effect studies" },
+      { label: "Role", value: "VFX artist" },
+      { label: "Format", value: "Short effect clips" },
+      { label: "Media", value: "Three standalone VFX videos" }
+    ],
+    caseStudySections: [
+      {
+        title: "Study Focus",
+        body: [
+          "Each clip isolates one effect idea and keeps the presentation short and direct."
+        ]
+      },
+      {
+        title: "Effect Focus",
+        body: [
+          "The studies look at lighting behavior, storm energy, and circular motion in real time."
+        ],
+        bullets: ["Timing", "Impact", "Readable motion"]
+      }
+    ],
+    reflection:
+      "These clips focus on timing, shape, and visual clarity.",
+    status: "ready"
+  },
+  {
+    slug: "ar-interactive-scene",
+    title: "AR Interactive Scene",
     category: "game",
     subtitle:
-      "A VR-focused scene combining full environment modeling with implemented interaction beats.",
+      "An interactive AR scene built around a futuristic gate, a hidden ancient treasure, and environment storytelling.",
     roles: ["Environment Modeler", "Interaction Developer"],
-    tools: ["Unity", "C#", "VR Interaction Toolkit", "Blender"],
+    tools: ["Unity", "C#", "AR Interaction", "Maya"],
     projectType: "Student interactive scene",
-    heroImage: createAsset(
-      "VR Scene Hero",
-      "Reserved for a headset view or interaction showcase frame.",
+    heroImage: createImageAsset(
+      "AR Scene Hero",
+      "A scene capture focused on the gate, interactive space, and overall atmosphere.",
       "#66d9ff",
-      "linear-gradient(145deg, rgba(5, 14, 18, 0.98), rgba(18, 43, 51, 0.86))",
-      "Interactive Scene",
-      ["VR", "Interaction"]
+      "linear-gradient(180deg, rgba(6, 13, 18, 0.12), rgba(6, 13, 18, 0.62))",
+      "AR&VR resources/Screenshot 2026-04-26 225435.png",
+      {
+        eyebrow: "Interactive Scene",
+        tags: ["AR", "Environment"],
+        alt: "AR interactive scene screenshot"
+      }
     ),
-    thumbnail: createAsset(
-      "VR Scene Preview",
-      "Project tile placeholder for VR interaction visuals.",
+    thumbnail: createImageAsset(
+      "AR Interactive Scene",
+      "A frame from the AR environment and interaction project.",
       "#7de5ff",
-      "linear-gradient(135deg, rgba(8, 12, 18, 0.98), rgba(24, 44, 62, 0.86))"
+      "linear-gradient(180deg, rgba(8, 12, 18, 0.08), rgba(8, 12, 18, 0.58))",
+      "AR&VR resources/Screenshot 2026-04-26 225435.png",
+      {
+        eyebrow: "AR",
+        tags: ["Interaction", "Modeling"]
+      }
     ),
     summary:
-      "This project extends the game category by showing full environment authorship alongside implemented VR interaction, reinforcing technical and spatial versatility.",
+      "An interactive AR scene combining environment modeling with a futuristic gate and hidden ancient treasure.",
     highlights: [
-      "Environment modeled by one creator.",
-      "Built to support interaction rather than static presentation alone.",
-      "Useful bridge case between environment art and interactive implementation."
+      "Environment content modeled for an interactive AR setup.",
+      "Built around a futuristic gate and a hidden ancient treasure.",
+      "Focused on readable interaction and scene presentation."
     ],
     gallery: [
-      createAsset(
-        "VR Interaction Shot",
-        "Reserved for hand interaction or object manipulation media.",
+      createVideoAsset(
+        "Demonstration Video",
+        "A short video showing AR interaction, the gate, and the hidden treasure setup.",
         "#4de3ff",
-        "linear-gradient(135deg, rgba(5, 18, 25, 0.96), rgba(19, 58, 72, 0.82))",
-        "Interaction"
+        "linear-gradient(180deg, rgba(5, 15, 22, 0.06), rgba(5, 15, 22, 0.3))",
+        "AR scene demonstration .mp4",
+        {
+          poster: assetPath("AR&VR resources/Screenshot 2026-04-26 225435.png"),
+          eyebrow: "Demonstration Video",
+          tags: ["Interaction", "AR"]
+        }
       ),
-      createAsset(
-        "Scene Layout",
-        "Reserved for a wide environment composition frame.",
+      createImageAsset(
+        "Wide Scene View",
+        "A shot focused on the overall space and mood of the scene.",
         "#7cf7d4",
-        "linear-gradient(135deg, rgba(7, 16, 19, 0.95), rgba(23, 54, 45, 0.84))",
-        "Environment"
+        "linear-gradient(180deg, rgba(6, 15, 16, 0.08), rgba(6, 15, 16, 0.42))",
+        "AR&VR resources/Screenshot 2026-04-26 143500.png",
+        {
+          eyebrow: "Environment"
+        }
+      ),
+      createImageAsset(
+        "Gate Detail",
+        "A closer frame focused on the main interactive structure in the scene.",
+        "#8ae1ff",
+        "linear-gradient(180deg, rgba(5, 13, 19, 0.08), rgba(5, 13, 19, 0.42))",
+        "AR&VR resources/Screenshot 2026-04-26 144522.png",
+        {
+          eyebrow: "Detail"
+        }
+      ),
+      createImageAsset(
+        "Treasure Scene Frame",
+        "A supporting shot showing another angle of the interactive space.",
+        "#6ed6ff",
+        "linear-gradient(180deg, rgba(7, 14, 18, 0.08), rgba(7, 14, 18, 0.42))",
+        "AR&VR resources/Screenshot 2026-04-26 224224.png",
+        {
+          eyebrow: "Process"
+        }
+      ),
+      createImageAsset(
+        "Treasure Focus",
+        "A closer scene frame that helps show the treasure and surrounding detail.",
+        "#9df6e6",
+        "linear-gradient(180deg, rgba(6, 16, 18, 0.08), rgba(6, 16, 18, 0.45))",
+        "AR&VR resources/Screenshot 2026-04-26 225435.png",
+        {
+          eyebrow: "Treasure"
+        }
       )
     ],
     contributions: [
       {
         title: "Environment Modeling",
         summary:
-          "The page is prepared to emphasize full-scene authorship, asset creation, and composition decisions.",
+          "Focused on building a complete AR scene with clear visual focal points.",
         bullets: [
-          "Modeled the environment and scene elements.",
-          "Designed the scene to support immersion and interaction.",
-          "Placeholder frames are ready for overview and detail shots."
+          "Modeled the gate, treasure, and core environment pieces.",
+          "Used contrast between futuristic design and ancient treasure to shape the scene.",
+          "Built the layout to keep key interactive elements readable."
         ]
       },
       {
         title: "Interaction Implementation",
         summary:
-          "The scaffold makes room for technical explanation without overpowering the visual side of the project.",
+          "Focused on object-based interaction and scene response in AR.",
         bullets: [
           "Implemented interaction logic inside Unity.",
-          "Reserved a dedicated section for interaction notes.",
-          "Supports future media showing gameplay or controller context."
+          "Built the scene around discovery of the gate and the hidden treasure.",
+          "Kept the interactive flow clear and easy to follow."
         ]
       }
     ],
     facts: [
       { label: "Engine", value: "Unity" },
-      { label: "Focus", value: "VR interaction and environment production" },
-      { label: "Project Type", value: "Student scene project" },
-      { label: "Status", value: "Placeholder media active" }
+      { label: "Focus", value: "AR interaction and environmental storytelling" },
+      { label: "Role", value: "Modeling and interaction implementation" },
+      { label: "Media", value: "Demonstration video and scene screenshots" }
     ],
     caseStudySections: [
       {
         title: "Scene Intent",
         body: [
-          "This page is arranged to communicate both spatial atmosphere and interaction design, rather than treating the scene as a still environment piece."
+          "This project combines environment work with interactive AR presentation.",
+          "The scene is built around a futuristic gate that hides an ancient treasure."
         ]
       },
       {
         title: "Implementation Notes",
         body: [
-          "A dedicated implementation section is reserved for VR interaction logic, object behavior, and user experience constraints."
+          "The project focuses on readable AR interaction, key object emphasis, and scene clarity."
         ],
-        bullets: ["Input handling", "Interaction targets", "Player readability"]
+        bullets: ["Gate interaction", "Treasure reveal", "Scene readability"]
       }
     ],
     reflection:
-      "The VR scene page should feel like a hybrid case that connects modeling work with real interaction design.",
-    status: "placeholder"
+      "The project combines AR interaction with a modeled scene and a simple discovery-focused setup.",
+    status: "ready"
   },
   {
     slug: "factory-environment",
     title: "Factory Environment",
     category: "environment",
     subtitle:
-      "A fully modeled factory scene focused on industrial mood, structural detail, and environment design decisions.",
+      "An industrial environment study centered on full-scene modeling, mechanical repetition, and moody lighting.",
     roles: ["Environment Modeler", "Environment Designer"],
-    tools: ["Blender", "Maya", "Substance Painter", "Lighting"],
+    tools: ["Maya", "Substance Painter", "Lighting"],
     projectType: "Student environment assignment",
-    heroImage: createAsset(
+    heroImage: createImageAsset(
       "Factory Environment Hero",
-      "Reserved for a wide industrial beauty shot.",
+      "A close environmental frame with strong material contrast and industrial mood.",
       "#ffc369",
-      "linear-gradient(135deg, rgba(18, 10, 6, 0.98), rgba(66, 37, 14, 0.86))",
-      "Environment Study",
-      ["Industrial", "Modeling"]
+      "linear-gradient(180deg, rgba(16, 10, 7, 0.12), rgba(16, 10, 7, 0.68))",
+      "Factory Enviroment image resources/Screenshot 2026-05-28 191039.png",
+      {
+        eyebrow: "Environment Study",
+        tags: ["Industrial", "Modeling"],
+        alt: "Factory environment industrial scene screenshot"
+      }
     ),
-    thumbnail: createAsset(
-      "Factory Environment Preview",
-      "Project tile placeholder for the factory scene.",
+    thumbnail: createImageAsset(
+      "Factory Environment",
+      "A frame from the industrial environment study.",
       "#ffad4c",
-      "linear-gradient(135deg, rgba(14, 11, 8, 0.98), rgba(54, 34, 18, 0.86))"
+      "linear-gradient(180deg, rgba(16, 10, 7, 0.08), rgba(16, 10, 7, 0.6))",
+      "Factory Enviroment image resources/Screenshot 2026-05-28 191022.png",
+      {
+        eyebrow: "Industrial"
+      }
     ),
     summary:
-      "This scene is positioned as a focused environment case study that demonstrates independent modeling and world-building decisions.",
+      "An industrial environment study focused on modeling, structure, and lighting.",
     highlights: [
-      "All modeling created by one artist.",
-      "Useful for showing structure, repetition control, and composition.",
-      "Can be expanded with lighting, breakdown, and detail-callout media later."
+      "Built from self-modeled environment content.",
+      "Focused on hard-surface repetition and industrial form.",
+      "Uses lighting contrast to shape mood and depth."
     ],
     gallery: [
-      createAsset(
-        "Wide Factory Shot",
-        "Reserved for the main environmental composition.",
+      createImageAsset(
+        "Red Door Composition",
+        "A strong composition shot that pairs close industrial detail with depth into the wider space.",
         "#ffb25f",
-        "linear-gradient(135deg, rgba(23, 14, 9, 0.96), rgba(64, 41, 20, 0.82))",
-        "Wide Shot"
+        "linear-gradient(180deg, rgba(18, 11, 7, 0.08), rgba(18, 11, 7, 0.42))",
+        "Factory Enviroment image resources/Screenshot 2026-05-28 191039.png",
+        {
+          eyebrow: "Hero Shot"
+        }
       ),
-      createAsset(
-        "Material Detail",
-        "Reserved for close-up hard-surface or prop detail.",
-        "#ffd79f",
-        "linear-gradient(135deg, rgba(24, 16, 10, 0.96), rgba(78, 50, 24, 0.82))",
-        "Detail"
+      createImageAsset(
+        "Gear Wall Detail",
+        "A darker frame that focuses on the repeated mechanical silhouette language of the scene.",
+        "#ffc481",
+        "linear-gradient(180deg, rgba(16, 11, 8, 0.08), rgba(16, 11, 8, 0.46))",
+        "Factory Enviroment image resources/Screenshot 2026-05-28 191058.png",
+        {
+          eyebrow: "Detail"
+        }
+      ),
+      createImageAsset(
+        "Wide Factory View",
+        "A wider angle used to show scale, composition, and environmental density.",
+        "#e3a95f",
+        "linear-gradient(180deg, rgba(18, 12, 8, 0.08), rgba(18, 12, 8, 0.42))",
+        "Factory Enviroment image resources/Screenshot 2026-05-28 190913.png",
+        {
+          eyebrow: "Wide View"
+        }
+      ),
+      createImageAsset(
+        "Pipe and Structure Frame",
+        "A frame that highlights larger industrial shapes and the scene's vertical structure.",
+        "#e1b16c",
+        "linear-gradient(180deg, rgba(18, 12, 8, 0.08), rgba(18, 12, 8, 0.42))",
+        "Factory Enviroment image resources/Screenshot 2026-05-28 191022.png",
+        {
+          eyebrow: "Structure"
+        }
+      ),
+      createImageAsset(
+        "Secondary Environment Angle",
+        "A supporting shot used to broaden the scene presentation beyond one focal area.",
+        "#f3bb79",
+        "linear-gradient(180deg, rgba(18, 12, 8, 0.08), rgba(18, 12, 8, 0.42))",
+        "Factory Enviroment image resources/Screenshot 2026-05-28 191046.png",
+        {
+          eyebrow: "Alternate Angle"
+        }
+      ),
+      createImageAsset(
+        "Industrial Layout View",
+        "A broad environmental shot showing the composition of pipes, walls, and mechanical rhythm.",
+        "#f0ca90",
+        "linear-gradient(180deg, rgba(18, 12, 8, 0.08), rgba(18, 12, 8, 0.42))",
+        "Factory Enviroment image resources/Screenshot 2026-05-28 191120.png",
+        {
+          eyebrow: "Layout"
+        }
       )
     ],
     contributions: [
       {
         title: "Modeling",
         summary:
-          "The scaffold is built to showcase fully independent environment construction and asset ownership.",
+          "Focused on structure, repetition, and hard-surface scene building.",
         bullets: [
-          "All scene assets modeled by the artist.",
-          "Supports eventual breakdowns of large forms and focal props.",
-          "Ready for before-and-after polish comparisons."
+          "Modeled the scene elements independently.",
+          "Used hard-surface repetition and density to define the industrial identity.",
+          "Focused on environmental form and believable scene construction."
         ]
       },
       {
         title: "Environment Design",
         summary:
-          "The page structure makes room for explaining how layout, density, and industrial identity were shaped.",
+          "Focused on layout, lighting, and clear focal points.",
         bullets: [
-          "Scene composition and visual hierarchy.",
-          "Environment elements chosen to reinforce the industrial theme.",
-          "Reserved space for lighting and atmosphere commentary."
+          "Built visual hierarchy through framing and shadow.",
+          "Used composition to guide the eye through the scene.",
+          "Balanced heavy industrial detail with readable focal points."
         ]
       }
     ],
     facts: [
-      { label: "Focus", value: "Industrial environment modeling" },
-      { label: "Ownership", value: "All modeling created independently" },
-      { label: "Project Type", value: "Student environment assignment" },
-      { label: "Status", value: "Placeholder media active" }
+      { label: "Focus", value: "Industrial modeling and atmosphere" },
+      { label: "Ownership", value: "All environment content modeled independently" },
+      { label: "Project Type", value: "Student environment study" },
+      { label: "Media", value: "Multiple environment renders" }
     ],
     caseStudySections: [
       {
         title: "Scene Construction",
         body: [
-          "This case page is meant to highlight environment structure, material rhythm, and the way repeated forms were controlled to keep the scene readable."
+          "This scene focuses on repetition, structure, and material contrast.",
+          "Multiple views help show the full space instead of a single hero render."
         ]
       },
       {
-        title: "Visual Direction",
+        title: "Lighting and Mood",
         body: [
-          "The second section is reserved for discussing composition, lighting intent, and scene storytelling once final renders are inserted."
+          "The darker industrial palette keeps the scene grounded and mechanical.",
+          "Lighting is used to support texture and large-form readability."
         ]
       }
     ],
     reflection:
-      "The factory page should feel grounded, technical, and spatially confident, with strong emphasis on authorship.",
-    status: "placeholder"
+      "The project focuses on hard-surface modeling, repetition, and atmosphere.",
+    status: "ready"
   },
   {
     slug: "low-poly-sakura-scene",
     title: "Low Poly Sakura Scene",
     category: "environment",
     subtitle:
-      "A stylized environment scene built around low poly modeling, clear color composition, and calm atmosphere.",
+      "A stylized sakura environment built around low poly forms, soft color atmosphere, and calm spatial composition.",
     roles: ["Environment Modeler", "Environment Designer"],
-    tools: ["Blender", "Maya", "Color Styling", "Scene Composition"],
+    tools: ["Maya", "Color Styling", "Scene Composition"],
     projectType: "Student environment assignment",
-    heroImage: createAsset(
+    heroImage: createImageAsset(
       "Sakura Scene Hero",
-      "Reserved for a wide beauty render with stylized foliage and shape language.",
+      "A wide atmospheric frame that establishes the low poly sakura world and its color palette.",
       "#ff9dcf",
-      "linear-gradient(135deg, rgba(19, 9, 18, 0.98), rgba(62, 24, 49, 0.84))",
-      "Stylized Environment",
-      ["Low Poly", "Sakura"]
+      "linear-gradient(180deg, rgba(20, 10, 19, 0.12), rgba(20, 10, 19, 0.62))",
+      "Sakura scene image resources/Screenshot 2025-11-14 180725.png",
+      {
+        eyebrow: "Stylized Environment",
+        tags: ["Low Poly", "Sakura"],
+        alt: "Low poly sakura environment screenshot"
+      }
     ),
-    thumbnail: createAsset(
-      "Sakura Scene Preview",
-      "Project tile placeholder for the low poly sakura environment.",
+    thumbnail: createImageAsset(
+      "Low Poly Sakura Scene",
+      "A softer pink frame for the stylized environment project tile.",
       "#f490c7",
-      "linear-gradient(135deg, rgba(17, 10, 18, 0.98), rgba(52, 23, 43, 0.86))"
+      "linear-gradient(180deg, rgba(18, 10, 18, 0.08), rgba(18, 10, 18, 0.58))",
+      "Sakura scene image resources/Screenshot 2025-09-23 184239.png",
+      {
+        eyebrow: "Stylized"
+      }
     ),
     summary:
-      "This environment adds range to the portfolio by balancing the industrial factory case with a stylized, more color-led scene.",
+      "A low poly sakura scene focused on stylized shapes, color, and atmosphere.",
     highlights: [
-      "All modeling created independently.",
-      "Strong fit for showing stylized environment judgment.",
-      "Useful contrast piece beside more realistic or technical work."
+      "Built with a simple low poly shape language.",
+      "Focused on soft color and calm composition.",
+      "Presented through both stills and scene footage."
     ],
     gallery: [
-      createAsset(
-        "Sakura Overview",
-        "Reserved for the main beauty render.",
-        "#ff99d0",
-        "linear-gradient(135deg, rgba(18, 11, 19, 0.95), rgba(71, 28, 59, 0.82))",
-        "Beauty Shot"
+      createVideoAsset(
+        "Sakura Showcase",
+        "A recorded scene showcase used to present the environment in motion.",
+        "#ff9dcf",
+        "linear-gradient(180deg, rgba(18, 10, 18, 0.06), rgba(18, 10, 18, 0.3))",
+        "Sakura scene showcase.mp4",
+        {
+          poster: assetPath(
+            "Sakura scene image resources/Screenshot 2025-11-14 180725.png"
+          ),
+          eyebrow: "Video",
+          tags: ["Showcase", "Environment"]
+        }
       ),
-      createAsset(
-        "Shape Language Detail",
-        "Reserved for foliage, prop, or composition detail.",
-        "#ffd8e9",
-        "linear-gradient(135deg, rgba(19, 11, 17, 0.95), rgba(77, 40, 68, 0.82))",
-        "Detail"
+      createVideoAsset(
+        "Interactive Walkthrough",
+        "A second clip that gives the sakura scene a more lived-in, exploratory presentation.",
+        "#f8b7df",
+        "linear-gradient(180deg, rgba(18, 10, 18, 0.06), rgba(18, 10, 18, 0.3))",
+        "Sakura scene interaction demonstration.mp4",
+        {
+          poster: assetPath(
+            "Sakura scene image resources/Screenshot 2025-09-23 184239.png"
+          ),
+          eyebrow: "Walkthrough",
+          tags: ["Atmosphere", "Scene Motion"]
+        }
+      ),
+      createImageAsset(
+        "Wide Sakura View",
+        "A broad render that captures the overall shape language and environment pacing.",
+        "#ffb6de",
+        "linear-gradient(180deg, rgba(19, 11, 17, 0.08), rgba(19, 11, 17, 0.42))",
+        "Sakura scene image resources/Screenshot 2025-11-14 180725.png",
+        {
+          eyebrow: "Wide View"
+        }
+      ),
+      createImageAsset(
+        "Petal Field Composition",
+        "A brighter scene still that highlights the stylized foliage and color grouping.",
+        "#ffd7ef",
+        "linear-gradient(180deg, rgba(19, 11, 17, 0.08), rgba(19, 11, 17, 0.42))",
+        "Sakura scene image resources/Screenshot 2025-09-23 184239.png",
+        {
+          eyebrow: "Color Study"
+        }
       )
     ],
     contributions: [
       {
         title: "Stylized Modeling",
         summary:
-          "The case scaffold supports a stronger art-direction conversation around simplification, silhouette, and low poly readability.",
+          "Focused on simplified forms and a consistent low poly language.",
         bullets: [
-          "Scene assets modeled for a coherent stylized look.",
-          "Prepared for detail callouts around shape language.",
-          "Useful place to discuss restraint and cohesion."
+          "Modeled the environment with a controlled low poly language.",
+          "Used repeated shape families to keep the world cohesive.",
+          "Balanced softness and readability across foliage, buildings, and terrain."
         ]
       },
       {
         title: "Environment Design",
         summary:
-          "The layout is ready to explain how color, spacing, and atmosphere shaped the scene.",
+          "Focused on color harmony, pacing, and atmosphere.",
         bullets: [
-          "Soft environmental mood and pacing.",
-          "Clear visual grouping and focal hierarchy.",
-          "Supports final render swaps without layout change."
+          "Designed the scene around soft color and gentle composition.",
+          "Used environmental spacing to keep the world readable.",
+          "Presented the project through both stills and motion clips."
         ]
       }
     ],
     facts: [
-      { label: "Focus", value: "Stylized low poly environment" },
-      { label: "Ownership", value: "All modeling created independently" },
-      { label: "Project Type", value: "Student environment assignment" },
-      { label: "Status", value: "Placeholder media active" }
+      { label: "Focus", value: "Stylized low poly environment design" },
+      { label: "Ownership", value: "All environment content modeled independently" },
+      { label: "Project Type", value: "Student environment study" },
+      { label: "Media", value: "Scene videos and rendered stills" }
     ],
     caseStudySections: [
       {
         title: "Stylized Direction",
         body: [
-          "This page is scaffolded to describe how stylized choices were kept cohesive across props, foliage, and composition."
+          "This scene uses lighter shapes, softer palette choices, and a calmer mood.",
+          "It contrasts with the more industrial and realistic environment work."
         ]
       },
       {
-        title: "Scene Mood",
+        title: "Atmosphere and Presentation",
         body: [
-          "A dedicated section is reserved for color balance, atmosphere, and how the final scene was presented."
+          "The selected renders and videos show both still composition and scene motion."
         ]
       }
     ],
     reflection:
-      "The sakura scene should add warmth and visual range without breaking the site's professional tone.",
-    status: "placeholder"
+      "The scene focuses on soft color, simple forms, and calm composition.",
+    status: "ready"
   },
   {
     slug: "realistic-corner",
     title: "Realistic Corner",
     category: "environment",
     subtitle:
-      "A realistic environment corner study focused on material finish, grounded detail, and intimate scene storytelling.",
+      "A realistic interior corner study focused on furniture composition, material finish, and warm natural lighting.",
     roles: ["Environment Modeler", "Environment Designer"],
-    tools: ["Blender", "Maya", "Substance Painter", "Lighting"],
+    tools: ["Maya", "Substance Painter", "Lighting"],
     projectType: "Student environment assignment",
-    heroImage: createAsset(
+    heroImage: createImageAsset(
       "Realistic Corner Hero",
-      "Reserved for a close, grounded beauty shot showing material treatment.",
+      "A warm interior render that establishes the scene's scale, prop arrangement, and lighting.",
       "#d9c49c",
-      "linear-gradient(135deg, rgba(18, 14, 10, 0.98), rgba(55, 41, 25, 0.84))",
-      "Realistic Study",
-      ["Realism", "Detail"]
+      "linear-gradient(180deg, rgba(18, 14, 10, 0.12), rgba(18, 14, 10, 0.64))",
+      "realistic Conor image resources/Screenshot 2026-05-28 184105.png",
+      {
+        eyebrow: "Realistic Study",
+        tags: ["Interior", "Lighting"],
+        alt: "Realistic interior corner environment screenshot"
+      }
     ),
-    thumbnail: createAsset(
-      "Realistic Corner Preview",
-      "Project tile placeholder for the realistic corner scene.",
+    thumbnail: createImageAsset(
+      "Realistic Corner",
+      "Project tile frame for the realistic interior corner study.",
       "#d1b58c",
-      "linear-gradient(135deg, rgba(16, 12, 10, 0.98), rgba(49, 35, 22, 0.86))"
+      "linear-gradient(180deg, rgba(17, 13, 10, 0.08), rgba(17, 13, 10, 0.6))",
+      "realistic Conor image resources/Screenshot 2026-05-28 184105.png",
+      {
+        eyebrow: "Realistic"
+      }
     ),
     summary:
-      "This scene rounds out the environment collection with a more intimate, realism-driven case focused on finish and subtle material storytelling.",
+      "A realistic interior scene focused on prop layout, material finish, and warm lighting.",
     highlights: [
-      "Good fit for showing realism and material care.",
-      "Supports close-up breakdowns and lighting comparisons.",
-      "Adds scale variation to the environment section."
+      "Focused on realistic materials and interior mood.",
+      "Built around a compact space with close detail.",
+      "Presented with both a still and a short walkthrough."
     ],
     gallery: [
-      createAsset(
-        "Corner Beauty Shot",
-        "Reserved for the main realistic corner render.",
+      createVideoAsset(
+        "Realistic Corner Walkthrough",
+        "A video pass that helps the interior feel spatial rather than purely still-image based.",
         "#d5bc95",
-        "linear-gradient(135deg, rgba(17, 14, 10, 0.95), rgba(57, 45, 30, 0.82))",
-        "Beauty Shot"
+        "linear-gradient(180deg, rgba(18, 15, 12, 0.06), rgba(18, 15, 12, 0.3))",
+        "realistic corner.mp4",
+        {
+          poster: assetPath(
+            "realistic Conor image resources/Screenshot 2026-05-28 184105.png"
+          ),
+          eyebrow: "Video",
+          tags: ["Interior", "Presentation"]
+        }
       ),
-      createAsset(
-        "Surface Detail",
-        "Reserved for material or prop detail callouts.",
+      createImageAsset(
+        "Interior Beauty Shot",
+        "A still image focused on warm light, furniture layout, and material response.",
         "#eedfc1",
-        "linear-gradient(135deg, rgba(18, 15, 12, 0.95), rgba(64, 51, 37, 0.82))",
-        "Detail"
+        "linear-gradient(180deg, rgba(18, 15, 12, 0.08), rgba(18, 15, 12, 0.42))",
+        "realistic Conor image resources/Screenshot 2026-05-28 184105.png",
+        {
+          eyebrow: "Still Render"
+        }
       )
     ],
     contributions: [
       {
         title: "Modeling and Finish",
         summary:
-          "This page is built to support a closer reading of prop detail, believable scale, and material consistency.",
+          "Focused on believable props, finish, and material response.",
         bullets: [
-          "Modeled the scene and its supporting assets.",
-          "Reserved space for close-up finish breakdowns.",
-          "Good candidate for lighting and texture process notes."
+          "Modeled the furniture and supporting scene content.",
+          "Focused on the relationship between surface finish and light.",
+          "Used a compact scene size to emphasize close reading and material response."
         ]
       },
       {
         title: "Environment Direction",
         summary:
-          "The layout lets the scene breathe while still giving room to explain how the corner was staged.",
+          "Focused on warm mood, layout, and visual balance.",
         bullets: [
-          "Intimate composition rather than large-scale layout.",
-          "Grounded atmosphere and material storytelling.",
-          "Supports future detail gallery expansion."
+          "Built a warm, readable interior mood.",
+          "Used furniture placement and wall treatment to create hierarchy.",
+          "Balanced realism with clean presentation."
         ]
       }
     ],
     facts: [
-      { label: "Focus", value: "Realistic corner study" },
-      { label: "Ownership", value: "All modeling created independently" },
-      { label: "Project Type", value: "Student environment assignment" },
-      { label: "Status", value: "Placeholder media active" }
+      { label: "Focus", value: "Realistic interior scene and material finish" },
+      { label: "Ownership", value: "All environment content modeled independently" },
+      { label: "Project Type", value: "Student environment study" },
+      { label: "Media", value: "Interior video and still render" }
     ],
     caseStudySections: [
       {
         title: "Realism Goals",
         body: [
-          "This page is ready to explain what made the scene believable, including shape density, wear, and lighting treatment."
+          "This project focuses on smaller-scale realism through prop arrangement, finish, and lighting."
         ]
       },
       {
         title: "Presentation Notes",
         body: [
-          "A second section is reserved for discussing camera choices, atmosphere, and how realism was communicated within a smaller scene."
+          "The warm light and room composition give the scene a calm, finished feel."
         ]
       }
     ],
     reflection:
-      "The realistic corner should feel calm, deliberate, and materially grounded inside the larger portfolio.",
-    status: "placeholder"
+      "The scene focuses on interior detail, material finish, and warm lighting.",
+    status: "ready"
   }
 ];
 
 export const projectCategoryLabel: Record<ProjectCategory, string> = {
   game: "Game Projects",
-  environment: "Environment Projects"
+  environment: "Environment Projects",
+  vfx: "VFX Studies"
 };
 
 export const projectFilters = [
   { key: "all", label: "All Projects" },
   { key: "game", label: "Game Projects" },
-  { key: "environment", label: "Environment Projects" }
+  { key: "environment", label: "Environment Projects" },
+  { key: "vfx", label: "VFX Studies" }
 ] as const;
 
 export type ProjectFilterKey = (typeof projectFilters)[number]["key"];

@@ -15,7 +15,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <div className="project-card__body">
           <div className="project-card__meta">
             <span>{projectCategoryLabel[project.category]}</span>
-            <span>{project.status === "ready" ? "Case study ready" : "Media scaffold active"}</span>
+            <span>{project.projectType}</span>
           </div>
           <h3>{project.title}</h3>
           <p>{project.subtitle}</p>
