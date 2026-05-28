@@ -55,8 +55,8 @@ export default function ProjectsPage() {
       </Reveal>
 
       <ContactCTA
-        title="Open the contact page for links and details."
-        description="Use it for email and GitHub updates."
+        title="Interested in the work?"
+        description="Reach out by email or explore more work on GitHub."
       />
     </>
   );

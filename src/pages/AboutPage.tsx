@@ -84,8 +84,8 @@ export default function AboutPage() {
       </Reveal>
 
       <ContactCTA
-        title="Open the contact page for links and updates."
-        description="Email and GitHub details can be added there."
+        title="Get in touch or explore more work."
+        description="Reach out by email or explore more work on GitHub."
       />
     </>
   );

@@ -9,9 +9,7 @@ export default function ContactPage() {
         <div className="page-shell">
           <p className="eyebrow">Contact</p>
           <h1 className="display-title">Contact and external links</h1>
-          <p className="lead">
-            Use these cards to add your recruiter-facing links and contact details.
-          </p>
+          <p className="lead">Get in touch directly or explore more work online.</p>
         </div>
       </section>
 
@@ -19,8 +17,8 @@ export default function ContactPage() {
         <div className="page-shell">
           <SectionHeading
             eyebrow="Contact Cards"
-            title="Ready for email and GitHub"
-            description="Replace the temporary values below with your real contact details and links."
+            title="Email and GitHub"
+            description="Direct contact and project links."
           />
           <div className="contact-grid">
             {siteMeta.contactCards.map((card) => (

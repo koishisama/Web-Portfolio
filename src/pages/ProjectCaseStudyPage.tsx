@@ -93,8 +93,8 @@ export default function ProjectCaseStudyPage() {
       />
 
       <ContactCTA
-        title={`More details can be added to ${project.title} over time.`}
-        description="Additional implementation notes, links, and supporting material can be added later."
+        title={`Interested in ${project.title}?`}
+        description="Reach out by email or explore more work on GitHub."
       />
     </>
   );
