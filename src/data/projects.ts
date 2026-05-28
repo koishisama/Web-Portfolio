@@ -53,7 +53,7 @@ export const projects: ProjectRecord[] = [
     title: "Rhythm-Rider",
     category: "game",
     subtitle:
-      "A Unity rhythm racing game that combines gameplay programming, stylized VFX, and neon environment design in one student project.",
+      "A Unity rhythm racing project focused on gameplay, VFX, and neon environment design.",
     roles: ["Programmer", "VFX Artist", "Environment Designer"],
     tools: ["Unity", "C#", "FMOD", "Shader Graph", "Level Design"],
     projectType: "Student team project",
@@ -89,11 +89,11 @@ export const projects: ProjectRecord[] = [
       }
     ),
     summary:
-      "A Unity rhythm racing project that brings together gameplay programming, stylized VFX, and neon environment design.",
+      "A Unity rhythm racing project combining gameplay systems, VFX, and environment design.",
     highlights: [
-      "Gameplay programming in Unity with C#.",
-      "Stylized VFX for speed, timing, and impact.",
-      "Neon environment design built for readability and mood."
+      "Gameplay systems built in Unity with C#.",
+      "VFX for speed, timing, and damage feedback.",
+      "Neon environment design for clarity and mood."
     ],
     gallery: [
       createVideoAsset(
@@ -176,17 +176,17 @@ export const projects: ProjectRecord[] = [
       {
         title: "Programming",
         summary:
-          "Focused on gameplay flow, logic, and player feedback.",
+          "Focused on gameplay flow and player feedback.",
         bullets: [
-          "Implemented gameplay logic inside Unity using C#.",
-          "Built the playable structure that supports rhythm racing flow.",
-          "Used system feedback to connect movement, score, and timing."
+          "Implemented gameplay logic in Unity with C#.",
+          "Built the main rhythm racing flow.",
+          "Connected movement, score, and timing feedback."
         ]
       },
       {
         title: "VFX",
         summary:
-          "Focused on feedback, atmosphere, and speed effects.",
+          "Focused on atmosphere and gameplay feedback.",
         bullets: [
           "Post-processing and a rain system for atmosphere.",
           "Hit shake and a red screen border for damage feedback.",
@@ -196,10 +196,10 @@ export const projects: ProjectRecord[] = [
       {
         title: "Environment Design",
         summary:
-          "Focused on shaping a neon track space that stays readable in motion.",
+          "Focused on a readable neon track space.",
         bullets: [
-          "Designed a neon city setting that fits the project tone.",
-          "Used signage, road framing, and layout to guide attention.",
+          "Designed a neon city setting for the track.",
+          "Used layout and signage to guide attention.",
           "Balanced atmosphere with gameplay readability."
         ]
       }
@@ -214,23 +214,23 @@ export const projects: ProjectRecord[] = [
       {
         title: "Project Overview",
         body: [
-          "Rhythm-Rider is a student project developed in Unity around a rhythm racing concept.",
-          "My work on the project covered programming, VFX, and environment design."
+          "Rhythm-Rider is a Unity rhythm racing project.",
+          "My role covered programming, VFX, and environment design."
         ],
         bullets: [
-          "Unity-based rhythm racing concept",
-          "Student project with hybrid responsibilities",
-          "Core showcase for programming and VFX range"
+          "Rhythm racing concept",
+          "Programming, VFX, and environment work",
+          "Student team project"
         ]
       },
       {
         title: "Systems and Feedback",
         body: [
-          "The game is built around timing, movement, and player response.",
-          "The project media shows how gameplay, HUD, and effects work together during play."
+          "The project is built around timing, movement, and feedback.",
+          "The media shows how gameplay, HUD, and effects work together."
         ],
         bullets: [
-          "Gameplay structure and race flow",
+          "Gameplay flow",
           "Timing and response logic",
           "Visual feedback connected to player state"
         ]
@@ -238,13 +238,13 @@ export const projects: ProjectRecord[] = [
       {
         title: "Visual Direction and Effects",
         body: [
-          "The environment and effects were designed to keep the scene energetic and readable.",
-          "Neon signage, road framing, and lighting help support both atmosphere and play clarity."
+          "The environment and effects were designed to stay energetic and readable.",
+          "Lighting, signage, and road framing support the overall feel of the track."
         ]
       }
     ],
     reflection:
-      "This project brings gameplay programming, VFX, and environment work together in one playable piece.",
+      "This project brings gameplay, VFX, and environment work together in one playable piece.",
     status: "ready"
   },
   {
@@ -257,7 +257,7 @@ export const projects: ProjectRecord[] = [
     tools: ["Unity", "Shader Graph", "Post-processing", "Timing Studies"],
     projectType: "Standalone VFX studies",
     heroImage: createVideoAsset(
-      "Storm VFX Hero",
+      "Storm VFX",
       "A standalone effect clip used to introduce the VFX studies section.",
       "#7fd3ff",
       "linear-gradient(180deg, rgba(5, 12, 18, 0.12), rgba(5, 12, 18, 0.62))",
@@ -393,7 +393,7 @@ export const projects: ProjectRecord[] = [
     tools: ["Unity", "C#", "AR Interaction", "Maya"],
     projectType: "Student interactive scene",
     heroImage: createImageAsset(
-      "AR Scene Hero",
+      "AR Interactive Scene",
       "A scene capture focused on the gate, interactive space, and overall atmosphere.",
       "#66d9ff",
       "linear-gradient(180deg, rgba(6, 13, 18, 0.12), rgba(6, 13, 18, 0.62))",
@@ -534,7 +534,7 @@ export const projects: ProjectRecord[] = [
     tools: ["Unity", "C#", "VR Interaction", "Maya"],
     projectType: "Student interactive scene",
     heroImage: createVideoAsset(
-      "VR Mine Hero",
+      "VR Abandoned Mine Scene",
       "A looping cave view used to introduce the abandoned mine scene.",
       "#77c6ff",
       "linear-gradient(180deg, rgba(5, 11, 18, 0.12), rgba(5, 11, 18, 0.64))",
@@ -697,7 +697,7 @@ export const projects: ProjectRecord[] = [
     tools: ["Maya", "Substance Painter", "Lighting"],
     projectType: "Student environment assignment",
     heroImage: createImageAsset(
-      "Factory Environment Hero",
+      "Factory Environment",
       "A close environmental frame with strong material contrast and industrial mood.",
       "#ffc369",
       "linear-gradient(180deg, rgba(16, 10, 7, 0.12), rgba(16, 10, 7, 0.68))",
@@ -733,7 +733,7 @@ export const projects: ProjectRecord[] = [
         "linear-gradient(180deg, rgba(18, 11, 7, 0.08), rgba(18, 11, 7, 0.42))",
         "Factory Enviroment image resources/Screenshot 2026-05-28 191039.png",
         {
-          eyebrow: "Hero Shot"
+          eyebrow: "Main View"
         }
       ),
       createImageAsset(
@@ -845,7 +845,7 @@ export const projects: ProjectRecord[] = [
     tools: ["Maya", "Color Styling", "Scene Composition"],
     projectType: "Student environment assignment",
     heroImage: createImageAsset(
-      "Sakura Scene Hero",
+      "Low Poly Sakura Scene",
       "A wide atmospheric frame that establishes the low poly sakura world and its color palette.",
       "#ff9dcf",
       "linear-gradient(180deg, rgba(20, 10, 19, 0.12), rgba(20, 10, 19, 0.62))",
@@ -980,7 +980,7 @@ export const projects: ProjectRecord[] = [
     tools: ["Maya", "Substance Painter", "Lighting"],
     projectType: "Student environment assignment",
     heroImage: createImageAsset(
-      "Realistic Corner Hero",
+      "Realistic Corner",
       "A warm interior render that establishes the scene's scale, prop arrangement, and lighting.",
       "#d9c49c",
       "linear-gradient(180deg, rgba(18, 14, 10, 0.12), rgba(18, 14, 10, 0.64))",

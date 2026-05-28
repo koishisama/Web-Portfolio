@@ -7,7 +7,7 @@ type ContactCTAProps = {
 
 export default function ContactCTA({
   title = "Open the contact page for links and details.",
-  description = "Use it for email, GitHub, and LinkedIn updates."
+  description = "Use it for email and GitHub updates."
 }: ContactCTAProps) {
   return (
     <section className="page-section">

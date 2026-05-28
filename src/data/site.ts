@@ -43,17 +43,14 @@ export const siteMeta = {
     {
       label: "Email",
       value: "mm2212425586@gmail.com",
+      href: "mailto:mm2212425586@gmail.com",
       note: "Primary contact email."
     },
     {
       label: "GitHub",
-      value: "github.com/your-handle",
-      note: "Link your repositories, tech experiments, or tools."
-    },
-    {
-      label: "LinkedIn",
-      value: "linkedin.com/in/your-handle",
-      note: "Use this for recruiter-facing professional context."
+      value: "github.com/koishisama",
+      href: "https://github.com/koishisama",
+      note: "Portfolio repository and related work."
     }
   ]
 } as const;

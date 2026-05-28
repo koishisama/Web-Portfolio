@@ -19,14 +19,18 @@ export default function ContactPage() {
         <div className="page-shell">
           <SectionHeading
             eyebrow="Contact Cards"
-            title="Ready for email, GitHub, and LinkedIn"
+            title="Ready for email and GitHub"
             description="Replace the temporary values below with your real contact details and links."
           />
           <div className="contact-grid">
             {siteMeta.contactCards.map((card) => (
               <article key={card.label} className="panel contact-card">
                 <p className="eyebrow">{card.label}</p>
-                <h2>{card.value}</h2>
+                <h2>
+                  <a href={card.href} target="_blank" rel="noreferrer">
+                    {card.value}
+                  </a>
+                </h2>
                 <p>{card.note}</p>
               </article>
             ))}
