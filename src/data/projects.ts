@@ -525,6 +525,169 @@ export const projects: ProjectRecord[] = [
     status: "ready"
   },
   {
+    slug: "vr-abandoned-mine-scene",
+    title: "VR Abandoned Mine Scene",
+    category: "game",
+    subtitle:
+      "A VR cave and abandoned mine scene built around environmental mood, player interaction, and close-range exploration.",
+    roles: ["Environment Modeler", "Environment Designer", "Interaction Developer"],
+    tools: ["Unity", "C#", "VR Interaction", "Maya"],
+    projectType: "Student interactive scene",
+    heroImage: createVideoAsset(
+      "VR Mine Hero",
+      "A looping cave view used to introduce the abandoned mine scene.",
+      "#77c6ff",
+      "linear-gradient(180deg, rgba(5, 11, 18, 0.12), rgba(5, 11, 18, 0.64))",
+      "VR Scene/Cave VR scene2.mp4",
+      {
+        eyebrow: "Interactive Scene",
+        tags: ["VR", "Mine"],
+        autoPlay: true,
+        muted: true,
+        loop: true,
+        controls: false,
+        alt: "VR abandoned mine looping cave preview"
+      }
+    ),
+    thumbnail: createVideoAsset(
+      "VR Abandoned Mine Scene",
+      "A looping project preview from the cave and mine environment.",
+      "#8be0d2",
+      "linear-gradient(180deg, rgba(6, 13, 15, 0.08), rgba(6, 13, 15, 0.58))",
+      "VR Scene/Cave VR scene3.mp4",
+      {
+        eyebrow: "VR",
+        tags: ["Interaction", "Environment"],
+        autoPlay: true,
+        muted: true,
+        loop: true,
+        controls: false,
+        alt: "VR abandoned mine project preview"
+      }
+    ),
+    summary:
+      "A VR cave and abandoned mine scene focused on environmental atmosphere and object interaction.",
+    highlights: [
+      "A cave and abandoned mine environment built for VR exploration.",
+      "Interactive scene elements designed for close player engagement.",
+      "Short loop clips and longer walkthrough footage for presentation."
+    ],
+    gallery: [
+      createVideoAsset(
+        "Demonstration Video",
+        "A full demonstration of the cave scene, mine atmosphere, and player interaction.",
+        "#4bd8ff",
+        "linear-gradient(180deg, rgba(6, 12, 20, 0.06), rgba(6, 12, 20, 0.3))",
+        "VR Scene/Cave VR scene.mp4",
+        {
+          eyebrow: "Demonstration Video",
+          tags: ["VR", "Interaction"]
+        }
+      ),
+      createVideoAsset(
+        "Walkthrough Video",
+        "A second pass through the space showing more of the layout and interaction flow.",
+        "#80d0ff",
+        "linear-gradient(180deg, rgba(6, 12, 20, 0.06), rgba(6, 12, 20, 0.3))",
+        "VR Scene/Cave VR scene1.mp4",
+        {
+          eyebrow: "Walkthrough Video",
+          tags: ["Environment", "Exploration"]
+        }
+      ),
+      createVideoAsset(
+        "Mine Prop Interaction",
+        "A short looping clip focused on close interaction with scene objects.",
+        "#9ff0da",
+        "linear-gradient(180deg, rgba(7, 14, 16, 0.06), rgba(7, 14, 16, 0.3))",
+        "VR Scene/Cave VR scene2.mp4",
+        {
+          eyebrow: "Interaction Clip",
+          autoPlay: true,
+          muted: true,
+          loop: true,
+          controls: false
+        }
+      ),
+      createVideoAsset(
+        "Cave Space Preview",
+        "A short looping clip showing the cave layout and atmosphere in motion.",
+        "#7eb9ff",
+        "linear-gradient(180deg, rgba(6, 12, 19, 0.06), rgba(6, 12, 19, 0.3))",
+        "VR Scene/Cave VR scene3.mp4",
+        {
+          eyebrow: "Environment Clip",
+          autoPlay: true,
+          muted: true,
+          loop: true,
+          controls: false
+        }
+      ),
+      createVideoAsset(
+        "Abandoned Mine Detail",
+        "A short looping clip focused on another part of the mine environment.",
+        "#8cd9c0",
+        "linear-gradient(180deg, rgba(7, 13, 15, 0.06), rgba(7, 13, 15, 0.3))",
+        "VR Scene/Cave VR scene4.mp4",
+        {
+          eyebrow: "Detail Clip",
+          autoPlay: true,
+          muted: true,
+          loop: true,
+          controls: false
+        }
+      )
+    ],
+    contributions: [
+      {
+        title: "Environment Modeling",
+        summary:
+          "Focused on building the cave and abandoned mine space for VR exploration.",
+        bullets: [
+          "Modeled the cave and mine environment content for an explorable VR scene.",
+          "Used props, structure, and spacing to support the abandoned mine mood.",
+          "Built the environment to hold up during close-range player movement."
+        ]
+      },
+      {
+        title: "Interaction Implementation",
+        summary:
+          "Focused on object interaction and player response inside the scene.",
+        bullets: [
+          "Implemented interactive scene elements in Unity with C#.",
+          "Designed the scene so players can engage with multiple objects in the environment.",
+          "Used interaction to make the cave feel more active and discoverable."
+        ]
+      }
+    ],
+    facts: [
+      { label: "Engine", value: "Unity" },
+      { label: "Focus", value: "VR interaction and abandoned mine atmosphere" },
+      { label: "Role", value: "Modeling, design, and interaction implementation" },
+      { label: "Media", value: "Demonstration videos and looping clips" }
+    ],
+    caseStudySections: [
+      {
+        title: "Scene Intent",
+        body: [
+          "This project is built as a VR cave and abandoned mine scene with a focus on mood and exploration.",
+          "The environment is designed to feel worn, enclosed, and interactive at player scale."
+        ]
+      },
+      {
+        title: "Interaction Notes",
+        body: [
+          "The scene allows players to interact with multiple objects throughout the environment.",
+          "The recorded clips show both full-scene walkthroughs and shorter moments of interaction."
+        ],
+        bullets: ["Object interaction", "Close-range exploration", "Environmental storytelling"]
+      }
+    ],
+    reflection:
+      "The project combines cave environment work with VR interaction and short presentation clips.",
+    status: "ready"
+  },
+  {
     slug: "factory-environment",
     title: "Factory Environment",
     category: "environment",

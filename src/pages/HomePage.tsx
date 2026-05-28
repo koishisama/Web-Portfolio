@@ -49,7 +49,7 @@ export default function HomePage() {
         <div className="page-shell">
           <SectionHeading
             eyebrow="Selected Work"
-            title="Projects across gameplay, VFX, AR, and environments"
+            title="Projects across gameplay, VFX, interactive scenes, and environments"
             description="A mix of game work, standalone effects, and scene-based studies."
           />
           <div className="stack-gap">

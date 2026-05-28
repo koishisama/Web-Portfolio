@@ -5,7 +5,7 @@ export const siteMeta = {
   heroStatement:
     "Building game systems, real-time effects, and environment work in Unity.",
   heroSummary:
-    "Selected work across gameplay programming, VFX, AR interaction, and environment production.",
+    "Selected work across gameplay programming, VFX, interactive scene work, and environment production.",
   aboutIntro:
     "I work across gameplay programming, real-time VFX, and environment modeling, with a focus on clear playable results.",
   aboutDetails: [
@@ -19,7 +19,7 @@ export const siteMeta = {
     "Substance Painter",
     "Shader Graph",
     "FMOD",
-    "AR Interaction",
+    "AR and VR Interaction",
     "Environment Modeling"
   ],
   categoryCopy: {
