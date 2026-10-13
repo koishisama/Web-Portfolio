@@ -1,28 +1,38 @@
 import { Link } from "react-router-dom";
-import { projectCategoryLabel } from "../data/projects";
+import { tracks } from "../data/site";
 import type { ProjectRecord } from "../types/project";
-import MediaPlaceholder from "./MediaPlaceholder";
+import { Picture } from "./Media";
 
-type ProjectCardProps = {
+export default function ProjectCard({
+  project,
+  compact = false,
+}: {
   project: ProjectRecord;
-};
-
-export default function ProjectCard({ project }: ProjectCardProps) {
+  compact?: boolean;
+}) {
   return (
-    <article className="project-card">
-      <Link className="project-card__link" to={`/projects/${project.slug}`}>
-        <MediaPlaceholder asset={project.thumbnail} compact />
-        <div className="project-card__body">
-          <div className="project-card__meta">
-            <span>{projectCategoryLabel[project.category]}</span>
-            <span>{project.projectType}</span>
+    <article className={`project-card ${compact ? "compact-card" : ""}`}>
+      <Link to={`/projects/${project.slug}`} className="project-link">
+        <div className="card-image">
+          <Picture asset={project.cover} />
+          <span className="card-open" aria-hidden="true">
+            ↗
+          </span>
+        </div>
+        <div className="card-body">
+          <div className="card-meta">
+            <span>{project.tools[0]}</span>
+            <span>
+              {project.tracks.map((track) => tracks[track]).join(" / ")}
+            </span>
           </div>
           <h3>{project.title}</h3>
-          <p>{project.subtitle}</p>
-          <div className="tag-row" aria-label={`${project.title} roles`}>
-            {project.roles.map((role) => (
-              <span key={role}>{role}</span>
-            ))}
+          <p>{project.summary}</p>
+          <div className="card-bottom">
+            <span>{project.roles.join(" / ")}</span>
+            <span className="card-read">
+              View case <span aria-hidden="true">↗</span>
+            </span>
           </div>
         </div>
       </Link>

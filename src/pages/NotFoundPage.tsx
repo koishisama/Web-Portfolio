@@ -1,23 +1,19 @@
 import { Link } from "react-router-dom";
-
 export default function NotFoundPage() {
   return (
-    <section className="page-section page-header not-found">
-      <div className="page-shell">
-        <p className="eyebrow">404</p>
-        <h1 className="display-title">Page not found</h1>
-        <p className="lead">
-          The requested route is not available in the current portfolio build.
-        </p>
-        <div className="button-row">
-          <Link className="button button--primary" to="/">
-            Return Home
-          </Link>
-          <Link className="button button--ghost" to="/projects">
-            Browse Projects
-          </Link>
-        </div>
-      </div>
-    </section>
+    <div className="container not-found">
+      <p className="eyebrow">404 / Unmapped territory</p>
+      <h1>
+        This page
+        <br />
+        <span>isn't in the build.</span>
+      </h1>
+      <p>
+        The link may have changed. You can find the current projects in Work.
+      </p>
+      <Link className="button button-primary" to="/projects">
+        Explore the work ↗
+      </Link>
+    </div>
   );
 }

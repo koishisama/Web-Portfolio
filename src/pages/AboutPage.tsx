@@ -1,92 +1,90 @@
-import Reveal from "../components/Reveal";
-import SectionHeading from "../components/SectionHeading";
-import ToolStack from "../components/ToolStack";
+import { Link } from "react-router-dom";
 import ContactCTA from "../components/ContactCTA";
-import { siteMeta } from "../data/site";
-
-const focusAreas = [
-  {
-    title: "Programming",
-    description:
-      "Gameplay systems, interaction logic, and player-facing responsiveness inside Unity."
-  },
-  {
-    title: "VFX",
-    description:
-      "Real-time feedback, scene energy, and readable visual communication for gameplay moments."
-  },
-  {
-    title: "Environment",
-    description:
-      "Modeling, composition, and environment presentation that support both atmosphere and gameplay."
-  }
-];
-
 export default function AboutPage() {
   return (
     <>
-      <section className="page-section page-header">
-        <div className="page-shell">
-          <p className="eyebrow">About</p>
-          <h1 className="display-title">{siteMeta.ownerName}</h1>
-          <p className="hero-statement">{siteMeta.roleLabel}</p>
-          <p className="lead">{siteMeta.aboutIntro}</p>
-        </div>
-      </section>
-
-      <Reveal className="page-section">
-        <div className="page-shell two-column-layout">
-          <div className="body-copy">
-            {siteMeta.aboutDetails.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+      <div className="container about-page">
+        <header className="page-header">
+          <p className="eyebrow">About / Hongtao Gao</p>
+          <h1>
+            I like the moment
+            <br />
+            <span>when it all connects.</span>
+          </h1>
+          <p>
+            When a system becomes understandable. When an effect makes an action
+            feel right. When a tool makes the next iteration easier.
+          </p>
+        </header>
+        <div className="about-main">
+          <div className="about-monogram" aria-hidden="true">
+            <span>
+              h<span>g</span>.
+            </span>
+            <div>LOGIC × EXPRESSION</div>
           </div>
-          <div className="panel">
-            <p className="eyebrow">Education Context</p>
-            <h2>Student projects with hands-on production roles</h2>
+          <div className="about-story">
+            <h2>Code, craft and everything between.</h2>
             <p>
-              Most of the work here comes from student projects, with a focus on clear
-              ownership across implementation, VFX, and environment production.
+              My background is in Game and Immersive Media at Monash University.
+              I work across game programming and technical art, using Unity and
+              Unreal Engine to build interfaces, gameplay feedback, real-time
+              effects and editor tools.
             </p>
+            <p>
+              I enjoy work where those disciplines meet. A card-sacrifice
+              interface asks for careful state handling. A rhythm game's
+              feedback asks for both a reliable event and a readable effect. A
+              procedural tool needs enough structure to be repeatable and enough
+              control to be useful to an artist.
+            </p>
+            <p>
+              Team projects have also taught me to care about the seams: menus,
+              dialogue, audio and the final integration that makes separate
+              contributions feel like one game.
+            </p>
+            <Link className="text-link" to="/projects">
+              See that approach in the work ↗
+            </Link>
           </div>
         </div>
-      </Reveal>
-
-      <Reveal className="page-section">
-        <div className="page-shell">
-          <SectionHeading
-            eyebrow="Focus Areas"
-            title="Main areas of work"
-            description="Programming, VFX, and environment production are the three main areas across the current projects."
-          />
-          <div className="contribution-grid">
-            {focusAreas.map((area) => (
-              <article key={area.title} className="panel contribution-card">
-                <h3>{area.title}</h3>
-                <p>{area.description}</p>
-              </article>
-            ))}
+        <section className="capability-section" aria-labelledby="capabilities">
+          <p className="eyebrow">Project-backed skills</p>
+          <h2 id="capabilities">What I bring to a project.</h2>
+          <div className="capability-grid">
+            <div>
+              <span className="capability-index">01</span>
+              <h3>Gameplay & interfaces</h3>
+              <p>
+                C#, interaction flow, UI state, event-driven feedback and team
+                integration.
+              </p>
+              <Link to="/projects/deinosavros">Deinosavros ↗</Link>
+              <Link to="/projects/one-more-second">One More Second ↗</Link>
+            </div>
+            <div>
+              <span className="capability-index">02</span>
+              <h3>Real-time effects</h3>
+              <p>
+                Niagara, materials, animation-aware effects and readable
+                gameplay responses.
+              </p>
+              <Link to="/projects/ink-vfx">Ink VFX ↗</Link>
+              <Link to="/projects/rhythm-rider">Rhythm Rider ↗</Link>
+            </div>
+            <div>
+              <span className="capability-index">03</span>
+              <h3>Tools & iteration</h3>
+              <p>
+                Python, Blueprint, editor utilities, seeded generation and
+                controls for artists.
+              </p>
+              <Link to="/projects/procedural-city">Procedural City ↗</Link>
+            </div>
           </div>
-        </div>
-      </Reveal>
-
-      <Reveal className="page-section">
-        <div className="page-shell">
-          <SectionHeading
-            eyebrow="Toolkit"
-            title="Tools used across these projects"
-            description="A small selection of software and workflows used across the current work."
-          />
-          <div className="panel tools-panel">
-            <ToolStack tools={siteMeta.tools} />
-          </div>
-        </div>
-      </Reveal>
-
-      <ContactCTA
-        title="Get in touch or explore more work."
-        description="Reach out by email or explore more work on GitHub."
-      />
+        </section>
+      </div>
+      <ContactCTA />
     </>
   );
 }

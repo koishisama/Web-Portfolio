@@ -1,63 +1,106 @@
-import { useState } from "react";
-import Reveal from "../components/Reveal";
-import SectionHeading from "../components/SectionHeading";
-import FeaturedProjectCard from "../components/FeaturedProjectCard";
+import { useSearchParams } from "react-router-dom";
+import { useSyncExternalStore } from "react";
+import { projects } from "../data/projects";
+import type { Track } from "../types/project";
 import ProjectCard from "../components/ProjectCard";
-import ProjectFilter from "../components/ProjectFilter";
 import ContactCTA from "../components/ContactCTA";
-import {
-  featuredProject,
-  projects,
-  type ProjectFilterKey
-} from "../data/projects";
-
+const subscribe = () => () => {};
 export default function ProjectsPage() {
-  const [filter, setFilter] = useState<ProjectFilterKey>("all");
-
-  const filteredProjects =
-    filter === "all"
-      ? projects
-      : projects.filter((project) => project.category === filter);
-
-  const supportingProjects = filteredProjects.filter(
-    (project) => project.slug !== featuredProject.slug
+  const [params, setParams] = useSearchParams();
+  const hydrated = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
   );
-  const showFeatured =
-    filter === "all" || (filter === "game" && featuredProject.category === "game");
-
+  const value = params.get("track");
+  const selected: Track | "all" =
+    hydrated && (value === "programming" || value === "technical-art")
+      ? value
+      : "all";
+  const visible = projects.filter(
+    (project) => selected === "all" || project.tracks.includes(selected),
+  );
   return (
     <>
-      <section className="page-section page-header">
-        <div className="page-shell">
-          <p className="eyebrow">Project Index</p>
-          <h1 className="display-title">Projects</h1>
-          <p className="lead">Browse the work by category.</p>
-          <ProjectFilter activeFilter={filter} onChange={setFilter} />
+      <div className="container">
+        <header className="page-header">
+          <p className="eyebrow">The work</p>
+          <h1>
+            Playable systems.
+            <br />
+            <span>Expressive worlds.</span>
+          </h1>
+          <p>
+            Projects, tools and studies across game programming and technical
+            art.
+          </p>
+        </header>
+        <div
+          className="filter-bar"
+          role="group"
+          aria-label="Filter work by discipline"
+        >
+          {(
+            [
+              { id: "all", label: "All work" },
+              { id: "programming", label: "Programming" },
+              { id: "technical-art", label: "Technical Art" },
+            ] as const
+          ).map((filter) => (
+            <button
+              key={filter.id}
+              aria-pressed={selected === filter.id}
+              onClick={() =>
+                setParams(filter.id === "all" ? {} : { track: filter.id })
+              }
+            >
+              {filter.label}
+            </button>
+          ))}
+          <p role="status" className="filter-count">
+            {visible.length} projects
+          </p>
         </div>
-      </section>
-
-      <Reveal className="page-section">
-        <div className="page-shell">
-          <SectionHeading
-            eyebrow="All Projects"
-            title="Game, VFX, and environment work"
-            description="Filter the work by category and open each project for more detail."
-          />
-          <div className="stack-gap">
-            {showFeatured ? <FeaturedProjectCard project={featuredProject} /> : null}
-            <div className="project-grid">
-              {supportingProjects.map((project) => (
-                <ProjectCard key={project.slug} project={project} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </Reveal>
-
-      <ContactCTA
-        title="Interested in the work?"
-        description="Reach out by email or explore more work on GitHub."
-      />
+        {[
+          {
+            tier: "featured",
+            title: "Selected case studies",
+            note: "The problem, the implementation, the result.",
+          },
+          {
+            tier: "supporting",
+            title: "More projects",
+            note: "Team delivery and focused exploration.",
+          },
+          {
+            tier: "study",
+            title: "Studies",
+            note: "Earlier explorations in form, materials and motion.",
+          },
+        ].map((section) => {
+          const items = visible.filter((p) => p.tier === section.tier);
+          return items.length ? (
+            <section key={section.tier} className="work-group">
+              <div className="work-group-title">
+                <h2>{section.title}</h2>
+                <p>{section.note}</p>
+              </div>
+              <div
+                className={`project-grid ${section.tier === "study" ? "studies-grid" : ""}`}
+              >
+                {items.map((project) => (
+                  <ProjectCard
+                    key={project.slug}
+                    project={project}
+                    compact={section.tier !== "featured"}
+                  />
+                ))}
+              </div>
+            </section>
+          ) : null;
+        })}
+      </div>
+      <ContactCTA />
     </>
   );
 }

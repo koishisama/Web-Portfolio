@@ -1,58 +1,56 @@
-export type ProjectCategory = "game" | "environment" | "vfx";
-
-export type ProjectStatus = "ready" | "placeholder";
-
+export type Track = "programming" | "technical-art";
+export type ProjectTier = "featured" | "supporting" | "study";
 export type VisualAsset = {
+  id: string;
   title: string;
   caption: string;
   alt: string;
-  accent: string;
-  overlay: string;
-  src?: string;
+  src: string;
+  srcSet?: string;
   poster?: string;
-  mediaType?: "image" | "video";
-  objectPosition?: string;
-  autoPlay?: boolean;
-  muted?: boolean;
-  loop?: boolean;
-  controls?: boolean;
-  eyebrow?: string;
-  tags?: string[];
+  width: number;
+  height: number;
+  mediaType: "image" | "video";
+  transcript?: string;
+  subtitles?: string;
 };
-
-export type CaseStudySection = {
+export type Breakdown = {
   title: string;
-  body: string[];
-  bullets?: string[];
+  paragraphs: string[];
+  media?: VisualAsset;
 };
-
-export type Contribution = {
-  title: string;
-  summary: string;
-  bullets: string[];
-};
-
-export type Fact = {
-  label: string;
-  value: string;
-};
-
 export type ProjectRecord = {
   slug: string;
   title: string;
-  category: ProjectCategory;
   subtitle: string;
+  summary: string;
+  tracks: Track[];
+  tier: ProjectTier;
+  rank: number;
+  publication: "published" | "draft";
+  completionStatus?: "in-progress" | "completed" | "archived";
+  projectType:
+    "Team project" | "Independent study" | "Game jam" | "Environment study";
   roles: string[];
   tools: string[];
-  projectType: string;
-  heroImage: VisualAsset;
-  thumbnail: VisualAsset;
-  summary: string;
-  highlights: string[];
-  gallery: VisualAsset[];
-  caseStudySections: CaseStudySection[];
-  contributions: Contribution[];
-  facts: Fact[];
-  reflection: string;
-  status: ProjectStatus;
+  facts: { label: string; value: string }[];
+  scope: string;
+  version: string;
+  cover: VisualAsset;
+  demo?: VisualAsset;
+  contributions: string[];
+  context: string;
+  breakdown: Breakdown[];
+  flow: { label: string; detail: string }[];
+  result: string[];
+  credits: { name: string; detail: string; href?: string }[];
+  links: {
+    label: string;
+    href: string;
+    kind: "play" | "source" | "documentation";
+  }[];
+};
+
+export type PublishedProjectRecord = ProjectRecord & {
+  publication: "published";
 };
