@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { getProjectBySlug, projects } from "../data/projects";
 import { tracks } from "../data/site";
 import Media from "../components/Media";
+import MediaComparison from "../components/MediaComparison";
 import Diagram from "../components/Diagram";
 import ProjectCard from "../components/ProjectCard";
 import NotFoundPage from "./NotFoundPage";
@@ -113,6 +114,9 @@ export default function ProjectCaseStudyPage() {
                 </div>
                 {chapter.media ? (
                   <Media key={chapter.media.src} asset={chapter.media} />
+                ) : null}
+                {chapter.comparison?.length ? (
+                  <MediaComparison variants={chapter.comparison} />
                 ) : null}
               </div>
             ))}

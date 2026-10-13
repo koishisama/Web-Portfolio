@@ -1851,3 +1851,38 @@ main:focus {
     scroll-behavior: auto !important;
   }
 }
+.media-comparison {
+  margin: 2rem 0 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.media-comparison legend {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+.comparison-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.comparison-controls button {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.comparison-controls button[aria-pressed="true"] {
+  color: #11150d;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.media-comparison .media-figure {
+  margin-top: 0;
+}

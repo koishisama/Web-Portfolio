@@ -18,6 +18,7 @@ export type Breakdown = {
   title: string;
   paragraphs: string[];
   media?: VisualAsset;
+  comparison?: { label: string; asset: VisualAsset }[];
 };
 export type ProjectRecord = {
   slug: string;

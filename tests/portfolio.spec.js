@@ -194,6 +194,7 @@ test("WCAG checks, focus navigation and reduced motion", async ({ page }) => {
     "/",
     "/projects",
     "/projects/rhythm-rider",
+    "/projects/ink-vfx",
     "/contact",
   ]) {
     await page.goto(route);
@@ -215,6 +216,39 @@ test("WCAG checks, focus navigation and reduced motion", async ({ page }) => {
       .locator("html")
       .evaluate((node) => getComputedStyle(node).scrollBehavior),
   ).toBe("auto");
+});
+test("Ink comparison switches actual captures and remains keyboard accessible", async ({
+  page,
+}) => {
+  await page.goto("/projects/ink-vfx");
+  const comparison = page.getByRole("group", {
+    name: "Compare captured variants",
+  });
+  await expect(
+    comparison.getByRole("button", { name: "Final: erosion 0.78" }),
+  ).toHaveAttribute("aria-pressed", "true");
+  const erosion = comparison.getByRole("button", {
+    name: "Erosion 0.0",
+    exact: true,
+  });
+  await erosion.focus();
+  await page.keyboard.press("Enter");
+  await expect(erosion).toHaveAttribute("aria-pressed", "true");
+  await expect(comparison.locator("img")).toHaveAttribute(
+    "src",
+    /erosion-zero/,
+  );
+  await comparison.getByRole("button", { name: "Ribbon only" }).click();
+  await expect(comparison.locator("img")).toHaveAttribute("src", /ribbon-only/);
+  await expect
+    .poll(() =>
+      comparison.locator("img").evaluate((image) => image.naturalWidth),
+    )
+    .toBeGreaterThan(0);
+  await expect(comparison.locator("figcaption")).toContainText(
+    "OuterEdge_InkDrops disabled",
+  );
+  await comparison.screenshot({ path: "verification/ink-comparison.png" });
 });
 test("referenced public media exists and no private data is built", async () => {
   const files = [];

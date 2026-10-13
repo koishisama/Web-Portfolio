@@ -168,5 +168,30 @@
     "width": 1600,
     "height": 900,
     "variants": [480, 960, 1600]
+  },
+  "ink-vfx/erosion-final": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "ink-vfx/erosion-zero": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "ink-vfx/ribbon-only": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "procedural-city/lock-before": {
+    "width": 1600,
+    "height": 900,
+    "variants": [480, 960, 1600]
+  },
+  "procedural-city/lock-after": {
+    "width": 1600,
+    "height": 900,
+    "variants": [480, 960, 1600]
   }
 }

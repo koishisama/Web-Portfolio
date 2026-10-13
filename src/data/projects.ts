@@ -132,7 +132,7 @@ const mainProjects: PublishedProjectRecord[] = [
     scope:
       "I implemented the generation and editing workflow and integrated the environment assets. The third-party building, prop and texture sources are credited separately.",
     version:
-      "Existing Unreal editor delivery recording, reused for this case. Generation uses Python, Blueprint and instanced meshes; the editor was not rerun for this presentation.",
+      "The main video is the existing editor delivery recording. The block comparison was captured afresh on 13 October 2026 through the existing Python tool API, without saving source assets. Generation uses Python, Blueprint and instanced meshes.",
     cover: image(
       "procedural-city",
       "hero",
@@ -172,6 +172,7 @@ const mainProjects: PublishedProjectRecord[] = [
         paragraphs: [
           "Global generation skips locked blocks. This lets an artist preserve a particular skyline, landmark arrangement or neighborhood while exploring alternatives around it. A lock is meaningful only if later operations respect it.",
           "Changing grid or road dimensions would invalidate those relationships, so the tool rejects that change while blocks remain locked. This is a deliberate constraint that protects the user's existing choices.",
+          "In this same-camera capture, the left block is locked while the right block is rerolled. Comparing instance transforms and materials across all 64 blocks confirmed that only Block_01_02 changed. This checks a concrete edit operation, without turning it into a broad performance claim.",
         ],
         media: image(
           "procedural-city",
@@ -179,6 +180,26 @@ const mainProjects: PublishedProjectRecord[] = [
           "City tool panel after a preset change",
           "Dense Downtown preset with one locked block reported. The panel obscures geometry, so this view demonstrates controls rather than geometric persistence.",
         ),
+        comparison: [
+          {
+            label: "Before local rebuild",
+            asset: image(
+              "procedural-city",
+              "lock-before",
+              "Locked left block and neighboring block before a local rebuild",
+              "Before: left Block_01_01 is locked; right Block_01_02 is the rebuild target. Annotations identify the two blocks.",
+            ),
+          },
+          {
+            label: "After local rebuild",
+            asset: image(
+              "procedural-city",
+              "lock-after",
+              "Unchanged locked block beside the rebuilt neighboring block",
+              "After: the right block's building and detail seed offsets advance from 0 to 1. The locked left block and the other 62 blocks retain their instance and material state.",
+            ),
+          },
+        ],
       },
       {
         title: "Rebuild locally, then continue editing",
@@ -363,7 +384,7 @@ const mainProjects: PublishedProjectRecord[] = [
     scope:
       "I developed the ink-effect study and its integration. Character, animation and source resources are distinguished from the effects work.",
     version:
-      "Fresh capture from the selected final Unreal 5.7 project on 13 October 2026. Native montage playback; transient cameras and fill lighting. Effect stills show composite layers, not isolated-layer or parameter A/B renders.",
+      "Fresh capture from the selected final Unreal 5.7 project on 13 October 2026. Native montage playback; transient cameras and fill lighting. The comparison uses the same camera and animation frame, with temporary parameter and emitter changes restored without saving assets.",
     cover: image(
       "ink-vfx",
       "hero",
@@ -393,7 +414,7 @@ const mainProjects: PublishedProjectRecord[] = [
         title: "Start with the motion of the attack",
         paragraphs: [
           "The melee treatment follows the active part of the swing. Its trail needs enough continuity to describe the arc, but a short enough lifetime to avoid hiding the character. The sword-slash system and its ribbon and trail materials provide separate places to shape that response.",
-          "I evaluate the effect at normal playback speed before looking at isolated frames. A visually interesting still is not enough if the action loses its direction during motion.",
+          "I evaluate the effect at normal playback speed before looking at isolated frames. The comparison below changes TailErosion from its saved 0.78 to 0.0, revealing a subtle change in the trailing edge. Disabling OuterEdge_InkDrops isolates the ribbon and shows how the droplets break up its silhouette.",
         ],
         media: image(
           "ink-vfx",
@@ -401,6 +422,35 @@ const mainProjects: PublishedProjectRecord[] = [
           "Ink melee attack",
           "The trail describes the direction and active span of the swing.",
         ),
+        comparison: [
+          {
+            label: "Final: erosion 0.78",
+            asset: image(
+              "ink-vfx",
+              "erosion-final",
+              "Sword trail with TailErosion 0.78",
+              "Saved TailErosion 0.78, both emitters active. Same camera and animation frame for all three captures.",
+            ),
+          },
+          {
+            label: "Erosion 0.0",
+            asset: image(
+              "ink-vfx",
+              "erosion-zero",
+              "Sword trail with TailErosion 0.0",
+              "TailErosion 0.0: compare the light, trailing edge of the ribbon. Both emitters remain active.",
+            ),
+          },
+          {
+            label: "Ribbon only",
+            asset: image(
+              "ink-vfx",
+              "ribbon-only",
+              "Sword ribbon with the droplet emitter disabled",
+              "TailErosion restored to 0.78. OuterEdge_InkDrops disabled through Niagara's emitter API; Sword_Blade_Trail remains active.",
+            ),
+          },
+        ],
       },
       {
         title: "Separate anticipation, travel and impact",
