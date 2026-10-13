@@ -11,10 +11,16 @@ export default function ProjectCard({
   compact?: boolean;
 }) {
   return (
-    <article className={`project-card ${compact ? "compact-card" : ""}`}>
+    <article
+      className={`project-card ${compact ? "compact-card" : ""}`}
+      data-project={project.slug}
+    >
       <Link to={`/projects/${project.slug}`} className="project-link">
         <div className="card-image">
-          <Picture asset={project.cover} />
+          <Picture
+            asset={project.cover}
+            sizes="(max-width: 700px) 88vw, (max-width: 1600px) 44vw, 710px"
+          />
           <span className="card-open" aria-hidden="true">
             ↗
           </span>
@@ -29,7 +35,7 @@ export default function ProjectCard({
           <h3>{project.title}</h3>
           <p>{project.summary}</p>
           <div className="card-bottom">
-            <span>{project.roles.join(" / ")}</span>
+            <span>My work: {project.roles.join(" / ")}</span>
             <span className="card-read">
               View case <span aria-hidden="true">↗</span>
             </span>

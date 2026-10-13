@@ -1,4 +1,4 @@
-import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { readFile, writeFile, mkdir, stat } from "node:fs/promises";
 import path from "node:path";
 import {
   render,
@@ -6,7 +6,67 @@ import {
   publicRoutes,
   projects,
 } from "../.build/server/entry-server.js";
-const template = await readFile("dist/index.html", "utf8");
+
+const mediaFiles = new Set();
+for (const project of projects) {
+  if (project.publication !== "published")
+    throw new Error(`Draft project reached the public build: ${project.slug}`);
+  if (
+    project.showcase &&
+    (project.showcase.purpose !== "showcase" ||
+      project.showcase.mediaType !== "video")
+  )
+    throw new Error(`Invalid main showcase: ${project.slug}`);
+  const ids = new Set([
+    "showcase",
+    "context",
+    "contribution",
+    "breakdown",
+    "results",
+    "credits",
+  ]);
+  const media = [project.cover, project.showcase];
+  for (const section of project.breakdown) {
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(section.id) || ids.has(section.id))
+      throw new Error(
+        `Invalid or duplicate chapter: ${project.slug}/${section.id}`,
+      );
+    ids.add(section.id);
+    media.push(
+      section.media,
+      ...(section.comparison ?? []).map(({ asset }) => asset),
+    );
+  }
+  for (const asset of media.filter(Boolean)) {
+    if (!(asset.width > 0 && asset.height > 0))
+      throw new Error(`Missing media dimensions: ${project.slug}/${asset.id}`);
+    const files = [asset.src, asset.poster, asset.subtitles];
+    for (const sourceSet of [asset.srcSet, asset.posterSrcSet])
+      if (sourceSet)
+        files.push(
+          ...sourceSet.split(",").map((entry) => entry.trim().split(/\s+/)[0]),
+        );
+    for (const file of files.filter(Boolean)) {
+      if (!file.startsWith("/media/") || file.includes(".."))
+        throw new Error(
+          `Unexpected public media path: ${project.slug}/${asset.id}`,
+        );
+      mediaFiles.add(file);
+    }
+  }
+}
+for (const file of mediaFiles)
+  if (!(await stat(path.join("dist", file))).size)
+    throw new Error(`Empty public media file: ${file}`);
+
+let template = await readFile("dist/index.html", "utf8");
+// The small shared stylesheet can render with the static HTML without another round trip.
+for (const stylesheet of template.matchAll(
+  /<link rel="stylesheet"[^>]*href="(\/assets\/[^\"]+\.css)"[^>]*>/g,
+)) {
+  const css = await readFile(path.join("dist", stylesheet[1]), "utf8");
+  template = template.replace(stylesheet[0], `<style>${css}</style>`);
+}
 const escape = (value) =>
   value.replace(
     /[&<>"']/g,

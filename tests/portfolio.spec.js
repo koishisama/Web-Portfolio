@@ -70,13 +70,26 @@ test("filter state survives direct links, reload and browser history", async ({
     page.getByRole("button", { name: "Programming", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator(".project-card")).toHaveCount(4);
+  expect(
+    await page
+      .locator(".project-card")
+      .evaluateAll((cards) => cards.map((card) => card.dataset.project)),
+  ).toEqual([
+    "deinosavros",
+    "procedural-city",
+    "rhythm-rider",
+    "one-more-second",
+  ]);
   await page.reload();
   await expect(page.locator(".project-card")).toHaveCount(4);
+  await page.evaluate(() => window.scrollTo({ top: 80, behavior: "instant" }));
+  const beforeFilter = await page.evaluate(() => scrollY);
   await page
     .getByRole("button", { name: "Technical Art", exact: true })
     .click();
   await expect(page).toHaveURL(/track=technical-art/);
   await expect(page.locator(".project-card")).toHaveCount(8);
+  expect(await page.evaluate(() => scrollY)).toBe(beforeFilter);
   await page.goBack();
   await expect(page.locator(".project-card")).toHaveCount(4);
   await page.goForward();
@@ -89,20 +102,19 @@ test("filter state survives direct links, reload and browser history", async ({
 test("navigation, chapters and beat illustration work", async ({ page }) => {
   await page.goto("/");
   await page
-    .locator(".project-card")
-    .filter({
-      has: page.getByRole("heading", { name: "Rhythm Rider", exact: true }),
-    })
-    .getByRole("link")
+    .locator('[data-project="rhythm-rider"] a[href="/projects/rhythm-rider"]')
+    .first()
     .click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Rhythm Rider",
   );
   await expect(page).toHaveTitle(/Rhythm Rider/);
-  await page.getByRole("link", { name: "03 Technical breakdown" }).click();
+  await page
+    .getByRole("link", { name: "Technical breakdown", exact: true })
+    .click();
   await expect(page).toHaveURL(/#breakdown$/);
   await page.locator("#beat-bpm").fill("60");
-  await expect(page.locator(".formula")).toContainText("10.0 units per beat");
+  await expect(page.locator(".formula")).toContainText("24.1 units per beat");
   await page.getByRole("link", { name: "← All work", exact: true }).click();
   await expect(page).toHaveURL(/\/projects$/);
 });
@@ -173,10 +185,13 @@ test("media does not download videos before play and every case video plays", as
   expect(videoRequests).toEqual([]);
   for (const slug of cases) {
     await page.goto("/projects/" + slug);
-    const videos = page.locator("video");
-    const count = await videos.count();
+    const figures = page.locator(".video-figure");
+    const count = await figures.count();
+    expect(await page.locator("video").count()).toBe(0);
     for (let index = 0; index < count; index++) {
-      const current = videos.nth(index);
+      const figure = figures.nth(index);
+      await figure.getByRole("button", { name: /^Play / }).click();
+      const current = figure.locator("video");
       await expect(current).toHaveAttribute("preload", "none");
       await current.evaluate(async (video) => {
         video.muted = true;
@@ -185,7 +200,243 @@ test("media does not download videos before play and every case video plays", as
       await expect
         .poll(() => current.evaluate((video) => video.currentTime))
         .toBeGreaterThan(0.1);
-      await current.evaluate((video) => video.pause());
+      await current.evaluate(async (video) => {
+        video.currentTime = Math.max(0, video.duration - 0.2);
+        await video.play();
+      });
+      await expect
+        .poll(() => current.evaluate((video) => video.ended))
+        .toBe(true);
+    }
+  }
+});
+
+test("cross-route chapters, direct fragments and history locate the actual section", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .locator('a[href="/projects/deinosavros#route-and-chance"]')
+    .first()
+    .click();
+  await expect(page).toHaveURL(/deinosavros#route-and-chance$/);
+  await expect(page.locator("#route-and-chance")).toBeFocused();
+  await expect
+    .poll(() =>
+      page
+        .locator("#route-and-chance")
+        .evaluate((node) => Math.abs(node.getBoundingClientRect().top)),
+    )
+    .toBeLessThan(160);
+  await page.goto("/projects/rhythm-rider#breakdown");
+  await expect(page.locator("#breakdown")).toBeFocused();
+  await page.goBack();
+  await expect(page).toHaveURL(/deinosavros#route-and-chance$/);
+  await expect
+    .poll(() =>
+      page
+        .locator("#route-and-chance")
+        .evaluate((node) => Math.abs(node.getBoundingClientRect().top)),
+    )
+    .toBeLessThan(160);
+});
+
+test("new playback pauses the previous film and route changes stop playback", async ({
+  page,
+}) => {
+  await page.goto("/projects/deinosavros");
+  const posters = page.locator(".video-figure");
+  await posters
+    .first()
+    .getByRole("button", { name: /^Play / })
+    .click();
+  const first = posters.first().locator("video");
+  await expect
+    .poll(() => first.evaluate((video) => video.currentTime))
+    .toBeGreaterThan(0.1);
+  await posters
+    .nth(1)
+    .getByRole("button", { name: /^Play / })
+    .click();
+  const second = posters.nth(1).locator("video");
+  await expect
+    .poll(() => second.evaluate((video) => video.currentTime))
+    .toBeGreaterThan(0.1);
+  await expect.poll(() => first.evaluate((video) => video.paused)).toBe(true);
+  await page.evaluate(() => {
+    window.previousPortfolioVideo = document.querySelectorAll("video")[1];
+  });
+  await page.getByRole("link", { name: "Work", exact: true }).first().click();
+  await expect(page.locator("video")).toHaveCount(0);
+  expect(await page.evaluate(() => window.previousPortfolioVideo.paused)).toBe(
+    true,
+  );
+});
+
+test("every comparison variant loads, including films outside the default selection", async ({
+  page,
+}) => {
+  for (const slug of cases) {
+    await page.goto("/projects/" + slug);
+    for (const comparison of await page.locator(".media-comparison").all()) {
+      for (const button of await comparison
+        .locator(".comparison-controls button")
+        .all()) {
+        await button.click();
+        await expect(button).toHaveAttribute("aria-pressed", "true");
+        const poster = comparison.getByRole("button", { name: /^Play / });
+        if (await poster.count()) {
+          await poster.click();
+          const video = comparison.locator("video");
+          await expect
+            .poll(() => video.evaluate((node) => node.currentTime))
+            .toBeGreaterThan(0.1);
+          await video.evaluate(async (node) => {
+            node.currentTime = Math.max(0, node.duration - 0.2);
+            await node.play();
+          });
+          await expect
+            .poll(() => video.evaluate((node) => node.ended))
+            .toBe(true);
+        } else {
+          await expect
+            .poll(() =>
+              comparison.locator("img").evaluate((node) => node.naturalWidth),
+            )
+            .toBeGreaterThan(0);
+        }
+      }
+    }
+  }
+});
+
+test("Ink showcase dialog is named, quiet before play and restores keyboard focus", async ({
+  page,
+}) => {
+  const requests = [];
+  page.on("request", (request) => {
+    if (new URL(request.url()).pathname.endsWith(".mp4"))
+      requests.push(request.url());
+  });
+  await page.goto("/");
+  const opener = page.getByRole("button", { name: /View showcase/ });
+  await opener.focus();
+  await page.keyboard.press("Enter");
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toHaveAccessibleName(/Ink/);
+  expect(requests).toEqual([]);
+  const scan = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .analyze();
+  expect(scan.violations).toEqual([]);
+  await dialog.getByRole("button", { name: /^Play / }).click();
+  const video = dialog.locator("video");
+  await expect
+    .poll(() => video.evaluate((node) => node.currentTime))
+    .toBeGreaterThan(0.1);
+  await page.keyboard.press("Escape");
+  await expect(dialog).not.toBeVisible();
+  await expect(opener).toBeFocused();
+  await expect(page.locator("video")).toHaveCount(0);
+});
+
+for (const slug of cases.slice(0, 6)) {
+  test(`${slug} has a complete main media interface on mobile`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    const requests = [];
+    page.on("request", (request) => {
+      if (new URL(request.url()).pathname.endsWith(".mp4"))
+        requests.push(request.url());
+    });
+    await page.goto("/projects/" + slug);
+    const lead = page.locator(".case-lead-media .media-figure");
+    await expect(lead).toHaveAttribute("data-media-purpose", "showcase");
+    await expect(lead.getByRole("button", { name: /^Play / })).toBeVisible();
+    await page.waitForTimeout(250);
+    expect(requests, slug).toEqual([]);
+    await page
+      .locator(".case-lead-media")
+      .getByRole("button", { name: /^Play / })
+      .click();
+    const player = page.locator(".case-lead-media video");
+    await expect
+      .poll(() => player.evaluate((video) => video.readyState))
+      .toBeGreaterThanOrEqual(2);
+    await expect(player).toHaveAttribute("playsinline", "");
+    await expect
+      .poll(() =>
+        player.evaluate((video) => video.textTracks[0]?.cues?.length ?? 0),
+      )
+      .toBeGreaterThan(0);
+    await player.evaluate(async (video) => {
+      video.volume = 0.35;
+      video.muted = false;
+      await video.requestFullscreen();
+    });
+    expect(
+      await player.evaluate(
+        (video) =>
+          document.fullscreenElement === video &&
+          video.volume === 0.35 &&
+          !video.muted,
+      ),
+    ).toBe(true);
+    await page.evaluate(() => document.exitFullscreen());
+    await player.evaluate(async (video) => {
+      video.currentTime = Math.max(0, video.duration - 0.25);
+      await video.play();
+    });
+    await expect.poll(() => player.evaluate((video) => video.ended)).toBe(true);
+  });
+}
+
+test("failed poster and video retain a readable explanation and file access", async ({
+  page,
+}) => {
+  await page.route("**/media/deinosavros/*.webp", (route) => route.abort());
+  await page.route("**/media/deinosavros/*.jpg", (route) => route.abort());
+  await page.goto("/projects/deinosavros");
+  await expect(page.getByText("Image unavailable").first()).toBeVisible();
+  await page.unroute("**/media/deinosavros/*.webp");
+  await page.unroute("**/media/deinosavros/*.jpg");
+  await page.route("**/*.mp4", (route) => route.abort());
+  await page.reload();
+  await page
+    .locator(".case-lead-media")
+    .getByRole("button", { name: /^Play / })
+    .click();
+  await expect(
+    page.getByText("Video could not be loaded.", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Open video file" }),
+  ).toBeVisible();
+});
+
+test("opening battle frame is complete on desktop and mobile", async ({
+  page,
+}) => {
+  for (const size of [
+    { width: 1440, height: 1000 },
+    { width: 390, height: 844 },
+  ]) {
+    await page.setViewportSize(size);
+    for (const route of ["/", "/projects/deinosavros"]) {
+      await page.goto(route);
+      const picture =
+        route === "/"
+          ? page.locator('[data-project="deinosavros"] img').first()
+          : page.locator(".case-lead-media img").first();
+      await expect(picture).toBeVisible();
+      const frame = await picture.boundingBox();
+      expect(frame.y).toBeGreaterThanOrEqual(0);
+      expect(frame.y + frame.height).toBeLessThanOrEqual(size.height + 1);
+      expect(
+        await picture.evaluate((node) => getComputedStyle(node).objectFit),
+      ).toBe("contain");
     }
   }
 });
@@ -221,12 +472,15 @@ test("Ink comparison switches actual captures and remains keyboard accessible", 
   page,
 }) => {
   await page.goto("/projects/ink-vfx");
-  const comparison = page.getByRole("group", {
-    name: "Compare captured variants",
-  });
+  const comparison = page
+    .locator("#start-with-the-motion-of-the-attack")
+    .getByRole("group", {
+      name: "Compare captured variants",
+    });
   await expect(
     comparison.getByRole("button", { name: "Final: erosion 0.78" }),
-  ).toHaveAttribute("aria-pressed", "true");
+  ).toBeVisible();
+  await comparison.getByRole("button", { name: "Final: erosion 0.78" }).click();
   const erosion = comparison.getByRole("button", {
     name: "Erosion 0.0",
     exact: true,

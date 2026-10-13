@@ -2,7 +2,7 @@
   "deinosavros/hero": {
     "width": 1600,
     "height": 900,
-    "variants": [480, 960, 1600]
+    "variants": [480, 640, 768, 960, 1600]
   },
   "deinosavros/detail-1": {
     "width": 1600,
@@ -42,7 +42,7 @@
   "one-more-second/hero": {
     "width": 1600,
     "height": 900,
-    "variants": [480, 960, 1600]
+    "variants": [480, 640, 768, 960, 1600]
   },
   "one-more-second/detail-1": {
     "width": 1600,
@@ -57,7 +57,7 @@
   "procedural-city/hero": {
     "width": 1600,
     "height": 900,
-    "variants": [480, 960, 1600]
+    "variants": [480, 640, 768, 960, 1600]
   },
   "procedural-city/detail-1": {
     "width": 1600,
@@ -193,5 +193,170 @@
     "width": 1600,
     "height": 900,
     "variants": [480, 960, 1600]
+  },
+  "deinosavros/combat": {
+    "width": 1600,
+    "height": 900,
+    "variants": [480, 960, 1600]
+  },
+  "deinosavros/showcase-poster": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 640, 768, 960, 1280]
+  },
+  "deinosavros/reward": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "deinosavros/route": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "deinosavros/chance": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "deinosavros/offering": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "deinosavros/later-battle": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "procedural-city/showcase-poster": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "procedural-city/rebuild-before": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "procedural-city/rebuild-after": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "procedural-city/street": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "procedural-city/plaza": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "rhythm-rider/run": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 640, 768, 960, 1280]
+  },
+  "rhythm-rider/earned-perfect": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "rhythm-rider/earned-combo": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "rhythm-rider/pattern-normal": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "rhythm-rider/pattern-dense": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "rhythm-rider/results": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "rhythm-rider/life-loss": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "ink-vfx/showcase-poster": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 640, 768, 960, 1600, 1920]
+  },
+  "ink-vfx/melee-still": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "ink-vfx/projectile-charge": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "ink-vfx/projectile-flight": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "ink-vfx/projectile-impact": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "ink-vfx/projectile-dissipated": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "ink-vfx/projectile-side-still": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "ink-vfx/area-still": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "ink-vfx/area-dissipated": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "oasis-environment/showcase-poster": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 640, 768, 960, 1600, 1920]
+  },
+  "oasis-environment/arrival-still": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "oasis-environment/courtyard-still": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "oasis-environment/water-still": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "oasis-environment/sand-still": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
   }
 }

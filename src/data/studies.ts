@@ -1,5 +1,5 @@
 import type { PublishedProjectRecord } from "../types/project";
-import { image, video } from "./media";
+import { image, video, showcase } from "./media";
 
 export const studies: PublishedProjectRecord[] = [
   {
@@ -29,8 +29,8 @@ export const studies: PublishedProjectRecord[] = [
       "Electric sphere above branching blue arcs",
       "An illuminated sphere sends branching blue arcs toward a circular target.",
     ),
-    demo: {
-      ...video(
+    showcase: {
+      ...showcase(
         "single-vfx-studies",
         "Electric sphere study",
         "A short recording of the sphere and its electrical arcs.",
@@ -49,6 +49,8 @@ export const studies: PublishedProjectRecord[] = [
     ],
     breakdown: [
       {
+        id: "build-a-recognizable-silhouette",
+        layout: "split",
         title: "Build a recognizable silhouette",
         paragraphs: [
           "The tornado concentrates its shape into a twisting column, framed by cloud forms and diagonal rainfall. The narrow base and wider upper mass distinguish it from the other studies before the viewer follows individual particles.",
@@ -61,6 +63,8 @@ export const studies: PublishedProjectRecord[] = [
         ),
       },
       {
+        id: "organize-movement-around-a-shape",
+        layout: "wide",
         title: "Organize movement around a shape",
         paragraphs: [
           "The water study layers concentric rings with smaller scattered particles. Its central opening remains visible, giving the movement a clear circular structure.",
@@ -73,6 +77,8 @@ export const studies: PublishedProjectRecord[] = [
         ),
       },
       {
+        id: "tornado-in-motion",
+        layout: "split",
         title: "Tornado in motion",
         paragraphs: [
           "The recording shows the full moving effect, including the relationship between the column, clouds and rainfall.",
@@ -92,6 +98,8 @@ export const studies: PublishedProjectRecord[] = [
         },
       },
       {
+        id: "water-ring-in-motion",
+        layout: "wide",
         title: "Water ring in motion",
         paragraphs: [
           "The short clip provides the timing information that a still frame cannot: the continuous motion of the rings and their smaller surrounding particles.",
@@ -163,6 +171,8 @@ export const studies: PublishedProjectRecord[] = [
     ],
     breakdown: [
       {
+        id: "a-focal-point-within-the-machinery",
+        layout: "split",
         title: "A focal point within the machinery",
         paragraphs: [
           "The red door gives the eye a clear place to settle among dark pipes and brickwork. Its simple rectangle contrasts with the surrounding mechanical shapes, while the walkway leads farther into the space.",
@@ -175,6 +185,8 @@ export const studies: PublishedProjectRecord[] = [
         ),
       },
       {
+        id: "repetition-with-depth",
+        layout: "wide",
         title: "Repetition with depth",
         paragraphs: [
           "The gear wall supplies a repeated background rhythm. Larger pipes and cylindrical machinery interrupt it in the foreground, separating the scene into readable layers.",
@@ -228,12 +240,13 @@ export const studies: PublishedProjectRecord[] = [
       "A building beneath faceted pink sakura trees",
       "The building and pink canopy anchor the layered valley composition.",
     ),
-    demo: {
-      ...video(
+    showcase: {
+      ...showcase(
         "low-poly-sakura-scene",
         "Sakura scene showcase",
         "A recorded camera pass through the stylized valley and its moving petals.",
         "The camera moves through a purple valley with faceted pink trees, pale grass and distant rock forms. Bright petals drift across foreground and background layers.",
+        "demo",
       ),
       width: 1280,
       height: 720,
@@ -247,6 +260,8 @@ export const studies: PublishedProjectRecord[] = [
     ],
     breakdown: [
       {
+        id: "separate-the-valley-into-layers",
+        layout: "split",
         title: "Separate the valley into layers",
         paragraphs: [
           "Rock shelves, tree silhouettes and drifting petals create several scales of detail. The large terrain shapes establish depth before smaller foliage and particles add texture.",
@@ -259,6 +274,8 @@ export const studies: PublishedProjectRecord[] = [
         ),
       },
       {
+        id: "repeat-shapes-without-filling-every-space",
+        layout: "wide",
         title: "Repeat shapes without filling every space",
         paragraphs: [
           "Faceted canopies give the trees a shared visual language. Open areas between them let the eye follow the terrain, while pale grass provides a quieter transition along the ground.",
@@ -312,12 +329,13 @@ export const studies: PublishedProjectRecord[] = [
       "A furnished corner with warm lighting",
       "The full arrangement combines a chair, tables, wall art, books and plants.",
     ),
-    demo: {
-      ...video(
+    showcase: {
+      ...showcase(
         "realistic-corner",
         "Interior walkthrough",
         "A recorded camera pass moves from the full arrangement to furniture and surface details.",
         "The camera approaches a furnished corner, then examines wall art, a floor lamp, books on a round table, the timber floor and a low shelf beside a potted plant.",
+        "demo",
       ),
       width: 1280,
       height: 720,
@@ -331,6 +349,8 @@ export const studies: PublishedProjectRecord[] = [
     ],
     breakdown: [
       {
+        id: "let-light-describe-the-surfaces",
+        layout: "split",
         title: "Let light describe the surfaces",
         paragraphs: [
           "The tabletop and timber floor provide broad surfaces for the light to cross. Plant shadows add a more detailed pattern without changing the underlying simplicity of the arrangement.",
@@ -343,6 +363,8 @@ export const studies: PublishedProjectRecord[] = [
         ),
       },
       {
+        id: "give-the-corner-a-human-scale",
+        layout: "wide",
         title: "Give the corner a human scale",
         paragraphs: [
           "Books, a small shelf and the planter create detail around the chair. Their relative sizes make the corner feel furnished and usable rather than a collection of isolated props.",

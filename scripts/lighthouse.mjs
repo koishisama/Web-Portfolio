@@ -51,3 +51,27 @@ await writeFile(
   "verification/lighthouse-summary.json",
   JSON.stringify(records, null, 2) + "\n",
 );
+const median = (values) =>
+  [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)];
+const medians = ["home", "case"].map((page) => {
+  const runs = records.filter((record) => record.page === page);
+  const metrics = Object.fromEntries(
+    ["performance", "accessibility", "seo", "lcp", "cls", "tbt"].map((key) => [
+      key,
+      median(runs.map((run) => run[key])),
+    ]),
+  );
+  return {
+    page,
+    runs: runs.length,
+    ...metrics,
+    meetsTargets:
+      metrics.performance >= 90 && metrics.lcp <= 2500 && metrics.cls <= 0.1,
+  };
+});
+await writeFile(
+  "verification/lighthouse-medians.json",
+  JSON.stringify(medians, null, 2) + "\n",
+);
+console.log(JSON.stringify({ medians }));
+if (medians.some((result) => !result.meetsTargets)) process.exitCode = 1;

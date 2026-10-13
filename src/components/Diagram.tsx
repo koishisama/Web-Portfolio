@@ -2,9 +2,10 @@ import { useState } from "react";
 import type { ProjectRecord } from "../types/project";
 
 export default function Diagram({ project }: { project: ProjectRecord }) {
-  const [bpm, setBpm] = useState(120);
-  const [speed, setSpeed] = useState(10);
+  const [bpm, setBpm] = useState(90);
+  const [speed, setSpeed] = useState(24.1);
   const spacing = (60 / bpm) * speed;
+  const markerCount = Math.min(8, Math.floor(554 / (spacing * 4.5)) + 1);
   return (
     <figure className="diagram">
       <div className="diagram-heading">
@@ -43,7 +44,8 @@ export default function Diagram({ project }: { project: ProjectRecord }) {
                 id="beat-speed"
                 type="range"
                 min="4"
-                max="16"
+                max="32"
+                step="0.1"
                 value={speed}
                 onChange={(e) => setSpeed(Number(e.target.value))}
               />
@@ -61,7 +63,7 @@ export default function Diagram({ project }: { project: ProjectRecord }) {
               strokeOpacity=".25"
               strokeWidth="2"
             />
-            {Array.from({ length: 8 }, (_, i) => (
+            {Array.from({ length: markerCount }, (_, i) => (
               <g key={i} transform={`translate(${26 + i * spacing * 4.5}, 0)`}>
                 <rect y="28" width="8" height="34" rx="2" fill="currentColor" />
                 <text
@@ -80,8 +82,8 @@ export default function Diagram({ project }: { project: ProjectRecord }) {
             <strong>{spacing.toFixed(1)} units per beat</strong>
           </p>
           <p className="small-text">
-            An illustration of the placement relationship, not live game
-            telemetry. A fixed offset is omitted.
+            Starts at the inspected scene's 90 BPM and 24.1 units/s. This is an
+            illustration, not live game telemetry; a fixed offset is omitted.
           </p>
         </div>
       ) : null}

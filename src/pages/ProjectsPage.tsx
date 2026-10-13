@@ -26,9 +26,9 @@ export default function ProjectsPage() {
         <header className="page-header">
           <p className="eyebrow">The work</p>
           <h1>
-            Playable systems.
+            Selected work.
             <br />
-            <span>Expressive worlds.</span>
+            Further explorations.
           </h1>
           <p>
             Projects, tools and studies across game programming and technical

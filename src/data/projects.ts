@@ -1,5 +1,5 @@
 import type { PublishedProjectRecord } from "../types/project";
-import { image, video } from "./media";
+import { image, video, showcase } from "./media";
 import { studies } from "./studies";
 import { oasis } from "./oasis";
 
@@ -7,9 +7,9 @@ const mainProjects: PublishedProjectRecord[] = [
   {
     slug: "deinosavros",
     title: "Deinosavros",
-    subtitle: "Make every decision legible.",
+    subtitle: "Readable decisions, from battle to the next encounter.",
     summary:
-      "Menu, map and combat interfaces for a team card battler. A closer look at reversible previews and deliberate confirmation.",
+      "Combat, route choices and chance encounters in a team card battler. My contribution connects menus, map interfaces and combat UI.",
     tracks: ["programming"],
     tier: "featured",
     rank: 1,
@@ -24,25 +24,34 @@ const mainProjects: PublishedProjectRecord[] = [
     scope:
       "I programmed the menus and map interfaces, together with combat and map UI. The card-battle game, its artwork and its wider systems are a team effort.",
     version:
-      "Captured from the current Unity 6000.3 project on 13 October 2026. UI events are script-driven; the video is a controlled interface demonstration, not an end-to-end gameplay test.",
+      "Recorded from the current Unity 6000.3 project. Production input handlers drive the demonstration; combat, resource costs, rewards and Chance resolve normally. The 76.6-second main film is one continuous sequence with original game audio. Additional chapters are separate takes at normal speed.",
     cover: image(
       "deinosavros",
       "hero",
-      "Deinosavros card-sacrifice interface",
-      "A decision presented with its selected card and consequence.",
+      "Deinosavros combat with player resources, enemy states and a hand of cards",
+      "The battlefield, player resources and available cards remain visible together.",
     ),
-    demo: {
-      ...video(
+    showcase: {
+      ...showcase(
         "deinosavros",
-        "A card decision, from preview to confirmation",
-        "Current map interface: preview, cancel, confirm and inspect the pending benefit. Controlled UI walkthrough; no audio.",
-        "A scripted play session opens the offering panel, inspects a card, cancels the choice, reopens it and confirms. The pending benefit remains visible after commitment.",
+        "Deinosavros: combat, route choices and Chance",
+        "One continuous encounter: battle, earned reward, route choice, Chance recovery and return to the map. Script-driven production inputs with original game audio; normal gameplay rules remain active.",
+        "Cards spend elixir while timed attacks continue. Victory unlocks a card reward. The map offers reachable destinations; the selected Opportunity reveals Hidden Spring, restoring health from 181 to 200. Continue returns to the map.",
       ),
-      width: 1600,
-      height: 900,
+      width: 1280,
+      height: 720,
+      poster: image("deinosavros", "showcase-poster", "Combat in progress", "")
+        .src,
+      posterSrcSet: image(
+        "deinosavros",
+        "showcase-poster",
+        "Combat in progress",
+        "",
+      ).srcSet,
+      subtitles: "/media/deinosavros/showcase.vtt",
     },
     context:
-      "A card choice is only useful when the player understands what will change. In Deinosavros, the interface has to explain a sacrifice without applying it too early. I approached the interaction as a sequence of visible states: inspection, selection, preview, confirmation and feedback. This case focuses on the boundary between reading a decision and committing it.",
+      "Deinosavros is a team card battler that connects encounters through a branching route. Combat changes the player's resources, rewards carry forward, and map choices lead to battles, chance events or recovery. My interface work makes those changes readable across menus, the battlefield and the map. The challenge is continuity: a player should understand the current state before deciding what to do next.",
     contributions: [
       "Programmed menu navigation and map interfaces.",
       "Connected card selection, sacrifice previews and confirmation feedback.",
@@ -51,6 +60,76 @@ const mainProjects: PublishedProjectRecord[] = [
     ],
     breakdown: [
       {
+        id: "combat-feedback",
+        layout: "wide",
+        title: "Read the battle without losing the hand",
+        paragraphs: [
+          "The combat interface brings player resources, enemy states and available cards into one view. A card action needs to be understood in relation to what it costs and what changes after it resolves. Health and resource displays provide that context while the hand remains available for the next decision.",
+          "My responsibility is the presentation of these states. The team's combat rules and artwork supply the wider experience; showing the battlefield explains where my UI is used without claiming ownership of every system on screen. The main recording and the closeups serve different purposes: one establishes the encounter, the other makes the interface readable.",
+        ],
+        media: image(
+          "deinosavros",
+          "combat",
+          "Combat resources, cards and enemy feedback",
+          "The hand and status displays frame the current encounter without hiding the battlefield.",
+        ),
+        comparison: [
+          {
+            label: "Combat & reward",
+            asset: {
+              ...video(
+                "deinosavros",
+                "Combat and an earned reward",
+                "The first encounter resolves through legal card plays and native damage. Original game audio.",
+                "Nine legal card actions support the timed battle. After the final enemy falls, victory presents three cards and the chosen reward carries into the map.",
+                "combat-and-reward",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image(
+                "deinosavros",
+                "showcase-poster",
+                "Active combat",
+                "",
+              ).src,
+              subtitles: "/media/deinosavros/combat-and-reward.vtt",
+            },
+          },
+          {
+            label: "A later encounter",
+            asset: {
+              ...video(
+                "deinosavros",
+                "A later battle after the offering",
+                "Separate take: the next battle and its earned reward, with original audio. Normal speed; no forced result.",
+                "The offering carries into another encounter. Legal card plays and the native combat loop resolve the battle before another reward selection.",
+                "later-battle",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image(
+                "deinosavros",
+                "later-battle",
+                "Next combat encounter",
+                "",
+              ).src,
+              subtitles: "/media/deinosavros/later-battle.vtt",
+            },
+          },
+          {
+            label: "Reward interface",
+            asset: image(
+              "deinosavros",
+              "reward",
+              "Three reward cards after victory",
+              "The reward screen follows an earned victory. This take selected Radiant Ward.",
+            ),
+          },
+        ],
+      },
+      {
+        id: "card-decisions",
+        layout: "split",
         title: "Preview a consequence before changing the game",
         paragraphs: [
           "Opening the panel and moving between cards must remain reversible. The preview carries the information needed to describe the choice, while the actual transaction is deferred until confirmation. Cancelling closes the interaction without turning inspection into an accidental sacrifice.",
@@ -64,10 +143,11 @@ const mainProjects: PublishedProjectRecord[] = [
         ),
       },
       {
+        id: "card-identity",
+        layout: "wide",
         title: "Select an instance, not just a card type",
         paragraphs: [
-          "A deck can contain more than one copy of a card. The selected card therefore needs an instance identifier rather than a match on its display name alone. MapSacrificePreview carries that identity and a CanConfirm state so the panel can keep its controls aligned with the current selection.",
-          "The confirmation handler checks that the panel is open and not busy before calling the commit operation. Controls are disabled during the transition, which guards against repeated input becoming repeated transactions.",
+          "Duplicate cards make identity important. MapSacrificePreview carries the selected instance and a CanConfirm state, rather than matching on a display name alone. The handler checks the open and busy states before committing, so repeated input cannot become repeated transactions.",
         ],
         media: image(
           "deinosavros",
@@ -77,31 +157,114 @@ const mainProjects: PublishedProjectRecord[] = [
         ),
       },
       {
-        title: "Keep consequences visible across the flow",
+        id: "route-and-chance",
+        layout: "split",
+        title: "Carry the decision into the next encounter",
         paragraphs: [
-          "A successful selection is not the end of the interaction. Pending benefits and departure prompts carry context into the next decision. These states give the player a chance to understand what is active before moving on.",
-          "The recorded verification work covers cancellation, duplicate card instances, repeated confirmation and different screen sizes. I use those scenarios to explain the design; the historical assertion totals are not presented as a new runtime benchmark.",
+          "The route map places destinations beside the persistent deck and player state. Node selection and travel belong to the same interaction: the interface needs to identify the destination and then carry the player into the next scene without losing context.",
+          "Chance encounters introduce another reveal and consequence. Pending benefits and departure prompts keep relevant information visible before the next commitment. I describe this as interface work around the run; the chance rules and wider progression remain part of the team game.",
         ],
-        media: image(
-          "deinosavros",
-          "detail-3",
-          "Deinosavros map and persistent status",
-          "Route choices share the interface with the player's deck and persistent status.",
-        ),
+        media: {
+          ...video(
+            "deinosavros",
+            "Map selection, Chance reveal and continuation",
+            "Reachable route choice and a genuine Chance outcome. Health recovers from 181 to 200 before returning to the map.",
+            "Two reachable nodes are inspected. Selecting Opportunity enters the Chance scene. Hidden Spring restores health, and Continue carries the updated state back to the route.",
+            "map-and-chance",
+          ),
+          width: 1280,
+          height: 720,
+          poster: image("deinosavros", "route", "Reachable route selection", "")
+            .src,
+          subtitles: "/media/deinosavros/map-and-chance.vtt",
+        },
+        comparison: [
+          {
+            label: "Route choice",
+            asset: image(
+              "deinosavros",
+              "route",
+              "Reachable map destinations",
+              "Reachable route nodes remain visible alongside the deck and persistent player state.",
+            ),
+          },
+          {
+            label: "Chance result",
+            asset: image(
+              "deinosavros",
+              "chance",
+              "Hidden Spring recovery result",
+              "The revealed outcome explains both the health change and the next action.",
+            ),
+          },
+        ],
+      },
+      {
+        id: "recorded-detail",
+        layout: "wide",
+        title: "Inspect, cancel, then commit",
+        paragraphs: [
+          "This controlled detail shows the reversible states directly. Preview and cancellation leave room to inspect; confirmation applies the selected change and keeps the resulting benefit visible.",
+        ],
+        comparison: [
+          {
+            label: "Offering into combat",
+            asset: {
+              ...video(
+                "deinosavros",
+                "Preview, cancel, confirm and enter combat",
+                "A separate genuine run: inspect the offering, cancel, confirm and continue to the next battle. Original audio.",
+                "The offering panel opens and previews a selected card. Cancellation leaves the choice reversible. Reopening and confirming creates a pending benefit, which is applied through the next encounter's production flow.",
+                "offering-to-combat",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image("deinosavros", "offering", "Offering preview", "")
+                .src,
+              subtitles: "/media/deinosavros/offering-to-combat.vtt",
+            },
+          },
+          {
+            label: "Isolated UI walkthrough",
+            asset: {
+              ...video(
+                "deinosavros",
+                "A card decision, from preview to confirmation",
+                "Current map interface: preview, cancel, confirm and inspect the pending benefit. Controlled UI walkthrough; no audio.",
+                "A scripted play session opens the offering panel, inspects a card, cancels the choice, reopens it and confirms. The pending benefit remains visible after commitment.",
+              ),
+              width: 1600,
+              height: 900,
+              poster: image(
+                "deinosavros",
+                "detail-1",
+                "Card sacrifice preview",
+                "",
+              ).src,
+            },
+          },
+        ],
       },
     ],
     flow: [
-      { label: "Inspect", detail: "Read a card without changing the deck" },
-      { label: "Preview", detail: "Pin an instance and show its consequence" },
       {
-        label: "Confirm / cancel",
-        detail: "Commit once, or leave the deck unchanged",
+        label: "Combat",
+        detail: "Read resources, choose a card and observe its response",
       },
-      { label: "Feedback", detail: "Show the resulting pending state" },
+      {
+        label: "Result",
+        detail: "Resolve the encounter and carry rewards forward",
+      },
+      { label: "Route", detail: "Choose an available destination on the map" },
+      { label: "Chance", detail: "Reveal an outcome and read its consequence" },
+      {
+        label: "Continue",
+        detail: "Enter the next encounter with persistent state",
+      },
     ],
     result: [
-      "The useful outcome is a readable transaction: selection, consequence and commitment have separate roles. That makes invalid or repeated input easier to reason about.",
-      "The same approach informs my other interface work: model the decision first, then connect presentation to explicit state changes.",
+      "The interface carries a decision across different scales: a card changes a battle, a reward changes the deck, and a route choice opens another encounter. Keeping those transitions explicit helps the player understand what carried forward.",
+      "My main takeaway is to separate inspection from commitment, then keep the resulting state visible. That also makes invalid or repeated input easier to reason about.",
     ],
     credits: [
       {
@@ -132,19 +295,34 @@ const mainProjects: PublishedProjectRecord[] = [
     scope:
       "I implemented the generation and editing workflow and integrated the environment assets. The third-party building, prop and texture sources are credited separately.",
     version:
-      "The main video is the existing editor delivery recording. The block comparison was captured afresh on 13 October 2026 through the existing Python tool API, without saving source assets. Generation uses Python, Blueprint and instanced meshes.",
+      "The main film combines fresh fixed-step editor and native Play-in-Editor views with the existing tool-panel recording. The lock/rebuild chapter uses one camera and the production Python API. Temporary cameras preserve the scene's lighting and native animation timing; source assets remain unchanged.",
     cover: image(
       "procedural-city",
       "hero",
       "A modular city generated in Unreal Engine",
       "An overview of the generated blocks, streets and skyline.",
     ),
-    demo: video(
-      "procedural-city",
-      "Procedural City editor demonstration",
-      "Recorded editor workflow with scripted tool commands and traffic. No audio.",
-      "The demonstration shows the city tool panel, generated city variations and traffic in the Unreal editor. The visible changes are driven by actual controller commands.",
-    ),
+    showcase: {
+      ...showcase(
+        "procedural-city",
+        "Procedural City: generate, preserve and refine",
+        "A 42-second edit of the city, editor controls, a same-camera local rebuild and street-level composition. Scripted native captures; silent.",
+        "An overview leads into residential and industrial blocks. The tool panel changes a preset and locks a block. The locked left block remains intact while the right block is rerolled. Street and plaza views show the resulting environment.",
+      ),
+      poster: image(
+        "procedural-city",
+        "showcase-poster",
+        "Generated city overview",
+        "",
+      ).src,
+      posterSrcSet: image(
+        "procedural-city",
+        "showcase-poster",
+        "Generated city overview",
+        "",
+      ).srcSet,
+      subtitles: "/media/procedural-city/showcase.vtt",
+    },
     context:
       "Procedural generation becomes more useful when an artist can keep a successful composition. I built this tool around a practical question: how can the city change without throwing away a block that already works? Seeded generation establishes a repeatable base, and block-level controls let the user refine that base incrementally.",
     contributions: [
@@ -155,6 +333,8 @@ const mainProjects: PublishedProjectRecord[] = [
     ],
     breakdown: [
       {
+        id: "a-repeatable-starting-point",
+        layout: "split",
         title: "A repeatable starting point",
         paragraphs: [
           "The generator works from a grid, rules and seed values. Buildings and details use separate offsets so their variation can be changed independently. Instanced meshes support repeated modular elements without making each repeated piece a separate authored object.",
@@ -168,33 +348,45 @@ const mainProjects: PublishedProjectRecord[] = [
         ),
       },
       {
+        id: "preserve-the-block-that-already-works",
+        layout: "wide",
         title: "Preserve the block that already works",
         paragraphs: [
           "Global generation skips locked blocks. This lets an artist preserve a particular skyline, landmark arrangement or neighborhood while exploring alternatives around it. A lock is meaningful only if later operations respect it.",
           "Changing grid or road dimensions would invalidate those relationships, so the tool rejects that change while blocks remain locked. This is a deliberate constraint that protects the user's existing choices.",
           "In this same-camera capture, the left block is locked while the right block is rerolled. Comparing instance transforms and materials across all 64 blocks confirmed that only Block_01_02 changed. This checks a concrete edit operation, without turning it into a broad performance claim.",
         ],
-        media: image(
-          "procedural-city",
-          "detail-2",
-          "City tool panel after a preset change",
-          "Dense Downtown preset with one locked block reported. The panel obscures geometry, so this view demonstrates controls rather than geometric persistence.",
-        ),
+        media: {
+          ...video(
+            "procedural-city",
+            "A locked block beside a local rebuild",
+            "The camera and scene settings stay fixed. Only the right block is rerolled; the locked left block keeps its geometry. Silent.",
+            "The first view establishes two neighboring blocks. Rerolling the right block changes its building arrangement while the left block and surrounding city remain unchanged.",
+            "locked-neighbor",
+          ),
+          poster: image(
+            "procedural-city",
+            "rebuild-before",
+            "Before the local rebuild",
+            "",
+          ).src,
+          subtitles: "/media/procedural-city/locked-neighbor.vtt",
+        },
         comparison: [
           {
             label: "Before local rebuild",
             asset: image(
               "procedural-city",
-              "lock-before",
+              "rebuild-before",
               "Locked left block and neighboring block before a local rebuild",
-              "Before: left Block_01_01 is locked; right Block_01_02 is the rebuild target. Annotations identify the two blocks.",
+              "Before: the central road separates locked Block_01_01 on the left from the rebuild target Block_01_02 on the right.",
             ),
           },
           {
             label: "After local rebuild",
             asset: image(
               "procedural-city",
-              "lock-after",
+              "rebuild-after",
               "Unchanged locked block beside the rebuilt neighboring block",
               "After: the right block's building and detail seed offsets advance from 0 to 1. The locked left block and the other 62 blocks retain their instance and material state.",
             ),
@@ -202,6 +394,8 @@ const mainProjects: PublishedProjectRecord[] = [
         ],
       },
       {
+        id: "rebuild-locally-then-continue-editing",
+        layout: "split",
         title: "Rebuild locally, then continue editing",
         paragraphs: [
           "A local rebuild reads the saved state for the selected block. Rerolling advances the building and detail offsets rather than requiring a completely new city. The implementation groups editor changes into an undoable transaction.",
@@ -209,10 +403,78 @@ const mainProjects: PublishedProjectRecord[] = [
         ],
         media: image(
           "procedural-city",
-          "detail-3",
+          "plaza",
           "Landmark plaza in the generated city",
           "Local composition remains an artistic decision within the procedural layout.",
         ),
+        comparison: [
+          {
+            label: "Street composition",
+            asset: {
+              ...video(
+                "procedural-city",
+                "Street-level composition",
+                "A fixed-step camera shot in the existing Play-in-Editor scene. Silent; this view demonstrates composition rather than traffic behavior.",
+                "A camera moves through the street-level environment, bringing facades, road markings and street furniture into view.",
+                "street-traffic",
+              ),
+              poster: image(
+                "procedural-city",
+                "street",
+                "Street-level view",
+                "",
+              ).src,
+              subtitles: "/media/procedural-city/street-traffic.vtt",
+            },
+          },
+          {
+            label: "Plaza detail",
+            asset: image(
+              "procedural-city",
+              "plaza",
+              "Generated plaza composition",
+              "An open space provides a focal point within the repeated city grid.",
+            ),
+          },
+        ],
+      },
+      {
+        id: "recorded-detail",
+        layout: "wide",
+        title: "An editing workflow at the tool panel",
+        paragraphs: [
+          "Preset changes, block locking and local variation share one editing workflow. The panel exposes those choices, while the unobstructed geometry comparison above shows what they preserve and change.",
+        ],
+        comparison: [
+          {
+            label: "Panel controls",
+            asset: {
+              ...video(
+                "procedural-city",
+                "Preset and lock controls",
+                "A focused excerpt from the existing editor delivery recording. Production tool commands drive the visible controls. Silent.",
+                "The editor panel changes the preset, protects a selected block and adjusts the surrounding generated layout.",
+                "editor-controls",
+              ),
+              poster: image(
+                "procedural-city",
+                "detail-1",
+                "City tool panel",
+                "",
+              ).src,
+              subtitles: "/media/procedural-city/editor-controls.vtt",
+            },
+          },
+          {
+            label: "Earlier editor recording",
+            asset: video(
+              "procedural-city",
+              "Procedural City editor demonstration",
+              "Recorded editor workflow with scripted tool commands and traffic. No audio.",
+              "The demonstration shows the city tool panel, generated city variations and traffic in the Unreal editor. The visible changes are driven by actual controller commands.",
+            ),
+          },
+        ],
       },
     ],
     flow: [
@@ -255,25 +517,38 @@ const mainProjects: PublishedProjectRecord[] = [
     scope:
       "My work covers gameplay programming and visual effects within a team project. This case isolates beat-based placement and the Perfect/combo feedback system.",
     version:
-      "The gameplay clip is existing portfolio footage; its source revision is unverified. The cyan/gold comparison is a new controlled capture from the Unity 2022.3 project, using the production feedback controller.",
+      "Recorded from the current Unity 2022.3 project through production movement handlers, with normal collision, judgement and scoring. The main edit contains four normal-speed excerpts from one completed run. Original music and effects are retained with a uniform 2 dB gain reduction. Earlier controlled effects footage is labeled separately.",
     cover: image(
       "rhythm-rider",
-      "hero",
+      "run",
       "Rhythm Rider's neon three-lane track",
       "A readable track framed by the game's neon environment.",
     ),
-    demo: {
-      ...video(
+    showcase: {
+      ...showcase(
         "rhythm-rider",
-        "Rhythm Rider gameplay",
-        "Existing gameplay excerpt with original audio. The current feedback implementation is demonstrated separately below.",
-        "The player moves through a neon three-lane course. Obstacles, scoring and visual feedback communicate the rhythm of the run.",
+        "Rhythm Rider: input, feedback and the finish",
+        "Four normal-speed excerpts from one successful run: earned Perfect/combo feedback, later obstacle patterns and the finish. Scripted production inputs; original game audio.",
+        "Timed lane changes and jumps earn cyan Perfect feedback and a gold combo response. Explicit cuts move to the later pattern phases and finish. The existing GAME OVER results panel reports 119 Perfects, no hits and three lives remaining.",
       ),
-      width: 1600,
-      height: 932,
+      width: 1280,
+      height: 720,
+      poster: image(
+        "rhythm-rider",
+        "earned-perfect",
+        "Earned Perfect response",
+        "",
+      ).src,
+      posterSrcSet: image(
+        "rhythm-rider",
+        "earned-perfect",
+        "Earned Perfect response",
+        "",
+      ).srcSet,
+      subtitles: "/media/rhythm-rider/showcase.vtt",
     },
     context:
-      "A rhythm runner needs its rules and its feedback to agree. I worked on the relationship between the song's beat structure, the placement of obstacles and the effects that acknowledge successful input. The technical challenge was to keep those responsibilities connected while giving each one a clear role.",
+      "Rhythm Rider is a three-lane runner where lane changes and jumps clear obstacles along a musical track. I worked on the relationship between the song's beat structure, obstacle placement and the effects that acknowledge successful input. The challenge was to connect those responsibilities while keeping the track, the judgement and the player's next action readable at speed.",
     contributions: [
       "Connected beat indices to obstacle timing and world-space placement.",
       "Worked on gameplay flow and feedback in the Unity project.",
@@ -282,19 +557,80 @@ const mainProjects: PublishedProjectRecord[] = [
     ],
     breakdown: [
       {
+        id: "translate-time-into-distance",
+        layout: "split",
         title: "Translate time into distance",
         paragraphs: [
           "The obstacle generator converts a beat index into a time using seconds per beat, then turns that time into a position using the player's speed and an offset. Song duration bounds the generated sequence, while difficulty phases choose patterns.",
-          "This makes spacing understandable through the same timing relationship that drives the level. The interactive diagram below illustrates that relationship. It does not claim audio-clock synchronization, latency compensation or sample-accurate input handling.",
+          "This makes spacing understandable through the same timing relationship that drives the level. The interactive diagram illustrates that relationship. It does not claim audio-clock synchronization, latency compensation or sample-accurate input handling.",
         ],
         media: image(
           "rhythm-rider",
-          "detail-1",
+          "pattern-normal",
           "Obstacles and lane layout in Rhythm Rider",
           "Beat timing is translated into positions along the track.",
         ),
+        comparison: [
+          {
+            label: "Normal phase",
+            asset: {
+              ...video(
+                "rhythm-rider",
+                "The normal obstacle phase",
+                "An excerpt after the 40-second phase change in the same completed run. Original audio; normal speed.",
+                "Lane changes and jumps navigate the normal phase's obstacle combinations.",
+                "normal-patterns",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image(
+                "rhythm-rider",
+                "pattern-normal",
+                "Normal obstacle pattern",
+                "",
+              ).src,
+              subtitles: "/media/rhythm-rider/normal-patterns.vtt",
+            },
+          },
+          {
+            label: "Dense phase",
+            asset: {
+              ...video(
+                "rhythm-rider",
+                "The later dense obstacle phase",
+                "A later excerpt after the 70-second phase change. Same run, original audio and normal speed.",
+                "The later phase combines lane choices and jumps through denser obstacle arrangements.",
+                "dense-patterns",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image(
+                "rhythm-rider",
+                "pattern-dense",
+                "Dense obstacle pattern",
+                "",
+              ).src,
+              subtitles: "/media/rhythm-rider/dense-patterns.vtt",
+            },
+          },
+          {
+            label: "Earlier gameplay excerpt",
+            asset: {
+              ...video(
+                "rhythm-rider",
+                "Earlier Rhythm Rider gameplay",
+                "Original portfolio footage with its original audio. The source revision is unverified; the new main film demonstrates the current project.",
+                "The car moves through the earlier neon course, with obstacles and score feedback visible.",
+              ),
+              width: 1600,
+              height: 932,
+            },
+          },
+        ],
       },
       {
+        id: "give-different-successes-different-signals",
+        layout: "wide",
         title: "Give different successes different signals",
         paragraphs: [
           "A Perfect dodge and a combo bonus communicate different information. The feedback controller listens for separate gameplay events and gives them separate visual treatments: a cyan scan for the dodge and a gold scan for the bonus.",
@@ -302,12 +638,14 @@ const mainProjects: PublishedProjectRecord[] = [
         ],
         media: image(
           "rhythm-rider",
-          "detail-2",
-          "Current cyan Perfect scan on the player car",
-          "Cyan Perfect feedback, captured by invoking the current production controller. Controlled effect demonstration.",
+          "earned-perfect",
+          "Cyan Perfect scan earned by a timed lane change",
+          "A real movement judgement triggers the cyan scan, score response and Perfect label together.",
         ),
       },
       {
+        id: "treat-clarity-as-part-of-the-implementation",
+        layout: "split",
         title: "Treat clarity as part of the implementation",
         paragraphs: [
           "A strong effect must remain readable at game speed. Separating the two signals helps communicate both the immediate success and the larger combo state, while keeping the response attached to a specific event.",
@@ -315,28 +653,109 @@ const mainProjects: PublishedProjectRecord[] = [
         ],
         media: image(
           "rhythm-rider",
-          "detail-3",
-          "Current gold combo-bonus scan on the player car",
-          "Gold combo feedback, captured from the same controller and unchanged effect parameters.",
+          "earned-combo",
+          "Gold combo scan and a 2x multiplier",
+          "Five consecutive Perfect actions trigger the gold response and unlock the 2x score multiplier.",
         ),
       },
       {
+        id: "compare-the-responses-in-motion",
+        layout: "wide",
         title: "Compare the responses in motion",
         paragraphs: [
-          "This controlled runtime clip invokes the existing Perfect and multiplier feedback methods in sequence. It demonstrates the current visual response; it does not validate the scoring or input path.",
+          "The gameplay excerpt earns both responses through the normal judgement path. The isolated effects clip makes their material changes easier to compare by invoking the existing controller methods directly; it is labeled as a controlled visual demonstration.",
+        ],
+        comparison: [
+          {
+            label: "Earned in gameplay",
+            asset: {
+              ...video(
+                "rhythm-rider",
+                "Earned Perfect and combo feedback",
+                "Timed movement earns cyan Perfect feedback and the gold combo response. Original audio; normal speed.",
+                "A lane change earns the first Perfect. The fifth consecutive Perfect unlocks the gold response and 2x multiplier, followed by more lane changes and jumps.",
+                "earned-feedback",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image(
+                "rhythm-rider",
+                "earned-perfect",
+                "Earned cyan Perfect",
+                "",
+              ).src,
+              subtitles: "/media/rhythm-rider/earned-feedback.vtt",
+            },
+          },
+          {
+            label: "Isolated effect comparison",
+            asset: {
+              ...video(
+                "rhythm-rider",
+                "Current Perfect and combo feedback comparison",
+                "Script-triggered cyan and gold scans from the current project. No audio.",
+                "The normal car appearance changes to a cyan scan and then to a gold scan. The existing production feedback methods are invoked in sequence.",
+                "feedback",
+              ),
+              poster: image("rhythm-rider", "detail-2", "Current cyan scan", "")
+                .src,
+              subtitles: "/media/rhythm-rider/feedback.vtt",
+            },
+          },
+        ],
+      },
+      {
+        id: "recorded-detail",
+        layout: "wide",
+        title: "Finish the run and read the result",
+        paragraphs: [
+          "The finish trigger leads into the existing results screen, where score, judgement counts and remaining lives summarize the run. A separate missed-input take shows how collisions remove lives and end an unsuccessful attempt.",
         ],
         media: {
           ...video(
             "rhythm-rider",
-            "Current Perfect and combo feedback comparison",
-            "Script-triggered cyan and gold scans from the current project. No audio.",
-            "The normal car appearance changes to a cyan scan and then to a gold scan. The existing production feedback methods are invoked in sequence.",
-            "feedback",
+            "The finish and results",
+            "The same run reaches the authored finish. Its existing results panel is titled GAME OVER, with three lives remaining. Original audio.",
+            "The car reaches the finish trigger. The source game's results panel reports 29,765 points, 119 Perfects, no hits and three lives remaining.",
+            "finish",
           ),
-          poster: image("rhythm-rider", "detail-2", "Current cyan scan", "")
-            .src,
-          subtitles: "/media/rhythm-rider/feedback.vtt",
+          width: 1280,
+          height: 720,
+          poster: image("rhythm-rider", "results", "Run results", "").src,
+          subtitles: "/media/rhythm-rider/finish.vtt",
         },
+        comparison: [
+          {
+            label: "Result interface",
+            asset: image(
+              "rhythm-rider",
+              "results",
+              "Results after reaching the finish",
+              "The game's existing panel summarizes score, elapsed time, judgement counts and remaining lives.",
+            ),
+          },
+          {
+            label: "Missed inputs",
+            asset: {
+              ...video(
+                "rhythm-rider",
+                "Missed inputs and life loss",
+                "Separate take: avoidance inputs stop after the opening sequence; collisions then remove lives and end the attempt. Original audio.",
+                "The car collides with obstacles. Each valid hit removes a life, and the final collision leads to the failure result.",
+                "missed-input",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image(
+                "rhythm-rider",
+                "life-loss",
+                "Life loss after collision",
+                "",
+              ).src,
+              subtitles: "/media/rhythm-rider/missed-input.vtt",
+            },
+          },
+        ],
       },
     ],
     flow: [
@@ -384,22 +803,24 @@ const mainProjects: PublishedProjectRecord[] = [
     scope:
       "I developed the ink-effect study and its integration. Character, animation and source resources are distinguished from the effects work.",
     version:
-      "Fresh capture from the selected final Unreal 5.7 project on 13 October 2026. Native montage playback; transient cameras and fill lighting. The comparison uses the same camera and animation frame, with temporary parameter and emitter changes restored without saving assets.",
+      "Captured from the selected final Unreal 5.7 project. Native montages and effect timing are preserved through fixed-step cinematic capture, with temporary cameras and a shadowless fill light. This is a visual effect study, not a collision or damage test. The earlier parameter comparison uses the same final project; temporary changes were restored without saving assets.",
     cover: image(
       "ink-vfx",
-      "hero",
+      "showcase-poster",
       "Ink-style attack effect in Unreal Engine",
-      "A stylized attack built from motion, shape and a controlled lifetime.",
+      "The area burst combines an expanding ink ring with ground and airborne marks.",
     ),
-    demo: {
-      ...video(
+    showcase: {
+      ...showcase(
         "ink-vfx",
-        "Ink attack showcase",
-        "Final-project melee, projectile charge/release and area burst at normal playback speed. No audio.",
-        "Native animation playback shows a melee trail, projectile charge and release, then an area burst. The projectile close-up does not show a complete unobstructed impact chain.",
+        "Ink VFX: Three attack cycles",
+        "One complete melee, projectile and area cycle, cut together at their original animation speed. Silent final-project capture.",
+        "A sword arc breaks into droplets. A palm charge releases a projectile across the full scene, ending in a splash that dissipates. An area attack builds into an expanding ring and layered burst, then clears. Temporary cameras and shadowless fill light improve the silhouettes; the original effects and montage timing are retained.",
       ),
-      width: 1280,
-      height: 720,
+      poster: image("ink-vfx", "showcase-poster", "Area burst", "").src,
+      posterSrcSet: image("ink-vfx", "showcase-poster", "Area burst", "")
+        .srcSet,
+      subtitles: "/media/ink-vfx/showcase.vtt",
     },
     context:
       "The aim of this study is to make an ink-like effect read as an action. A slash needs to follow the character's motion, a projectile needs a clear direction, and an area attack needs a readable build-up and release. I combine Niagara with animated materials so the visual shape evolves with the attack rather than sitting on top of it.",
@@ -411,18 +832,34 @@ const mainProjects: PublishedProjectRecord[] = [
     ],
     breakdown: [
       {
+        id: "start-with-the-motion-of-the-attack",
+        layout: "split",
         title: "Start with the motion of the attack",
         paragraphs: [
           "The melee treatment follows the active part of the swing. Its trail needs enough continuity to describe the arc, but a short enough lifetime to avoid hiding the character. The sword-slash system and its ribbon and trail materials provide separate places to shape that response.",
-          "I evaluate the effect at normal playback speed before looking at isolated frames. The comparison below changes TailErosion from its saved 0.78 to 0.0, revealing a subtle change in the trailing edge. Disabling OuterEdge_InkDrops isolates the ribbon and shows how the droplets break up its silhouette.",
+          "I evaluate the effect at normal playback speed before looking at isolated frames. The comparison changes TailErosion from its saved 0.78 to 0.0, revealing a subtle change in the trailing edge. Disabling OuterEdge_InkDrops isolates the ribbon and shows how the droplets break up its silhouette.",
         ],
         media: image(
           "ink-vfx",
-          "detail-1",
+          "melee-still",
           "Ink melee attack",
           "The trail describes the direction and active span of the swing.",
         ),
         comparison: [
+          {
+            label: "Melee in motion",
+            asset: {
+              ...video(
+                "ink-vfx",
+                "Melee animation and ink trail",
+                "The saved attack loops at its original animation speed. Silent final-project capture.",
+                "The character swings the sword, its ink arc breaks into droplets, and the trail clears during recovery. The native loop repeats for inspection.",
+                "melee",
+              ),
+              poster: image("ink-vfx", "melee-still", "Sword arc", "").src,
+              subtitles: "/media/ink-vfx/melee.vtt",
+            },
+          },
           {
             label: "Final: erosion 0.78",
             asset: image(
@@ -453,30 +890,155 @@ const mainProjects: PublishedProjectRecord[] = [
         ],
       },
       {
+        id: "separate-anticipation-travel-and-impact",
+        layout: "wide",
         title: "Separate anticipation, travel and impact",
         paragraphs: [
           "The projectile family separates a palm charge from the moving projectile. Material assets provide charge strands, the projectile trail and splash layers, so anticipation and impact can use different shapes while keeping the same ink vocabulary.",
           "That separation gives the effect a readable rhythm: gather energy, release it, then let the result dissipate. The presentation focuses on those stages rather than attributing every visible layer to a single emitter.",
         ],
-        media: image(
-          "ink-vfx",
-          "detail-2",
-          "Ink projectile attack",
-          "Charge and travel communicate different stages of the action.",
-        ),
+        media: {
+          ...video(
+            "ink-vfx",
+            "The complete projectile cycle",
+            "One uninterrupted angle includes the charge, full flight, endpoint splash and dissipation. The native loop repeats for inspection. No audio.",
+            "Ink gathers at the hand, travels across the scene, then opens into a splash at the endpoint and disappears. The visual endpoint is an authored Niagara effect; the scene does not demonstrate enemy collision or damage.",
+            "projectile-wide",
+          ),
+          poster: image(
+            "ink-vfx",
+            "projectile-impact",
+            "Projectile endpoint splash",
+            "",
+          ).src,
+          subtitles: "/media/ink-vfx/projectile-wide.vtt",
+        },
+        comparison: [
+          {
+            label: "Charge",
+            asset: image(
+              "ink-vfx",
+              "projectile-charge",
+              "Ink gathering at the character's palm",
+              "Anticipation gathers a compact shape before release.",
+            ),
+          },
+          {
+            label: "Flight",
+            asset: image(
+              "ink-vfx",
+              "projectile-flight",
+              "The ink projectile in flight",
+              "The traveling head and trailing ink describe the direction of motion.",
+            ),
+          },
+          {
+            label: "Endpoint splash",
+            asset: image(
+              "ink-vfx",
+              "projectile-impact",
+              "Ink splash at the projectile endpoint",
+              "A brief, wider silhouette marks the end of travel.",
+            ),
+          },
+          {
+            label: "Dissipated",
+            asset: image(
+              "ink-vfx",
+              "projectile-dissipated",
+              "The cleared scene after the projectile disappears",
+              "The splash clears after the release, leaving room for the next action.",
+            ),
+          },
+        ],
       },
       {
+        id: "make-the-area-effect-read-at-character-scale",
+        layout: "split",
         title: "Make the area effect read at character scale",
         paragraphs: [
           "The area family includes bone-driven charge and an area burst. Ground materials, rings and sprite layers describe the radius and release, while the character remains the reference for scale.",
-          "This case uses the selected final project as its source. Earlier control-cleanup reports describe a different version, so their parameter counts and successful checks are not carried forward as claims about this build.",
+          "Reading the burst beside the character makes its radius easier to judge. Reviewing the final scene in motion also exposes how ground shapes and airborne marks overlap, which a single isolated frame cannot explain.",
         ],
         media: image(
           "ink-vfx",
-          "detail-3",
+          "area-still",
           "Ink area attack",
           "A radial release makes the area of influence visible.",
         ),
+        comparison: [
+          {
+            label: "Area attack in motion",
+            asset: {
+              ...video(
+                "ink-vfx",
+                "Area attack and recovery",
+                "A complete area attack with its native animation loop. Silent final-project capture.",
+                "The character gathers energy, releases an expanding ring and layered ink burst, then recovers as the effect clears.",
+                "area",
+              ),
+              poster: image("ink-vfx", "area-still", "Area burst", "").src,
+              subtitles: "/media/ink-vfx/area.vtt",
+            },
+          },
+          {
+            label: "After the burst",
+            asset: image(
+              "ink-vfx",
+              "area-dissipated",
+              "The area effect during recovery",
+              "The marks disperse so the character becomes readable again.",
+            ),
+          },
+        ],
+      },
+      {
+        id: "recorded-detail",
+        layout: "wide",
+        title: "Check the charge from a second angle",
+        paragraphs: [
+          "The wider shot establishes the full path. A second angle helps inspect the hand and release, while the earlier close-up remains useful for comparing anticipation and the area burst. Keeping those views together makes the coverage of each camera explicit.",
+        ],
+        media: image(
+          "ink-vfx",
+          "projectile-side-still",
+          "The projectile release from the side",
+          "A second view brings the hand, release and splash closer to the camera.",
+        ),
+        comparison: [
+          {
+            label: "Closer side angle",
+            asset: {
+              ...video(
+                "ink-vfx",
+                "Projectile release from a second angle",
+                "A separate native loop from a closer side angle. No audio.",
+                "The character charges and releases ink. This closer view complements the full-trajectory view above.",
+                "projectile-side",
+              ),
+              poster: image(
+                "ink-vfx",
+                "projectile-side-still",
+                "Projectile side view",
+                "",
+              ).src,
+              subtitles: "/media/ink-vfx/projectile-side.vtt",
+            },
+          },
+          {
+            label: "Earlier close-up",
+            asset: {
+              ...video(
+                "ink-vfx",
+                "Earlier attack close-up",
+                "Earlier final-project close-up: melee, projectile charge/release and area burst. No audio.",
+                "This earlier camera shows the hand charge and release but does not show the complete unobstructed projectile path.",
+              ),
+              width: 1280,
+              height: 720,
+            },
+          },
+        ],
       },
     ],
     flow: [
@@ -524,23 +1086,14 @@ const mainProjects: PublishedProjectRecord[] = [
     scope:
       "I built the menus, final dialogue system, timer pickups, skill and drag feedback, integrated audio, and handled the final integration.",
     version:
-      "Game jam project. Fresh menu/dialogue and tool-response captures from the current project on 13 October 2026 use scripted production handlers. Normal input and a complete rescue run were not validated by these captures.",
+      "The available films cover the opening dialogue and a controlled tool response from the current jam project. They do not show a complete rescue, scene progression or the final dialogue. The tool excerpt invokes production handlers and is separate from normal-input gameplay evidence.",
     cover: image(
       "one-more-second",
       "hero",
       "One More Second firefighter game",
       "Time-altering tools in a mall rescue scenario.",
     ),
-    demo: {
-      ...video(
-        "one-more-second",
-        "One More Second opening and dialogue",
-        "Opening menu and dialogue excerpt from a scripted play session. No audio.",
-        "The real opening menu starts the game and advances the configured dialogue into the gameplay scene. The wait for opening audio is trimmed; no soundtrack is added.",
-      ),
-      width: 1600,
-      height: 900,
-    },
+
     context:
       "One More Second was made by seven people in 72 hours for GMTK Game Jam 2026. The player is a firefighter in a burning mall, using pocket watches to change how objects behave. My contribution concentrated on the interfaces and integration that turn separate mechanics into an understandable playable flow.",
     contributions: [
@@ -550,6 +1103,8 @@ const mainProjects: PublishedProjectRecord[] = [
     ],
     breakdown: [
       {
+        id: "connect-the-interaction-to-its-response",
+        layout: "split",
         title: "Connect the interaction to its response",
         paragraphs: [
           "Dragging a tool needs a readable target and a clear result. I worked on the feedback around those actions alongside menus, dialogue and timer-related UI, so the player can understand what the game expects and what their input changed.",
@@ -563,6 +1118,8 @@ const mainProjects: PublishedProjectRecord[] = [
         ),
       },
       {
+        id: "a-tool-response-in-the-running-project",
+        layout: "wide",
         title: "A tool response in the running project",
         paragraphs: [
           "The controlled excerpt below calls the existing pickup and drag handlers. The timer disappears, the tool is unlocked and a red outline appears on the affected pipe. It isolates the response without claiming that a complete level or the normal input path has been tested.",
@@ -586,12 +1143,33 @@ const mainProjects: PublishedProjectRecord[] = [
           height: 900,
         },
       },
+      {
+        id: "recorded-detail",
+        layout: "wide",
+        title: "Hand off from the menu to play",
+        paragraphs: [
+          "The opening establishes the rescue setting before the gameplay scene begins. The menu, portraits and progressive dialogue carry that handoff, giving the player a clear starting point for the team's time-tool mechanics.",
+        ],
+        media: {
+          ...video(
+            "one-more-second",
+            "One More Second opening and dialogue",
+            "Opening menu and dialogue excerpt from a scripted play session. No audio.",
+            "The real opening menu starts the game and advances the configured dialogue into the gameplay scene. The wait for opening audio is trimmed; no soundtrack is added.",
+          ),
+          width: 1600,
+          height: 900,
+        },
+      },
     ],
     flow: [
       { label: "Introduce", detail: "Menus and dialogue establish the task" },
       { label: "Interact", detail: "Select, drag and use a tool" },
       { label: "Respond", detail: "Visual, timer and audio feedback" },
-      { label: "Integrate", detail: "A complete playable rescue flow" },
+      {
+        label: "Integrate",
+        detail: "UI, feedback and audio connected across the game",
+      },
     ],
     result: [
       "The finished jam is a useful example of collaborative delivery under a fixed deadline. My contribution was making the interfaces, feedback and audio work together in the final integrated game.",

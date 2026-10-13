@@ -9,7 +9,7 @@ import ProjectCaseStudyPage from "./pages/ProjectCaseStudyPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { getMetadata, redirects } from "./metadata";
 function NavigationEffects() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   const first = useRef(true);
   useEffect(() => {
     const meta = getMetadata(pathname);
@@ -24,6 +24,7 @@ function NavigationEffects() {
       "twitter:title": meta.title,
       "twitter:description": meta.description,
       "twitter:image": meta.image,
+      "twitter:url": meta.url,
     };
     for (const [key, value] of Object.entries(fields))
       document
@@ -32,12 +33,30 @@ function NavigationEffects() {
     document
       .querySelector('link[rel="canonical"]')
       ?.setAttribute("href", meta.url);
-    if (!first.current) {
-      window.scrollTo({ top: 0, behavior: "instant" });
-      document.getElementById("main")?.focus({ preventScroll: true });
-    }
-    first.current = false;
   }, [pathname]);
+  useEffect(() => {
+    const isFirst = first.current;
+    first.current = false;
+    const frame = requestAnimationFrame(() => {
+      let targetId = hash.slice(1);
+      try {
+        targetId = decodeURIComponent(targetId);
+      } catch {
+        /* Keep malformed fragments harmless. */
+      }
+      const target = targetId ? document.getElementById(targetId) : null;
+      if (target) {
+        target.scrollIntoView({ behavior: "instant", block: "start" });
+        if (!target.hasAttribute("tabindex"))
+          target.setAttribute("tabindex", "-1");
+        target.focus({ preventScroll: true });
+      } else if (!isFirst) {
+        window.scrollTo({ top: 0, behavior: "instant" });
+        document.getElementById("main")?.focus({ preventScroll: true });
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [pathname, hash]);
   return null;
 }
 export default function App() {

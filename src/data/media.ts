@@ -1,5 +1,5 @@
 import index from "./asset-index.json";
-import type { VisualAsset } from "../types/project";
+import type { ShowcaseAsset, VisualAsset } from "../types/project";
 type AssetEntry = { width: number; height: number; variants: number[] };
 const assets = index as Record<string, AssetEntry>;
 export function image(
@@ -24,6 +24,7 @@ export function image(
     width: info?.width ?? 1600,
     height: info?.height ?? 900,
     mediaType: "image",
+    purpose: "illustration",
   };
 }
 export function video(
@@ -32,7 +33,7 @@ export function video(
   caption: string,
   transcript: string,
   id = "demo",
-): VisualAsset {
+): VisualAsset & { mediaType: "video"; purpose: "evidence" } {
   const variants = assets[`${slug}/hero`]?.variants ?? [480, 960, 1600];
   const posterWidth = Math.max(...variants.filter((width) => width <= 960));
   return {
@@ -46,5 +47,20 @@ export function video(
     width: 1920,
     height: 1080,
     mediaType: "video",
+    purpose: "evidence",
+  };
+}
+
+export function showcase(
+  slug: string,
+  title: string,
+  caption: string,
+  transcript: string,
+  id = "showcase",
+): ShowcaseAsset {
+  return {
+    ...video(slug, title, caption, transcript, id),
+    posterSrcSet: image(slug, "hero", title, caption).srcSet,
+    purpose: "showcase",
   };
 }

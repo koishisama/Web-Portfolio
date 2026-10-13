@@ -4,8 +4,10 @@ import Media from "./Media";
 
 export default function MediaComparison({
   variants,
+  sizes,
 }: {
   variants: { label: string; asset: VisualAsset }[];
+  sizes?: string;
 }) {
   const [selected, setSelected] = useState(0);
   const panelId = useId();
@@ -29,6 +31,7 @@ export default function MediaComparison({
         <Media
           key={variants[selected].asset.src}
           asset={variants[selected].asset}
+          sizes={sizes}
         />
       </div>
     </fieldset>

@@ -1,21 +1,30 @@
 import { Link } from "react-router-dom";
+import { site } from "../data/site";
+
 export default function ContactCTA() {
   return (
     <section
       className="contact-cta container"
       aria-labelledby="contact-cta-heading"
     >
+      <h2 id="contact-cta-heading">
+        Let's talk
+        <br />
+        about games.
+      </h2>
       <div>
-        <span className="eyebrow">Get in touch</span>
-        <h2 id="contact-cta-heading">
-          Let's make something
+        <p>
+          Game programming, technical art,
           <br />
-          <em>worth playing.</em>
-        </h2>
+          and the space between.
+        </p>
+        <a className="contact-direct" href={`mailto:${site.email}`}>
+          {site.email} ↗
+        </a>
+        <Link className="text-link" to="/contact">
+          Get in touch ↗
+        </Link>
       </div>
-      <Link className="button button-primary" to="/contact">
-        Start a conversation <span aria-hidden="true">↗</span>
-      </Link>
     </section>
   );
 }

@@ -17,9 +17,9 @@ export default function ContactPage() {
       <header className="page-header">
         <p className="eyebrow">Contact</p>
         <h1>
-          Good work starts
+          Let's talk
           <br />
-          <span>with a conversation.</span>
+          about games.
         </h1>
         <p>
           For game programming, technical art or a project that connects the
@@ -28,7 +28,7 @@ export default function ContactPage() {
       </header>
       <div className="contact-options">
         <section className="contact-email">
-          <span className="eyebrow">01 / Email</span>
+          <span className="eyebrow">Email</span>
           <h2>Say hello.</h2>
           <a className="email-address" href={`mailto:${site.email}`}>
             {site.email}
@@ -51,7 +51,7 @@ export default function ContactPage() {
           </p>
         </section>
         <section className="contact-github">
-          <span className="eyebrow">02 / GitHub</span>
+          <span className="eyebrow">GitHub</span>
           <h2>A look at the code.</h2>
           <p>My public repositories and the source for this portfolio.</p>
           <a

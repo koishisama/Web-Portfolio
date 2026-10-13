@@ -37,15 +37,23 @@ Only curated public entries belong in these modules. Public arrays require Publi
 
 Featured order is explicit. A project can belong to both Programming and Technical Art. Work filters use the `track` query parameter and remain hydration-safe on direct links.
 
+The home page uses four project-specific compositions keyed by slug, ordered by rank. Case chapters have stable IDs and `stack`, `split` or `wide` layouts. Cross-page fragment links focus and scroll to their chapter; query-only filter changes preserve the scroll position.
+
 ## Media
 
 Optimized public media is in `public/media/`. Original recordings and capture tooling are kept outside the website. The historical `Assets/` folder is retained as existing repository content but is no longer imported or deployed.
 
-Images have responsive WebP variants and JPEG full-size fallbacks. Videos use H.264, faststart and click-to-play controls with `preload="none"`. Silent controlled captures are labeled; they are not presented as manual gameplay tests. See `MEDIA_CREDITS.md` for source context.
+Images have responsive WebP variants and JPEG full-size fallbacks. `showcase` is reserved for a reviewed main film; focused clips belong beside their technical explanation. Each asset declares its purpose as `showcase`, `evidence` or `illustration`.
+
+Videos use H.264, faststart and native controls. Only the poster is mounted before a play action; the video element and its source are created on demand. Starting a film pauses other films, and leaving its page or closing the Ink dialog stops playback. Silent controlled captures and separate takes are labeled. See `MEDIA_CREDITS.md` for source context.
+
+Instrument Sans and Newsreader are self-hosted WOFF2 subsets. Their copyright and license files are in `public/fonts/`.
 
 ## Build and hosting
 
-The build checks TypeScript, builds the client, renders a temporary server bundle, then generates static pages, metadata, sitemap and robots.txt. Only `dist/` is hosted; the server bundle is not published.
+The build checks TypeScript, builds the client, validates public media paths, showcase types and unique chapter IDs, then generates static pages, metadata, sitemap and robots.txt from a temporary server bundle. Only `dist/` is hosted; the server bundle is not published.
+
+The small shared stylesheet is inlined in the static pages to avoid a render-blocking request. Responsive covers include mobile sizes, and the self-hosted fonts retain only the used character and variable-axis ranges.
 
 `vercel.json` preserves the existing route structure. The former AR and VR routes redirect to Work. Unknown routes return the generated 404 page with a 404 status.
 

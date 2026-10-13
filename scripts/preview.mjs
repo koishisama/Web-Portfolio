@@ -17,6 +17,7 @@ const mime = {
   ".png": "image/png",
   ".mp4": "video/mp4",
   ".vtt": "text/vtt",
+  ".woff2": "font/woff2",
   ".xml": "application/xml",
   ".txt": "text/plain; charset=utf-8",
 };
