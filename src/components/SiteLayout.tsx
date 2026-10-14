@@ -15,23 +15,23 @@ export default function SiteLayout() {
           <nav aria-label="Main navigation">
             <NavLink to="/projects">Work</NavLink>
             <NavLink to="/about">About</NavLink>
-            <NavLink to="/contact">
-              Contact <span aria-hidden="true">↗</span>
-            </NavLink>
+            <NavLink to="/contact">Contact</NavLink>
           </nav>
         </div>
       </header>
       <main id="main" tabIndex={-1}>
         <Outlet />
       </main>
-      <footer className="site-footer container">
-        <p>© {new Date().getFullYear()} Hongtao Gao</p>
-        <p>Game Programmer &amp; Technical Artist</p>
-        <div>
-          <a href={site.github} target="_blank" rel="noreferrer">
-            GitHub ↗
-          </a>
-          <a href={`mailto:${site.email}`}>Email ↗</a>
+      <footer className="site-footer">
+        <div className="footer-inner container">
+          <p>© {new Date().getFullYear()} Hongtao Gao</p>
+          <p>Game Programmer &amp; Technical Artist</p>
+          <div>
+            <a href={site.github} target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+            <a href={`mailto:${site.email}`}>Email</a>
+          </div>
         </div>
       </footer>
     </>

@@ -31,13 +31,14 @@ Reports and screenshots are written to ignored `verification/`, `test-results/` 
 - `src/data/oasis.ts`: the supporting environment study.
 - `src/data/studies.ts`: four retained studies and their existing URLs.
 - `src/data/asset-index.json`: dimensions and responsive image variants.
+- `src/data/showcaseChapters.ts`: curated clip labels and posters drawn from the case records.
 - `src/types/project.ts`: the public content model.
 
 Only curated public entries belong in these modules. Public arrays require PublishedProjectRecord, so a draft entry cannot be added accidentally. Project type, optional completion status and publication status are independent; omit completion status when it is unverified. Keep drafts, source paths, session records and private evidence outside the checkout. There is no client-side draft filter that could accidentally ship draft content.
 
 Featured order is explicit. A project can belong to both Programming and Technical Art. Work filters use the `track` query parameter and remain hydration-safe on direct links.
 
-The home page uses four project-specific compositions keyed by slug, ordered by rank. Case chapters have stable IDs and `stack`, `split` or `wide` layouts. Cross-page fragment links focus and scroll to their chapter; query-only filter changes preserve the scroll position.
+The homepage uses a compact personal introduction and a simple project grid, ordered by rank. Homepage and Work filters use the same URL state. Case chapters have stable IDs and `stack`, `split` or `wide` layouts. Cross-page fragment links focus and scroll to their chapter; query-only filter and clip changes preserve the scroll position.
 
 ## Media
 
@@ -45,15 +46,17 @@ Optimized public media is in `public/media/`. Original recordings and capture to
 
 Images have responsive WebP variants and JPEG full-size fallbacks. `showcase` is reserved for a reviewed main film; focused clips belong beside their technical explanation. Each asset declares its purpose as `showcase`, `evidence` or `illustration`.
 
-Videos use H.264, faststart and native controls. Only the poster is mounted before a play action; the video element and its source are created on demand. Starting a film pauses other films, and leaving its page or closing the Ink dialog stops playback. Silent controlled captures and separate takes are labeled. See `MEDIA_CREDITS.md` for source context.
+Videos use H.264, faststart and native controls. Only the poster is mounted before a play action; the video element and its source are created on demand. A thumbnail selection updates the clip query parameter, poster, caption, transcript and subtitle together. Starting a film pauses other films; changing clips, leaving the page or closing the Ink dialog stops playback. Full-size images open in named native dialogs with Escape and focus restoration. Silent controlled captures and separate takes are labeled. See `MEDIA_CREDITS.md` for source context.
 
-Instrument Sans and Newsreader are self-hosted WOFF2 subsets. Their copyright and license files are in `public/fonts/`.
+The interface uses the system Arial/Helvetica stack. The previous licensed font files remain retained assets but are not loaded by the current pages.
+
+Five cases have reviewed main films. One More Second retains explicitly limited opening and controlled-tool excerpts by user agreement; neither is classified as a complete showcase. Its missing rescue, scene-progression and final-dialogue coverage remains visible.
 
 ## Build and hosting
 
 The build checks TypeScript, builds the client, validates public media paths, showcase types and unique chapter IDs, then generates static pages, metadata, sitemap and robots.txt from a temporary server bundle. Only `dist/` is hosted; the server bundle is not published.
 
-The small shared stylesheet is inlined in the static pages to avoid a render-blocking request. Responsive covers include mobile sizes, and the self-hosted fonts retain only the used character and variable-axis ranges.
+The small shared stylesheet is inlined in the static pages to avoid a render-blocking request. Responsive covers include mobile sizes. The pale sage/blue page treatment and fine SVG texture need no downloaded background image or font. The social image is composed from real project media with `node scripts/social-card.mjs`.
 
 `vercel.json` preserves the existing route structure. The former AR and VR routes redirect to Work. Unknown routes return the generated 404 page with a 404 status.
 

@@ -1,129 +1,71 @@
 import { Link } from "react-router-dom";
-import ContactCTA from "../components/ContactCTA";
 import { Picture } from "../components/Media";
-import { projects } from "../data/projects";
+import { image } from "../data/media";
+import ContactCTA from "../components/ContactCTA";
 
+const street = image(
+  "procedural-city",
+  "street",
+  "A street in the Procedural City environment",
+  "Street detail from my Procedural City editor-tool study.",
+);
 export default function AboutPage() {
-  const city = projects.find((project) => project.slug === "procedural-city");
   return (
     <>
-      <header className="page-header container about-heading">
-        <p className="eyebrow">About / Hongtao Gao</p>
-        <h1>
-          Between how it works
-          <br />
-          and how it feels.
-        </h1>
+      <article className="about-page container">
+        <header className="page-header">
+          <h1>A little about me</h1>
+          <p>
+            I’m Hongtao Gao, a game programmer and technical artist with a
+            background in Game and Immersive Media at Monash University.
+          </p>
+        </header>
         <p>
-          Game Programmer &amp; Technical Artist.
-          <br />
-          Working with Unity and Unreal Engine.
+          I work across Unity and Unreal Engine. My projects range from game
+          interfaces and beat-based gameplay to Niagara effects, materials and
+          tools for generating a city.
         </p>
-      </header>
-      <section
-        className="about-story container"
-        aria-labelledby="about-story-heading"
-      >
-        <h2 id="about-story-heading">
-          I like the moment
-          <br />
-          when it all connects.
-        </h2>
-        <div>
+        <figure className="about-photo">
+          <Link
+            to="/projects/procedural-city"
+            aria-label="Explore Procedural City"
+          >
+            <Picture
+              asset={street}
+              eager
+              sizes="(max-width: 800px) calc(100vw - 40px), 800px"
+            />
+          </Link>
+          <figcaption>{street.caption}</figcaption>
+        </figure>
+        <section>
+          <h2>Programming and technical art, together</h2>
           <p>
-            My background is in Game and Immersive Media at Monash University. I
-            work across game programming and technical art, building interfaces,
-            gameplay feedback, real-time effects and editor tools.
+            In <Link to="/projects/deinosavros">Deinosavros</Link>, my work
+            connects menus, map decisions and combat through the interface. In{" "}
+            <Link to="/projects/rhythm-rider">Rhythm Rider</Link>, gameplay and
+            effects communicate timing. For{" "}
+            <Link to="/projects/procedural-city">Procedural City</Link>, the
+            goal is to give generation a useful editing workflow.
           </p>
           <p>
-            A card battler needs decisions a player can read. A rhythm game
-            needs a reliable event and an effect that feels in time. A
-            procedural tool needs enough structure to repeat a result and enough
-            control to let an artist change it.
+            My <Link to="/projects/ink-vfx">Ink VFX</Link> study focuses on
+            complete effect cycles, materials and animation timing.{" "}
+            <Link to="/projects/oasis-environment">Oasis</Link> connects
+            material detail with a wider environment composition.
           </p>
-          <p>
-            Team projects have also taught me to care about the connections:
-            menus, dialogue, audio and the final integration that makes separate
-            contributions feel like one game.
-          </p>
-        </div>
-      </section>
-      {city ? (
-        <section
-          className="about-world light-surface"
-          aria-labelledby="about-world-heading"
-        >
-          <div className="container">
-            <Link
-              className="about-world-image"
-              to="/projects/procedural-city"
-              aria-label="Explore Procedural City"
-            >
-              <Picture
-                asset={city.cover}
-                sizes="(max-width: 1600px) 91vw, 1460px"
-              />
-            </Link>
-            <div className="about-world-caption">
-              <h2 id="about-world-heading">Room for the next iteration.</h2>
-              <p>
-                Procedural City connects rules and repeatability with decisions
-                an artist can keep making.
-              </p>
-              <Link className="text-link" to="/projects/procedural-city">
-                Inside the tool ↗
-              </Link>
-            </div>
-          </div>
         </section>
-      ) : null}
-      <section
-        className="capability-section container"
-        aria-labelledby="capabilities"
-      >
-        <div className="section-top">
-          <h2 id="capabilities">What I bring to a project.</h2>
-          <p>Capabilities, connected to the work.</p>
-        </div>
-        <div className="capability-grid">
-          <article>
-            <h3>Gameplay &amp; interfaces</h3>
-            <p>
-              C#, interaction flow, UI state, event-driven feedback and team
-              integration.
-            </p>
-            <Link className="text-link" to="/projects/deinosavros">
-              Deinosavros ↗
-            </Link>
-            <Link className="text-link" to="/projects/one-more-second">
-              One More Second ↗
-            </Link>
-          </article>
-          <article>
-            <h3>Real-time effects</h3>
-            <p>
-              Niagara, materials, effects shaped around animation, and readable
-              gameplay responses.
-            </p>
-            <Link className="text-link" to="/projects/ink-vfx">
-              Ink VFX ↗
-            </Link>
-            <Link className="text-link" to="/projects/rhythm-rider">
-              Rhythm Rider ↗
-            </Link>
-          </article>
-          <article>
-            <h3>Tools &amp; iteration</h3>
-            <p>
-              Python, Blueprint, editor utilities, seeded generation and
-              controls for artists.
-            </p>
-            <Link className="text-link" to="/projects/procedural-city">
-              Procedural City ↗
-            </Link>
-          </article>
-        </div>
-      </section>
+        <section>
+          <h2>Working with a team</h2>
+          <p>
+            For <Link to="/projects/one-more-second">One More Second</Link>,
+            seven people worked for 72 hours. I contributed menus, the final
+            dialogue system, pickups, skill and drag feedback, audio and final
+            integration. The case pages distinguish my part from the complete
+            team game.
+          </p>
+        </section>
+      </article>
       <ContactCTA />
     </>
   );

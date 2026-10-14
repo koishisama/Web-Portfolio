@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { getProjectBySlug, projects } from "../data/projects";
 import Media from "../components/Media";
 import MediaComparison from "../components/MediaComparison";
+import ShowcaseGallery from "../components/ShowcaseGallery";
 import Diagram from "../components/Diagram";
 import ProjectCard from "../components/ProjectCard";
 import NotFoundPage from "./NotFoundPage";
@@ -35,36 +36,38 @@ export default function ProjectCaseStudyPage() {
         <Link to="/projects" className="back-link">
           ← All work
         </Link>
-        <div className="case-title-row">
-          <h1>{project.title}</h1>
-          <p className="case-subtitle">{project.subtitle}</p>
-        </div>
+        <h1>{project.title}</h1>
+        <p className="case-role">
+          {project.roles.join(" / ")} · {project.tools[0]}
+        </p>
+        <p className="case-summary">{project.summary}</p>
       </header>
       <div className="case-lead-media container" id="showcase">
-        <Media
-          key={project.slug}
-          asset={project.showcase ?? project.cover}
-          eager
-          sizes="(max-width: 800px) 88vw, (max-width: 1600px) 91vw, 1460px"
-        />
+        {project.showcase ? (
+          <ShowcaseGallery key={project.slug} project={project} />
+        ) : (
+          <Media
+            asset={project.cover}
+            eager
+            sizes="(max-width: 800px) calc(100vw - 40px), 1120px"
+          />
+        )}
       </div>
-      <div className="case-introduction container">
-        <div className="case-facts" aria-label="Project context">
-          <div>
-            <span>My contribution</span>
-            <strong>{project.roles.join(" / ")}</strong>
-          </div>
-          <div>
-            <span>Project</span>
-            <strong>{project.projectType}</strong>
-          </div>
-          {project.facts.map((fact) => (
-            <div key={fact.label}>
-              <span>{fact.label}</span>
-              <strong>{fact.value}</strong>
-            </div>
-          ))}
-        </div>
+      {project.slug === "one-more-second" ? (
+        <section
+          className="available-excerpts container"
+          aria-labelledby="excerpts-heading"
+        >
+          <h2 id="excerpts-heading">Available excerpts</h2>
+          <p>
+            The current footage shows the opening and a controlled tool
+            response. A complete rescue, scene progression and the final
+            dialogue are not shown.
+          </p>
+          <ShowcaseGallery key={project.slug} project={project} />
+        </section>
+      ) : null}
+      <div className="case-body container">
         <nav className="case-chapters" aria-label="Case study chapters">
           {chapters.map((chapter) => (
             <a key={chapter.id} href={`#${chapter.id}`}>
@@ -72,54 +75,41 @@ export default function ProjectCaseStudyPage() {
             </a>
           ))}
         </nav>
-      </div>
-      <section id="context" className="case-essay container">
-        <div>
-          <p className="eyebrow">Role &amp; context</p>
-          <h2>
-            {project.tier === "study"
-              ? "A focused exploration."
-              : "The work, in context."}
-          </h2>
-          <ul className="tool-list" aria-label="Tools used">
-            {project.tools.map((tool) => (
-              <li key={tool}>{tool}</li>
-            ))}
-          </ul>
-        </div>
-        <div className="case-prose">
-          <p className="lead-paragraph">{project.context}</p>
-          <div className="scope-note">
-            <h3>My contribution</h3>
+        <div className="case-context-grid">
+          <section id="context">
+            <h2>Role &amp; context</h2>
+            <p>{project.context}</p>
             <p>{project.scope}</p>
-          </div>
+            <p className="context-facts">
+              {[
+                project.projectType,
+                ...project.facts
+                  .filter(
+                    (fact) => fact.label !== "Engine" && fact.label !== "Focus",
+                  )
+                  .map((fact) => `${fact.label}: ${fact.value}`),
+              ].join(" · ")}
+            </p>
+          </section>
+          <section id="contribution">
+            <h2>What I built</h2>
+            <ul className="contribution-list">
+              {project.contributions.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <p className="tool-list">{project.tools.join(" · ")}</p>
+          </section>
         </div>
-      </section>
-      <section id="contribution" className="case-contributions container">
-        <h2>What I built.</h2>
-        <ul className="contribution-list">
-          {project.contributions.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      </section>
-      <section id="breakdown" className="case-breakdown">
-        <header className="breakdown-heading container">
-          <p className="eyebrow">Technical breakdown</p>
-          <h2>Inside the decisions.</h2>
-        </header>
-        {project.flow.length ? (
-          <div className="container">
-            <Diagram project={project} />
-          </div>
-        ) : null}
-        {project.breakdown.map((chapter) => (
-          <section
-            className={`breakdown-module breakdown-${chapter.layout ?? "stack"}${chapter.layout === "split" ? " light-surface" : ""}`}
-            key={chapter.id}
-            id={chapter.id}
-          >
-            <div className="breakdown-inner container">
+        <section id="breakdown" className="case-breakdown">
+          <h2>Technical breakdown</h2>
+          {project.flow.length ? <Diagram project={project} /> : null}
+          {project.breakdown.map((chapter) => (
+            <section
+              className={`breakdown-module breakdown-${chapter.layout ?? "stack"}`}
+              key={chapter.id}
+              id={chapter.id}
+            >
               <div className="chapter-copy">
                 <h3>{chapter.title}</h3>
                 {chapter.paragraphs.map((paragraph) => (
@@ -134,8 +124,8 @@ export default function ProjectCaseStudyPage() {
                       asset={chapter.media}
                       sizes={
                         chapter.layout === "split"
-                          ? "(max-width: 800px) 88vw, 60vw"
-                          : "(max-width: 1600px) 91vw, 1460px"
+                          ? "(max-width: 800px) calc(100vw - 40px), 560px"
+                          : "(max-width: 1200px) calc(100vw - 64px), 1120px"
                       }
                     />
                   ) : null}
@@ -144,42 +134,35 @@ export default function ProjectCaseStudyPage() {
                       variants={chapter.comparison}
                       sizes={
                         chapter.layout === "split"
-                          ? "(max-width: 800px) 88vw, 60vw"
-                          : "(max-width: 1600px) 91vw, 1460px"
+                          ? "(max-width: 800px) calc(100vw - 40px), 560px"
+                          : "(max-width: 1200px) calc(100vw - 64px), 1120px"
                       }
                     />
                   ) : null}
                 </div>
               ) : null}
-            </div>
-          </section>
-        ))}
-      </section>
-      <section id="results" className="case-essay container">
-        <div>
-          <p className="eyebrow">Results &amp; lessons</p>
-          <h2>What I take forward.</h2>
-        </div>
-        <div className="case-prose">
+            </section>
+          ))}
+        </section>
+        <section id="results" className="case-results">
+          <h2>Results &amp; lessons</h2>
           {project.result.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
-          <p className="version-note">{project.version}</p>
-        </div>
-      </section>
-      <section id="credits" className="case-credits container">
-        <div>
-          <p className="eyebrow">Credits &amp; links</p>
-          <h2>Made in context.</h2>
-        </div>
-        <div>
+          <details className="recording-notes">
+            <summary>Version &amp; recording notes</summary>
+            <p>{project.version}</p>
+          </details>
+        </section>
+        <section id="credits" className="case-credits">
+          <h2>Credits &amp; links</h2>
           <ul className="credits-list">
             {project.credits.map((credit) => (
               <li key={credit.name}>
                 <h3>
                   {credit.href ? (
                     <a href={credit.href} target="_blank" rel="noreferrer">
-                      {credit.name} ↗
+                      {credit.name}
                     </a>
                   ) : (
                     credit.name
@@ -199,29 +182,26 @@ export default function ProjectCaseStudyPage() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {link.label} ↗
+                  {link.label}
                 </a>
               ))}
             </div>
           ) : null}
-        </div>
-      </section>
-      <section
-        className="related-work container"
-        aria-labelledby="related-heading"
-      >
-        <div className="section-top">
-          <h2 id="related-heading">Keep exploring.</h2>
-          <Link className="text-link" to="/projects">
-            All work ↗
-          </Link>
-        </div>
-        <div className="project-grid">
-          {related.map((item) => (
-            <ProjectCard key={item.slug} project={item} compact />
-          ))}
-        </div>
-      </section>
+        </section>
+        <section className="related-work" aria-labelledby="related-heading">
+          <div className="section-top">
+            <h2 id="related-heading">More work</h2>
+            <Link className="text-link" to="/projects">
+              All work
+            </Link>
+          </div>
+          <div className="project-grid">
+            {related.map((item) => (
+              <ProjectCard key={item.slug} project={item} compact />
+            ))}
+          </div>
+        </section>
+      </div>
     </article>
   );
 }

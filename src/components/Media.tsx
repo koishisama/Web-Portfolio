@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { VisualAsset } from "../types/project";
 
 export function Picture({
@@ -99,7 +99,7 @@ function VideoPlayer({
           </span>
         ) : null}
         <span className="video-play-label">
-          <span aria-hidden="true">▶</span> Play film
+          <span aria-hidden="true">▶</span> Play video
         </span>
       </button>
     );
@@ -143,6 +143,74 @@ function VideoPlayer({
   );
 }
 
+function ImageViewer({
+  asset,
+  eager,
+  sizes,
+}: {
+  asset: VisualAsset;
+  eager: boolean;
+  sizes: string;
+}) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const trigger = useRef<HTMLAnchorElement>(null);
+  const [open, setOpen] = useState(false);
+  const titleId = useId();
+  return (
+    <>
+      <a
+        ref={trigger}
+        className="image-expand"
+        href={asset.src}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`Open full-size image: ${asset.title}`}
+        onClick={(event) => {
+          event.preventDefault();
+          setOpen(true);
+          dialog.current?.showModal();
+        }}
+      >
+        <Picture key={asset.src} asset={asset} eager={eager} sizes={sizes} />
+        <span className="expand-label" aria-hidden="true">
+          View full size
+        </span>
+      </a>
+      <dialog
+        ref={dialog}
+        className="image-dialog"
+        aria-labelledby={titleId}
+        onClose={() => {
+          setOpen(false);
+          trigger.current?.focus({ preventScroll: true });
+        }}
+      >
+        <div className="media-dialog-header">
+          <h2 id={titleId}>{asset.title}</h2>
+          <button
+            type="button"
+            className="media-dialog-close"
+            onClick={() => dialog.current?.close()}
+          >
+            Close
+          </button>
+        </div>
+        {open ? (
+          <figure>
+            <img
+              src={asset.src}
+              alt={asset.alt}
+              width={asset.width}
+              height={asset.height}
+            />
+            <figcaption>{asset.caption}</figcaption>
+          </figure>
+        ) : null}
+      </dialog>
+    </>
+  );
+}
+
 export default function Media({
   asset,
   eager = false,
@@ -166,23 +234,12 @@ export default function Media({
             sizes={sizes}
           />
         ) : (
-          <a
-            className="image-expand"
-            href={asset.src}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`Open full-size image: ${asset.title}`}
-          >
-            <Picture
-              key={asset.src}
-              asset={asset}
-              eager={eager}
-              sizes={sizes}
-            />
-            <span className="expand-label" aria-hidden="true">
-              View full size ↗
-            </span>
-          </a>
+          <ImageViewer
+            key={asset.src}
+            asset={asset}
+            eager={eager}
+            sizes={sizes}
+          />
         )}
       </div>
       <figcaption>

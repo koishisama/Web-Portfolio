@@ -168,7 +168,7 @@ const mainProjects: PublishedProjectRecord[] = [
           ...video(
             "deinosavros",
             "Map selection, Chance reveal and continuation",
-            "Reachable route choice and a genuine Chance outcome. Health recovers from 181 to 200 before returning to the map.",
+                "A reachable route choice reveals Hidden Spring. Health recovers from 181 to 200 before returning to the map.",
             "Two reachable nodes are inspected. Selecting Opportunity enters the Chance scene. Hidden Spring restores health, and Continue carries the updated state back to the route.",
             "map-and-chance",
           ),

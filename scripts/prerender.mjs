@@ -5,6 +5,7 @@ import {
   getMetadata,
   publicRoutes,
   projects,
+  getShowcaseChapters,
 } from "../.build/server/entry-server.js";
 
 const mediaFiles = new Set();
@@ -25,7 +26,11 @@ for (const project of projects) {
     "results",
     "credits",
   ]);
-  const media = [project.cover, project.showcase];
+  const media = [
+    project.cover,
+    project.showcase,
+    ...getShowcaseChapters(project).map((chapter) => chapter.asset),
+  ];
   for (const section of project.breakdown) {
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(section.id) || ids.has(section.id))
       throw new Error(

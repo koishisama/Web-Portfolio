@@ -341,7 +341,9 @@ test("Ink showcase dialog is named, quiet before play and restores keyboard focu
   await expect(page.locator("video")).toHaveCount(0);
 });
 
-for (const slug of cases.slice(0, 6)) {
+for (const slug of cases
+  .slice(0, 6)
+  .filter((slug) => slug !== "one-more-second")) {
   test(`${slug} has a complete main media interface on mobile`, async ({
     page,
   }) => {
@@ -392,6 +394,121 @@ for (const slug of cases.slice(0, 6)) {
     await expect.poll(() => player.evaluate((video) => video.ended)).toBe(true);
   });
 }
+
+test("the retained jam excerpts are clearly separate from a complete showcase", async ({
+  page,
+}) => {
+  await page.goto("/projects/one-more-second");
+  await expect(page.locator(".case-lead-media .media-figure")).toHaveAttribute(
+    "data-media-purpose",
+    "illustration",
+  );
+  const excerpts = page.locator(".available-excerpts");
+  await expect(excerpts).toContainText(
+    "A complete rescue, scene progression and the final dialogue are not shown.",
+  );
+  await expect(excerpts.locator(".media-figure")).toHaveAttribute(
+    "data-media-purpose",
+    "evidence",
+  );
+  await excerpts
+    .getByRole("button", { name: /Controlled tool response/ })
+    .click();
+  await expect(excerpts.locator(".media-figure")).toHaveAttribute(
+    "data-media-purpose",
+    "evidence",
+  );
+  await excerpts.getByRole("button", { name: /^Play / }).click();
+  await expect
+    .poll(() =>
+      excerpts.locator("video").evaluate((video) => video.currentTime),
+    )
+    .toBeGreaterThan(0.1);
+  await expect(
+    page.getByRole("link", { name: "Play on itch.io" }),
+  ).toHaveAttribute("href", "https://morton-mao.itch.io/one-more-second");
+});
+
+test("showcase chapters support sharing, history, captions and deliberate playback", async ({
+  page,
+}) => {
+  const requests = [];
+  page.on("request", (request) => {
+    if (request.url().endsWith(".mp4")) requests.push(request.url());
+  });
+  await page.goto("/projects/deinosavros?clip=map-and-chance");
+  const gallery = page.locator(".showcase-gallery").first();
+  const map = gallery.locator('[data-clip="map-and-chance"]');
+  await expect(map).toHaveAttribute("aria-pressed", "true");
+  await expect(gallery.locator("figcaption")).toContainText("Hidden Spring");
+  expect(requests).toEqual([]);
+  await gallery.getByRole("button", { name: /^Play / }).click();
+  await expect(gallery.locator("track")).toHaveAttribute(
+    "src",
+    "/media/deinosavros/map-and-chance.vtt",
+  );
+  await expect
+    .poll(() => gallery.locator("video").evaluate((video) => video.currentTime))
+    .toBeGreaterThan(0.1);
+  await page.evaluate(() => {
+    window.previousChapterVideo = document.querySelector(
+      ".gallery-player video",
+    );
+  });
+  const combat = gallery.locator('[data-clip="combat-and-reward"]');
+  await combat.focus();
+  await page.keyboard.press("Enter");
+  await expect(combat).toBeFocused();
+  await expect(page).toHaveURL(/clip=combat-and-reward/);
+  await expect(gallery.locator("video")).toHaveCount(0);
+  expect(await page.evaluate(() => window.previousChapterVideo.paused)).toBe(
+    true,
+  );
+  await page.goBack();
+  await expect(map).toHaveAttribute("aria-pressed", "true");
+  await page.reload();
+  await expect(map).toHaveAttribute("aria-pressed", "true");
+});
+
+test("full-size images use a named dialog with Escape and focus restoration", async ({
+  page,
+}) => {
+  await page.goto("/projects/deinosavros#combat-feedback");
+  const trigger = page.locator("#combat-feedback .image-expand").first();
+  await trigger.focus();
+  await page.keyboard.press("Enter");
+  const dialog = page.getByRole("dialog").filter({ visible: true });
+  await expect(dialog).toHaveAccessibleName(/Combat/);
+  await expect
+    .poll(() => dialog.locator("img").evaluate((img) => img.naturalWidth))
+    .toBeGreaterThan(0);
+  const scan = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .analyze();
+  expect(scan.violations).toEqual([]);
+  await page.keyboard.press("Escape");
+  await expect(dialog).not.toBeVisible();
+  await expect(trigger).toBeFocused();
+});
+
+test("homepage filtering uses the accepted project grid and URL state", async ({
+  page,
+}) => {
+  await page.goto("/?track=technical-art");
+  await expect(
+    page.getByRole("button", { name: "Technical Art", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".project-card")).toHaveCount(4);
+  await page.getByRole("button", { name: "Programming", exact: true }).click();
+  await expect(page).toHaveURL(/track=programming/);
+  await expect(page.locator(".project-card")).toHaveCount(4);
+  await page.goBack();
+  await expect(
+    page.getByRole("button", { name: "Technical Art", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "All", exact: true }).click();
+  await expect(page.locator(".project-card")).toHaveCount(6);
+});
 
 test("failed poster and video retain a readable explanation and file access", async ({
   page,
