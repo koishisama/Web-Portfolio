@@ -1,92 +1,72 @@
-import Reveal from "../components/Reveal";
-import SectionHeading from "../components/SectionHeading";
-import ToolStack from "../components/ToolStack";
+import { Link } from "react-router-dom";
+import { Picture } from "../components/Media";
+import { image } from "../data/media";
 import ContactCTA from "../components/ContactCTA";
-import { siteMeta } from "../data/site";
 
-const focusAreas = [
-  {
-    title: "Programming",
-    description:
-      "Gameplay systems, interaction logic, and player-facing responsiveness inside Unity."
-  },
-  {
-    title: "VFX",
-    description:
-      "Real-time feedback, scene energy, and readable visual communication for gameplay moments."
-  },
-  {
-    title: "Environment",
-    description:
-      "Modeling, composition, and environment presentation that support both atmosphere and gameplay."
-  }
-];
-
+const street = image(
+  "procedural-city",
+  "street",
+  "A street in the Procedural City environment",
+  "Street detail from my Procedural City editor-tool study.",
+);
 export default function AboutPage() {
   return (
     <>
-      <section className="page-section page-header">
-        <div className="page-shell">
-          <p className="eyebrow">About</p>
-          <h1 className="display-title">{siteMeta.ownerName}</h1>
-          <p className="hero-statement">{siteMeta.roleLabel}</p>
-          <p className="lead">{siteMeta.aboutIntro}</p>
-        </div>
-      </section>
-
-      <Reveal className="page-section">
-        <div className="page-shell two-column-layout">
-          <div className="body-copy">
-            {siteMeta.aboutDetails.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
-          <div className="panel">
-            <p className="eyebrow">Education Context</p>
-            <h2>Student projects with hands-on production roles</h2>
-            <p>
-              Most of the work here comes from student projects, with a focus on clear
-              ownership across implementation, VFX, and environment production.
-            </p>
-          </div>
-        </div>
-      </Reveal>
-
-      <Reveal className="page-section">
-        <div className="page-shell">
-          <SectionHeading
-            eyebrow="Focus Areas"
-            title="Main areas of work"
-            description="Programming, VFX, and environment production are the three main areas across the current projects."
-          />
-          <div className="contribution-grid">
-            {focusAreas.map((area) => (
-              <article key={area.title} className="panel contribution-card">
-                <h3>{area.title}</h3>
-                <p>{area.description}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </Reveal>
-
-      <Reveal className="page-section">
-        <div className="page-shell">
-          <SectionHeading
-            eyebrow="Toolkit"
-            title="Tools used across these projects"
-            description="A small selection of software and workflows used across the current work."
-          />
-          <div className="panel tools-panel">
-            <ToolStack tools={siteMeta.tools} />
-          </div>
-        </div>
-      </Reveal>
-
-      <ContactCTA
-        title="Get in touch or explore more work."
-        description="Reach out by email or explore more work on GitHub."
-      />
+      <article className="about-page container">
+        <header className="page-header">
+          <h1>A little about me</h1>
+          <p>
+            I’m Hongtao Gao, a game programmer and technical artist with a
+            background in Game and Immersive Media at Monash University.
+          </p>
+        </header>
+        <p>
+          I work across Unity and Unreal Engine. My projects range from game
+          interfaces and beat-based gameplay to Niagara effects, materials and
+          tools for generating a city.
+        </p>
+        <figure className="about-photo">
+          <Link
+            to="/projects/procedural-city"
+            aria-label="Explore Procedural City"
+          >
+            <Picture
+              asset={street}
+              eager
+              sizes="(max-width: 800px) calc(100vw - 40px), 800px"
+            />
+          </Link>
+          <figcaption>{street.caption}</figcaption>
+        </figure>
+        <section>
+          <h2>Programming and technical art, together</h2>
+          <p>
+            In <Link to="/projects/deinosavros">Deinosavros</Link>, my work
+            connects menus, map decisions and combat through the interface. In{" "}
+            <Link to="/projects/rhythm-rider">Rhythm Rider</Link>, gameplay and
+            effects communicate timing. For{" "}
+            <Link to="/projects/procedural-city">Procedural City</Link>, the
+            goal is to give generation a useful editing workflow.
+          </p>
+          <p>
+            My <Link to="/projects/ink-vfx">Ink VFX</Link> study focuses on
+            complete effect cycles, materials and animation timing.{" "}
+            <Link to="/projects/oasis-environment">Oasis</Link> connects
+            material detail with a wider environment composition.
+          </p>
+        </section>
+        <section>
+          <h2>Working with a team</h2>
+          <p>
+            For <Link to="/projects/one-more-second">One More Second</Link>,
+            seven people worked for 72 hours. I contributed menus, the final
+            dialogue system, pickups, skill and drag feedback, audio and final
+            integration. The case pages distinguish my part from the complete
+            team game.
+          </p>
+        </section>
+      </article>
+      <ContactCTA />
     </>
   );
 }

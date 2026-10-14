@@ -1,26 +1,87 @@
-import { projectFilters, type ProjectFilterKey } from "../data/projects";
+import { useSyncExternalStore } from "react";
+import { useSearchParams } from "react-router-dom";
+import type { Track } from "../types/project";
+import Icon from "./Icon";
 
-type ProjectFilterProps = {
-  activeFilter: ProjectFilterKey;
-  onChange: (filter: ProjectFilterKey) => void;
-};
+const subscribe = () => () => {};
+export function useProjectTrack() {
+  const [params, setParams] = useSearchParams();
+  const hydrated = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  );
+  const value = params.get("track");
+  const selected: Track | "all" =
+    hydrated && (value === "programming" || value === "technical-art")
+      ? value
+      : "all";
+  function select(track: Track | "all") {
+    setParams(
+      (previous) => {
+        const next = new URLSearchParams(previous);
+        if (track === "all") next.delete("track");
+        else next.set("track", track);
+        return next;
+      },
+      { preventScrollReset: true },
+    );
+  }
+  return { selected, select };
+}
 
 export default function ProjectFilter({
-  activeFilter,
-  onChange
-}: ProjectFilterProps) {
+  selected,
+  onSelect,
+  count,
+  allLabel = "All work",
+}: {
+  selected: Track | "all";
+  onSelect: (track: Track | "all") => void;
+  count: number;
+  allLabel?: string;
+}) {
   return (
-    <div className="filter-group" role="tablist" aria-label="Project filter">
-      {projectFilters.map((filter) => (
+    <div
+      className="filter-bar"
+      role="group"
+      aria-label="Filter work by discipline"
+    >
+      {(
+        [
+          { id: "all", label: allLabel },
+          { id: "programming", label: "Programming" },
+          { id: "technical-art", label: "Technical Art" },
+        ] as const
+      ).map((filter) => (
         <button
-          key={filter.key}
           type="button"
-          className={`filter-chip${activeFilter === filter.key ? " is-active" : ""}`}
-          onClick={() => onChange(filter.key)}
+          key={filter.id}
+          aria-label={filter.label}
+          aria-pressed={selected === filter.id}
+          onClick={() => onSelect(filter.id)}
         >
-          {filter.label}
+          <Icon
+            name={
+              filter.id === "all"
+                ? "grid"
+                : filter.id === "programming"
+                  ? "code"
+                  : "sparkles"
+            }
+          />
+          <span>
+            {filter.id === "programming"
+              ? "Code"
+              : filter.id === "technical-art"
+                ? "Art"
+                : "All"}
+          </span>
         </button>
       ))}
+      <p className="sr-only" role="status">
+        {count} projects shown.
+      </p>
     </div>
   );
 }

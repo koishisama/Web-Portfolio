@@ -1,15 +1,39 @@
-import { Outlet } from "react-router-dom";
-import Header from "./Header";
-import Footer from "./Footer";
+import { NavLink, Outlet, Link } from "react-router-dom";
+import { site } from "../data/site";
 
 export default function SiteLayout() {
   return (
-    <div className="site-shell">
-      <Header />
-      <main className="site-main">
+    <>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <header className="site-header">
+        <div className="header-inner container">
+          <Link className="brand" to="/" aria-label="Hongtao Gao home">
+            Hongtao Gao
+          </Link>
+          <nav aria-label="Main navigation">
+            <NavLink to="/projects">Work</NavLink>
+            <NavLink to="/about">About</NavLink>
+            <NavLink to="/contact">Contact</NavLink>
+          </nav>
+        </div>
+      </header>
+      <main id="main" tabIndex={-1}>
         <Outlet />
       </main>
-      <Footer />
-    </div>
+      <footer className="site-footer">
+        <div className="footer-inner container">
+          <p>© {new Date().getFullYear()} Hongtao Gao</p>
+          <p>Game Programmer &amp; Technical Artist</p>
+          <div>
+            <a href={site.github} target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+            <a href={`mailto:${site.email}`}>Email</a>
+          </div>
+        </div>
+      </footer>
+    </>
   );
 }

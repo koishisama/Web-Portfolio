@@ -1,0 +1,13 @@
+WEBVTT
+
+00:00.000 --> 00:03.300
+Controlled handler test: the timer pickup animation runs.
+
+00:03.300 --> 00:05.200
+The timer disappears and the tool interface unlocks.
+
+00:05.200 --> 00:07.300
+The acceleration tool follows the drag position.
+
+00:07.300 --> 00:12.500
+Releasing over the pipe applies the effect and its outline.

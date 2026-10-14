@@ -1,1108 +1,1205 @@
-import type { ProjectCategory, ProjectRecord, VisualAsset } from "../types/project";
+import type { PublishedProjectRecord } from "../types/project";
+import { image, video, showcase } from "./media";
+import { studies } from "./studies";
+import { oasis } from "./oasis";
 
-const assetPath = (relativePath: string) =>
-  new URL(`../../Assets/${relativePath}`, import.meta.url).href;
-
-const createAsset = (
-  config: Omit<VisualAsset, "alt"> & { alt?: string }
-): VisualAsset => ({
-  ...config,
-  alt: config.alt ?? `${config.title} media`
-});
-
-const createImageAsset = (
-  title: string,
-  caption: string,
-  accent: string,
-  overlay: string,
-  relativePath: string,
-  options: Partial<VisualAsset> = {}
-) =>
-  createAsset({
-    title,
-    caption,
-    accent,
-    overlay,
-    src: assetPath(relativePath),
-    mediaType: "image",
-    ...options
-  });
-
-const createVideoAsset = (
-  title: string,
-  caption: string,
-  accent: string,
-  overlay: string,
-  relativePath: string,
-  options: Partial<VisualAsset> = {}
-) =>
-  createAsset({
-    title,
-    caption,
-    accent,
-    overlay,
-    src: assetPath(relativePath),
-    mediaType: "video",
-    controls: true,
-    ...options
-  });
-
-export const projects: ProjectRecord[] = [
+const mainProjects: PublishedProjectRecord[] = [
+  {
+    slug: "deinosavros",
+    title: "Deinosavros",
+    subtitle: "Readable decisions, from battle to the next encounter.",
+    summary:
+      "Combat, route choices and chance encounters in a team card battler. My contribution connects menus, map interfaces and combat UI.",
+    tracks: ["programming"],
+    tier: "featured",
+    rank: 1,
+    publication: "published",
+    projectType: "Team project",
+    roles: ["UI programmer"],
+    tools: ["Unity", "C#", "UI state"],
+    facts: [
+      { label: "Engine", value: "Unity" },
+      { label: "Focus", value: "Menus, map & combat UI" },
+    ],
+    scope:
+      "I programmed the menus and map interfaces, together with combat and map UI. The card-battle game, its artwork and its wider systems are a team effort.",
+    version:
+      "Recorded from the current Unity 6000.3 project. Production input handlers drive the demonstration; combat, resource costs, rewards and Chance resolve normally. The 76.6-second main film is one continuous sequence with original game audio. Additional chapters are separate takes at normal speed.",
+    cover: image(
+      "deinosavros",
+      "hero",
+      "Deinosavros combat with player resources, enemy states and a hand of cards",
+      "The battlefield, player resources and available cards remain visible together.",
+    ),
+    showcase: {
+      ...showcase(
+        "deinosavros",
+        "Deinosavros: combat, route choices and Chance",
+        "One continuous encounter: battle, earned reward, route choice, Chance recovery and return to the map. Script-driven production inputs with original game audio; normal gameplay rules remain active.",
+        "Cards spend elixir while timed attacks continue. Victory unlocks a card reward. The map offers reachable destinations; the selected Opportunity reveals Hidden Spring, restoring health from 181 to 200. Continue returns to the map.",
+      ),
+      width: 1280,
+      height: 720,
+      poster: image("deinosavros", "showcase-poster", "Combat in progress", "")
+        .src,
+      posterSrcSet: image(
+        "deinosavros",
+        "showcase-poster",
+        "Combat in progress",
+        "",
+      ).srcSet,
+      subtitles: "/media/deinosavros/showcase.vtt",
+    },
+    context:
+      "Deinosavros is a team card battler that connects encounters through a branching route. Combat changes the player's resources, rewards carry forward, and map choices lead to battles, chance events or recovery. My interface work makes those changes readable across menus, the battlefield and the map. The challenge is continuity: a player should understand the current state before deciding what to do next.",
+    contributions: [
+      "Programmed menu navigation and map interfaces.",
+      "Connected card selection, sacrifice previews and confirmation feedback.",
+      "Presented pending effects and departure prompts in the map flow.",
+      "Implemented combat and map UI as part of the wider team project.",
+    ],
+    breakdown: [
+      {
+        id: "combat-feedback",
+        layout: "wide",
+        title: "Read the battle without losing the hand",
+        paragraphs: [
+          "The combat interface brings player resources, enemy states and available cards into one view. A card action needs to be understood in relation to what it costs and what changes after it resolves. Health and resource displays provide that context while the hand remains available for the next decision.",
+          "My responsibility is the presentation of these states. The team's combat rules and artwork supply the wider experience; showing the battlefield explains where my UI is used without claiming ownership of every system on screen. The main recording and the closeups serve different purposes: one establishes the encounter, the other makes the interface readable.",
+        ],
+        media: image(
+          "deinosavros",
+          "combat",
+          "Combat resources, cards and enemy feedback",
+          "The hand and status displays frame the current encounter without hiding the battlefield.",
+        ),
+        comparison: [
+          {
+            label: "Combat & reward",
+            asset: {
+              ...video(
+                "deinosavros",
+                "Combat and an earned reward",
+                "The first encounter resolves through legal card plays and native damage. Original game audio.",
+                "Nine legal card actions support the timed battle. After the final enemy falls, victory presents three cards and the chosen reward carries into the map.",
+                "combat-and-reward",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image(
+                "deinosavros",
+                "showcase-poster",
+                "Active combat",
+                "",
+              ).src,
+              subtitles: "/media/deinosavros/combat-and-reward.vtt",
+            },
+          },
+          {
+            label: "A later encounter",
+            asset: {
+              ...video(
+                "deinosavros",
+                "A later battle after the offering",
+                "Separate take: the next battle and its earned reward, with original audio. Normal speed; no forced result.",
+                "The offering carries into another encounter. Legal card plays and the native combat loop resolve the battle before another reward selection.",
+                "later-battle",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image(
+                "deinosavros",
+                "later-battle",
+                "Next combat encounter",
+                "",
+              ).src,
+              subtitles: "/media/deinosavros/later-battle.vtt",
+            },
+          },
+          {
+            label: "Reward interface",
+            asset: image(
+              "deinosavros",
+              "reward",
+              "Three reward cards after victory",
+              "The reward screen follows an earned victory. This take selected Radiant Ward.",
+            ),
+          },
+        ],
+      },
+      {
+        id: "card-decisions",
+        layout: "split",
+        title: "Preview a consequence before changing the game",
+        paragraphs: [
+          "Opening the panel and moving between cards must remain reversible. The preview carries the information needed to describe the choice, while the actual transaction is deferred until confirmation. Cancelling closes the interaction without turning inspection into an accidental sacrifice.",
+          "This separation also gives the interface a clear responsibility: explain the current choice, expose whether it can be confirmed, and display the result only after the underlying operation succeeds.",
+        ],
+        media: image(
+          "deinosavros",
+          "detail-1",
+          "Card selection and sacrifice preview",
+          "The preview communicates a choice before it is committed.",
+        ),
+      },
+      {
+        id: "card-identity",
+        layout: "wide",
+        title: "Select an instance, not just a card type",
+        paragraphs: [
+          "Duplicate cards make identity important. MapSacrificePreview carries the selected instance and a CanConfirm state, rather than matching on a display name alone. The handler checks the open and busy states before committing, so repeated input cannot become repeated transactions.",
+        ],
+        media: image(
+          "deinosavros",
+          "detail-2",
+          "Pending effect information in the map interface",
+          "The result remains visible after the immediate selection step.",
+        ),
+      },
+      {
+        id: "route-and-chance",
+        layout: "split",
+        title: "Carry the decision into the next encounter",
+        paragraphs: [
+          "The route map places destinations beside the persistent deck and player state. Node selection and travel belong to the same interaction: the interface needs to identify the destination and then carry the player into the next scene without losing context.",
+          "Chance encounters introduce another reveal and consequence. Pending benefits and departure prompts keep relevant information visible before the next commitment. I describe this as interface work around the run; the chance rules and wider progression remain part of the team game.",
+        ],
+        media: {
+          ...video(
+            "deinosavros",
+            "Map selection, Chance reveal and continuation",
+                "A reachable route choice reveals Hidden Spring. Health recovers from 181 to 200 before returning to the map.",
+            "Two reachable nodes are inspected. Selecting Opportunity enters the Chance scene. Hidden Spring restores health, and Continue carries the updated state back to the route.",
+            "map-and-chance",
+          ),
+          width: 1280,
+          height: 720,
+          poster: image("deinosavros", "route", "Reachable route selection", "")
+            .src,
+          subtitles: "/media/deinosavros/map-and-chance.vtt",
+        },
+        comparison: [
+          {
+            label: "Route choice",
+            asset: image(
+              "deinosavros",
+              "route",
+              "Reachable map destinations",
+              "Reachable route nodes remain visible alongside the deck and persistent player state.",
+            ),
+          },
+          {
+            label: "Chance result",
+            asset: image(
+              "deinosavros",
+              "chance",
+              "Hidden Spring recovery result",
+              "The revealed outcome explains both the health change and the next action.",
+            ),
+          },
+        ],
+      },
+      {
+        id: "recorded-detail",
+        layout: "wide",
+        title: "Inspect, cancel, then commit",
+        paragraphs: [
+          "This controlled detail shows the reversible states directly. Preview and cancellation leave room to inspect; confirmation applies the selected change and keeps the resulting benefit visible.",
+        ],
+        comparison: [
+          {
+            label: "Offering into combat",
+            asset: {
+              ...video(
+                "deinosavros",
+                "Preview, cancel, confirm and enter combat",
+                "A separate genuine run: inspect the offering, cancel, confirm and continue to the next battle. Original audio.",
+                "The offering panel opens and previews a selected card. Cancellation leaves the choice reversible. Reopening and confirming creates a pending benefit, which is applied through the next encounter's production flow.",
+                "offering-to-combat",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image("deinosavros", "offering", "Offering preview", "")
+                .src,
+              subtitles: "/media/deinosavros/offering-to-combat.vtt",
+            },
+          },
+          {
+            label: "Isolated UI walkthrough",
+            asset: {
+              ...video(
+                "deinosavros",
+                "A card decision, from preview to confirmation",
+                "Current map interface: preview, cancel, confirm and inspect the pending benefit. Controlled UI walkthrough; no audio.",
+                "A scripted play session opens the offering panel, inspects a card, cancels the choice, reopens it and confirms. The pending benefit remains visible after commitment.",
+              ),
+              width: 1600,
+              height: 900,
+              poster: image(
+                "deinosavros",
+                "detail-1",
+                "Card sacrifice preview",
+                "",
+              ).src,
+            },
+          },
+        ],
+      },
+    ],
+    flow: [
+      {
+        label: "Combat",
+        detail: "Read resources, choose a card and observe its response",
+      },
+      {
+        label: "Result",
+        detail: "Resolve the encounter and carry rewards forward",
+      },
+      { label: "Route", detail: "Choose an available destination on the map" },
+      { label: "Chance", detail: "Reveal an outcome and read its consequence" },
+      {
+        label: "Continue",
+        detail: "Enter the next encounter with persistent state",
+      },
+    ],
+    result: [
+      "The interface carries a decision across different scales: a card changes a battle, a reward changes the deck, and a route choice opens another encounter. Keeping those transitions explicit helps the player understand what carried forward.",
+      "My main takeaway is to separate inspection from commitment, then keep the resulting state visible. That also makes invalid or repeated input easier to reason about.",
+    ],
+    credits: [
+      {
+        name: "Deinosavros team",
+        detail:
+          "Shared game production, artwork and systems beyond my interface contribution.",
+      },
+    ],
+    links: [],
+  },
+  {
+    slug: "procedural-city",
+    title: "Procedural City",
+    subtitle: "Generate a city. Keep the parts you love.",
+    summary:
+      "An Unreal editor tool with seeded rules, locked blocks and local regeneration. Built to leave room for an artist's decisions.",
+    tracks: ["technical-art", "programming"],
+    tier: "featured",
+    rank: 2,
+    publication: "published",
+    projectType: "Independent study",
+    roles: ["Tool developer", "Technical artist"],
+    tools: ["Unreal Engine", "Python", "Blueprint", "Editor Utility Widgets"],
+    facts: [
+      { label: "Engine", value: "Unreal Engine" },
+      { label: "Focus", value: "Procedural editor tooling" },
+    ],
+    scope:
+      "I implemented the generation and editing workflow and integrated the environment assets. The third-party building, prop and texture sources are credited separately.",
+    version:
+      "The main film combines fresh fixed-step editor and native Play-in-Editor views with the existing tool-panel recording. The lock/rebuild chapter uses one camera and the production Python API. Temporary cameras preserve the scene's lighting and native animation timing; source assets remain unchanged.",
+    cover: image(
+      "procedural-city",
+      "hero",
+      "A modular city generated in Unreal Engine",
+      "An overview of the generated blocks, streets and skyline.",
+    ),
+    showcase: {
+      ...showcase(
+        "procedural-city",
+        "Procedural City: generate, preserve and refine",
+        "A 42-second edit of the city, editor controls, a same-camera local rebuild and street-level composition. Scripted native captures; silent.",
+        "An overview leads into residential and industrial blocks. The tool panel changes a preset and locks a block. The locked left block remains intact while the right block is rerolled. Street and plaza views show the resulting environment.",
+      ),
+      poster: image(
+        "procedural-city",
+        "showcase-poster",
+        "Generated city overview",
+        "",
+      ).src,
+      posterSrcSet: image(
+        "procedural-city",
+        "showcase-poster",
+        "Generated city overview",
+        "",
+      ).srcSet,
+      subtitles: "/media/procedural-city/showcase.vtt",
+    },
+    context:
+      "Procedural generation becomes more useful when an artist can keep a successful composition. I built this tool around a practical question: how can the city change without throwing away a block that already works? Seeded generation establishes a repeatable base, and block-level controls let the user refine that base incrementally.",
+    contributions: [
+      "Implemented seeded block generation and local rebuild operations.",
+      "Built an artist-facing editor workflow with Blueprint and Editor Utility Widgets.",
+      "Added block locking and separate building/detail seed offsets.",
+      "Integrated modular assets and instanced mesh placement.",
+    ],
+    breakdown: [
+      {
+        id: "a-repeatable-starting-point",
+        layout: "split",
+        title: "A repeatable starting point",
+        paragraphs: [
+          "The generator works from a grid, rules and seed values. Buildings and details use separate offsets so their variation can be changed independently. Instanced meshes support repeated modular elements without making each repeated piece a separate authored object.",
+          "The system is an editor tool implemented through Python and Blueprint. Its purpose is to generate and refine authored city layouts; it is not presented as a native PCG Graph implementation.",
+        ],
+        media: image(
+          "procedural-city",
+          "detail-1",
+          "City tool panel before a preset change",
+          "Green Residential preset and lock controls in the recorded editor panel.",
+        ),
+      },
+      {
+        id: "preserve-the-block-that-already-works",
+        layout: "wide",
+        title: "Preserve the block that already works",
+        paragraphs: [
+          "Global generation skips locked blocks. This lets an artist preserve a particular skyline, landmark arrangement or neighborhood while exploring alternatives around it. A lock is meaningful only if later operations respect it.",
+          "Changing grid or road dimensions would invalidate those relationships, so the tool rejects that change while blocks remain locked. This is a deliberate constraint that protects the user's existing choices.",
+          "In this same-camera capture, the left block is locked while the right block is rerolled. Comparing instance transforms and materials across all 64 blocks confirmed that only Block_01_02 changed. This checks a concrete edit operation, without turning it into a broad performance claim.",
+        ],
+        media: {
+          ...video(
+            "procedural-city",
+            "A locked block beside a local rebuild",
+            "The camera and scene settings stay fixed. Only the right block is rerolled; the locked left block keeps its geometry. Silent.",
+            "The first view establishes two neighboring blocks. Rerolling the right block changes its building arrangement while the left block and surrounding city remain unchanged.",
+            "locked-neighbor",
+          ),
+          poster: image(
+            "procedural-city",
+            "rebuild-before",
+            "Before the local rebuild",
+            "",
+          ).src,
+          subtitles: "/media/procedural-city/locked-neighbor.vtt",
+        },
+        comparison: [
+          {
+            label: "Before local rebuild",
+            asset: image(
+              "procedural-city",
+              "rebuild-before",
+              "Locked left block and neighboring block before a local rebuild",
+              "Before: the central road separates locked Block_01_01 on the left from the rebuild target Block_01_02 on the right.",
+            ),
+          },
+          {
+            label: "After local rebuild",
+            asset: image(
+              "procedural-city",
+              "rebuild-after",
+              "Unchanged locked block beside the rebuilt neighboring block",
+              "After: the right block's building and detail seed offsets advance from 0 to 1. The locked left block and the other 62 blocks retain their instance and material state.",
+            ),
+          },
+        ],
+      },
+      {
+        id: "rebuild-locally-then-continue-editing",
+        layout: "split",
+        title: "Rebuild locally, then continue editing",
+        paragraphs: [
+          "A local rebuild reads the saved state for the selected block. Rerolling advances the building and detail offsets rather than requiring a completely new city. The implementation groups editor changes into an undoable transaction.",
+          "The saved validation work checks generation rules, editor behavior and persistence. Traffic density also exposes a performance tradeoff, so I avoid describing a single editor measurement as a guaranteed frame rate for every scene or packaged build.",
+        ],
+        media: image(
+          "procedural-city",
+          "plaza",
+          "Landmark plaza in the generated city",
+          "Local composition remains an artistic decision within the procedural layout.",
+        ),
+        comparison: [
+          {
+            label: "Street composition",
+            asset: {
+              ...video(
+                "procedural-city",
+                "Street-level composition",
+                "A fixed-step camera shot in the existing Play-in-Editor scene. Silent; this view demonstrates composition rather than traffic behavior.",
+                "A camera moves through the street-level environment, bringing facades, road markings and street furniture into view.",
+                "street-traffic",
+              ),
+              poster: image(
+                "procedural-city",
+                "street",
+                "Street-level view",
+                "",
+              ).src,
+              subtitles: "/media/procedural-city/street-traffic.vtt",
+            },
+          },
+          {
+            label: "Plaza detail",
+            asset: image(
+              "procedural-city",
+              "plaza",
+              "Generated plaza composition",
+              "An open space provides a focal point within the repeated city grid.",
+            ),
+          },
+        ],
+      },
+      {
+        id: "recorded-detail",
+        layout: "wide",
+        title: "An editing workflow at the tool panel",
+        paragraphs: [
+          "Preset changes, block locking and local variation share one editing workflow. The panel exposes those choices, while the unobstructed geometry comparison above shows what they preserve and change.",
+        ],
+        comparison: [
+          {
+            label: "Panel controls",
+            asset: {
+              ...video(
+                "procedural-city",
+                "Preset and lock controls",
+                "A focused excerpt from the existing editor delivery recording. Production tool commands drive the visible controls. Silent.",
+                "The editor panel changes the preset, protects a selected block and adjusts the surrounding generated layout.",
+                "editor-controls",
+              ),
+              poster: image(
+                "procedural-city",
+                "detail-1",
+                "City tool panel",
+                "",
+              ).src,
+              subtitles: "/media/procedural-city/editor-controls.vtt",
+            },
+          },
+          {
+            label: "Earlier editor recording",
+            asset: video(
+              "procedural-city",
+              "Procedural City editor demonstration",
+              "Recorded editor workflow with scripted tool commands and traffic. No audio.",
+              "The demonstration shows the city tool panel, generated city variations and traffic in the Unreal editor. The visible changes are driven by actual controller commands.",
+            ),
+          },
+        ],
+      },
+    ],
+    flow: [
+      { label: "Generate", detail: "Grid, rules and a repeatable seed" },
+      { label: "Lock", detail: "Preserve selected blocks" },
+      { label: "Regenerate", detail: "Change only unlocked areas" },
+      { label: "Refine", detail: "Rebuild or reroll one block" },
+    ],
+    result: [
+      "The tool supports an iterative workflow instead of a single generate-and-accept step. Repeatability and selective control make procedural output easier to art-direct.",
+      "The next useful evaluation would compare iteration time across a fixed layout task. No unmeasured time saving or universal performance claim is attached to this project.",
+    ],
+    credits: [
+      {
+        name: "Poly Haven",
+        detail:
+          "Third-party environment resources integrated into the tool demonstration.",
+        href: "https://polyhaven.com",
+      },
+    ],
+    links: [],
+  },
   {
     slug: "rhythm-rider",
-    title: "Rhythm-Rider",
-    category: "game",
-    subtitle:
-      "A Unity rhythm racing project focused on gameplay, VFX, and neon environment design.",
-    roles: ["Programmer", "VFX Artist", "Environment Designer"],
-    tools: ["Unity", "C#", "FMOD", "Shader Graph", "Level Design"],
-    projectType: "Student team project",
-    heroImage: createVideoAsset(
-      "Rhythm-Rider",
-      "Ambient background footage for the opening section.",
-      "#3dd9d6",
-      "linear-gradient(180deg, rgba(5, 10, 16, 0.12), rgba(5, 10, 16, 0.62))",
-      "Rhythm Rider background.mp4",
-      {
-        poster: assetPath(
-          "Rhythm Rider images resources/Screenshot 2026-05-28 205923.png"
-        ),
-        eyebrow: "Selected Project",
-        tags: ["Unity", "Rhythm", "Racing"],
-        autoPlay: true,
-        muted: true,
-        loop: false,
-        controls: false,
-        alt: "Rhythm-Rider opening background footage"
-      }
-    ),
-    thumbnail: createImageAsset(
-      "Rhythm-Rider",
-      "A street-level frame that captures the neon identity of the project world.",
-      "#61f7cb",
-      "linear-gradient(180deg, rgba(4, 9, 14, 0.1), rgba(4, 9, 14, 0.7))",
-      "Rhythm Rider images resources/Screenshot 2026-05-28 205923.png",
-      {
-        eyebrow: "Featured",
-        tags: ["Programming", "VFX", "Environment"],
-        alt: "Rhythm-Rider environment preview screenshot"
-      }
-    ),
+    title: "Rhythm Rider",
+    subtitle: "Turn a good input into a visible moment.",
     summary:
-      "A Unity rhythm racing project combining gameplay systems, VFX, and environment design.",
-    highlights: [
-      "Gameplay systems built in Unity with C#.",
-      "VFX for speed, timing, and damage feedback.",
-      "Neon environment design for clarity and mood."
-    ],
-    gallery: [
-      createVideoAsset(
-        "Demonstration Video",
-        "Gameplay footage from the current Rhythm-Rider build.",
-        "#34d7ff",
-        "linear-gradient(180deg, rgba(6, 14, 19, 0.06), rgba(6, 14, 19, 0.3))",
-        "Rhythm Rider demonstration video2.mp4",
-        {
-          poster: assetPath(
-            "Rhythm Rider images resources/Screenshot 2026-05-28 225208.png"
-          ),
-          eyebrow: "Demonstration Video",
-          tags: ["Prototype", "Unity"]
-        }
-      ),
-      createImageAsset(
-        "Track Overview",
-        "A clean gameplay frame that emphasizes road layout, HUD, and city signage.",
-        "#53d9ff",
-        "linear-gradient(180deg, rgba(6, 16, 24, 0.08), rgba(6, 16, 24, 0.42))",
-        "Rhythm Rider images resources/Screenshot 2026-05-28 184834.png",
-        {
-          eyebrow: "Gameplay Still",
-          tags: ["UI", "Track Framing"]
-        }
-      ),
-      createImageAsset(
-        "Street Composition",
-        "A second gameplay still focused on the project logo, road flow, and skyline framing.",
-        "#79ffe2",
-        "linear-gradient(180deg, rgba(8, 12, 18, 0.08), rgba(8, 12, 18, 0.5))",
-        "Rhythm Rider images resources/Screenshot 2026-05-28 184852.png",
-        {
-          eyebrow: "Environment"
-        }
-      ),
-        createImageAsset(
-          "City Identity Shot",
-          "A wider environment-focused shot showing the visual language of the track and surrounding buildings.",
-        "#d2a0ff",
-        "linear-gradient(180deg, rgba(12, 8, 18, 0.08), rgba(12, 8, 18, 0.46))",
-        "Rhythm Rider images resources/Screenshot 2026-05-28 205923.png",
-          {
-            eyebrow: "World Building"
-          }
-        ),
-        createImageAsset(
-          "Neon Track View",
-          "A new gameplay frame showing the project from another racing angle.",
-          "#5de6ff",
-          "linear-gradient(180deg, rgba(6, 14, 24, 0.08), rgba(6, 14, 24, 0.42))",
-          "Rhythm Rider images resources/Screenshot 2026-05-28 225108.png",
-          {
-            eyebrow: "Gameplay"
-          }
-        ),
-        createImageAsset(
-          "City Lane Shot",
-          "A closer street-level frame with more emphasis on the road and surrounding signs.",
-          "#7bffe0",
-          "linear-gradient(180deg, rgba(7, 14, 18, 0.08), rgba(7, 14, 18, 0.42))",
-          "Rhythm Rider images resources/Screenshot 2026-05-28 225154.png",
-          {
-            eyebrow: "Street View"
-          }
-        ),
-        createImageAsset(
-          "Gameplay Environment Frame",
-          "A new still focused on track atmosphere, lighting, and environment density.",
-          "#8fd4ff",
-          "linear-gradient(180deg, rgba(7, 12, 18, 0.08), rgba(7, 12, 18, 0.42))",
-          "Rhythm Rider images resources/Screenshot 2026-05-28 225208.png",
-          {
-            eyebrow: "Environment"
-          }
-        )
-      ],
-    contributions: [
-      {
-        title: "Programming",
-        summary:
-          "Focused on gameplay flow and player feedback.",
-        bullets: [
-          "Implemented gameplay logic in Unity with C#.",
-          "Built the main rhythm racing flow.",
-          "Connected movement, score, and timing feedback."
-        ]
-      },
-      {
-        title: "VFX",
-        summary:
-          "Focused on atmosphere and gameplay feedback.",
-        bullets: [
-          "Post-processing and a rain system for atmosphere.",
-          "Hit shake and a red screen border for damage feedback.",
-          "Car trails and visible wind streaks for speed."
-        ]
-      },
-      {
-        title: "Environment Design",
-        summary:
-          "Focused on a readable neon track space.",
-        bullets: [
-          "Designed a neon city setting for the track.",
-          "Used layout and signage to guide attention.",
-          "Balanced atmosphere with gameplay readability."
-        ]
-      }
-    ],
+      "Gameplay programming and VFX for a three-lane rhythm runner, connecting beat-based obstacle placement with precise visual feedback.",
+    tracks: ["programming", "technical-art"],
+    tier: "featured",
+    rank: 3,
+    publication: "published",
+    projectType: "Team project",
+    roles: ["Gameplay programmer", "VFX artist"],
+    tools: ["Unity", "C#", "URP", "Shader Graph"],
     facts: [
       { label: "Engine", value: "Unity" },
-      { label: "Focus", value: "Rhythm racing gameplay and VFX feedback" },
-      { label: "Role", value: "Programming, VFX, and environment design" },
-      { label: "Media", value: "Gameplay video and environment screenshots" }
+      { label: "Focus", value: "Rhythm systems & feedback" },
     ],
-    caseStudySections: [
-      {
-        title: "Project Overview",
-        body: [
-          "Rhythm-Rider is a Unity rhythm racing project.",
-          "My role covered programming, VFX, and environment design."
-        ],
-        bullets: [
-          "Rhythm racing concept",
-          "Programming, VFX, and environment work",
-          "Student team project"
-        ]
-      },
-      {
-        title: "Systems and Feedback",
-        body: [
-          "The project is built around timing, movement, and feedback.",
-          "The media shows how gameplay, HUD, and effects work together."
-        ],
-        bullets: [
-          "Gameplay flow",
-          "Timing and response logic",
-          "Visual feedback connected to player state"
-        ]
-      },
-      {
-        title: "Visual Direction and Effects",
-        body: [
-          "The environment and effects were designed to stay energetic and readable.",
-          "Lighting, signage, and road framing support the overall feel of the track."
-        ]
-      }
-    ],
-    reflection:
-      "This project brings gameplay, VFX, and environment work together in one playable piece.",
-    status: "ready"
-  },
-  {
-    slug: "single-vfx-studies",
-    title: "Single VFX Studies",
-    category: "vfx",
-    subtitle:
-      "A focused set of standalone effect clips exploring timing, motion, and readable real-time visual impact.",
-    roles: ["VFX Artist"],
-    tools: ["Unity", "Shader Graph", "Post-processing", "Timing Studies"],
-    projectType: "Standalone VFX studies",
-    heroImage: createVideoAsset(
-      "Storm VFX",
-      "A standalone effect clip used to introduce the VFX studies section.",
-      "#7fd3ff",
-      "linear-gradient(180deg, rgba(5, 12, 18, 0.12), rgba(5, 12, 18, 0.62))",
-      "Single VFXs/storm.mp4",
-      {
-        eyebrow: "VFX Studies",
-        tags: ["Storm", "Timing"],
-        autoPlay: true,
-        muted: true,
-        loop: true,
-        controls: false,
-        alt: "Standalone storm visual effect clip"
-      }
+    scope:
+      "My work covers gameplay programming and visual effects within a team project. This case isolates beat-based placement and the Perfect/combo feedback system.",
+    version:
+      "Recorded from the current Unity 2022.3 project through production movement handlers, with normal collision, judgement and scoring. The main edit contains four normal-speed excerpts from one completed run. Original music and effects are retained with a uniform 2 dB gain reduction. Earlier controlled effects footage is labeled separately.",
+    cover: image(
+      "rhythm-rider",
+      "run",
+      "Rhythm Rider's neon three-lane track",
+      "A readable track framed by the game's neon environment.",
     ),
-    thumbnail: createVideoAsset(
-      "Electric Sphere",
-      "A short looping VFX study.",
-      "#86f4e0",
-      "linear-gradient(180deg, rgba(7, 14, 14, 0.12), rgba(7, 14, 14, 0.62))",
-      "Single VFXs/Lighting Ball.mp4",
-      {
-        eyebrow: "VFX",
-        tags: ["Lighting", "Effects"],
-        autoPlay: true,
-        muted: true,
-        loop: true,
-        controls: false,
-          alt: "Lighting ball visual effect preview"
-        }
+    showcase: {
+      ...showcase(
+        "rhythm-rider",
+        "Rhythm Rider: input, feedback and the finish",
+        "Four normal-speed excerpts from one successful run: earned Perfect/combo feedback, later obstacle patterns and the finish. Scripted production inputs; original game audio.",
+        "Timed lane changes and jumps earn cyan Perfect feedback and a gold combo response. Explicit cuts move to the later pattern phases and finish. The existing GAME OVER results panel reports 119 Perfects, no hits and three lives remaining.",
       ),
-    summary:
-      "A set of short real-time effect studies focused on timing, motion, and impact.",
-    highlights: [
-      "Short studies built around clear effect ideas.",
-      "Focused on motion, energy, and visual timing.",
-      "Presented as quick looping clips."
+      width: 1280,
+      height: 720,
+      poster: image(
+        "rhythm-rider",
+        "earned-perfect",
+        "Earned Perfect response",
+        "",
+      ).src,
+      posterSrcSet: image(
+        "rhythm-rider",
+        "earned-perfect",
+        "Earned Perfect response",
+        "",
+      ).srcSet,
+      subtitles: "/media/rhythm-rider/showcase.vtt",
+    },
+    context:
+      "Rhythm Rider is a three-lane runner where lane changes and jumps clear obstacles along a musical track. I worked on the relationship between the song's beat structure, obstacle placement and the effects that acknowledge successful input. The challenge was to connect those responsibilities while keeping the track, the judgement and the player's next action readable at speed.",
+    contributions: [
+      "Connected beat indices to obstacle timing and world-space placement.",
+      "Worked on gameplay flow and feedback in the Unity project.",
+      "Implemented distinct scan feedback for Perfect dodges and combo bonuses.",
+      "Exposed effect controls for colour, intensity, width, duration and softness.",
     ],
-      gallery: [
-        createVideoAsset(
-          "Electric Sphere",
-          "An energy sphere that fires lightning toward a target.",
-          "#86f4e0",
-          "linear-gradient(180deg, rgba(7, 14, 14, 0.06), rgba(7, 14, 14, 0.3))",
-          "Single VFXs/Lighting Ball.mp4",
-          {
-            autoPlay: true,
-            muted: true,
-            loop: true,
-            controls: false
-          }
+    breakdown: [
+      {
+        id: "translate-time-into-distance",
+        layout: "split",
+        title: "Translate time into distance",
+        paragraphs: [
+          "The obstacle generator converts a beat index into a time using seconds per beat, then turns that time into a position using the player's speed and an offset. Song duration bounds the generated sequence, while difficulty phases choose patterns.",
+          "This makes spacing understandable through the same timing relationship that drives the level. The interactive diagram illustrates that relationship. It does not claim audio-clock synchronization, latency compensation or sample-accurate input handling.",
+        ],
+        media: image(
+          "rhythm-rider",
+          "pattern-normal",
+          "Obstacles and lane layout in Rhythm Rider",
+          "Beat timing is translated into positions along the track.",
         ),
-        createVideoAsset(
-          "GPU Tornado",
-          "A tornado effect simulated with GPU particles.",
-          "#7fd3ff",
-          "linear-gradient(180deg, rgba(5, 12, 18, 0.06), rgba(5, 12, 18, 0.3))",
-          "Single VFXs/storm.mp4",
+        comparison: [
           {
-            autoPlay: true,
-            muted: true,
-            loop: true,
-            controls: false
-          }
+            label: "Normal phase",
+            asset: {
+              ...video(
+                "rhythm-rider",
+                "The normal obstacle phase",
+                "An excerpt after the 40-second phase change in the same completed run. Original audio; normal speed.",
+                "Lane changes and jumps navigate the normal phase's obstacle combinations.",
+                "normal-patterns",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image(
+                "rhythm-rider",
+                "pattern-normal",
+                "Normal obstacle pattern",
+                "",
+              ).src,
+              subtitles: "/media/rhythm-rider/normal-patterns.vtt",
+            },
+          },
+          {
+            label: "Dense phase",
+            asset: {
+              ...video(
+                "rhythm-rider",
+                "The later dense obstacle phase",
+                "A later excerpt after the 70-second phase change. Same run, original audio and normal speed.",
+                "The later phase combines lane choices and jumps through denser obstacle arrangements.",
+                "dense-patterns",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image(
+                "rhythm-rider",
+                "pattern-dense",
+                "Dense obstacle pattern",
+                "",
+              ).src,
+              subtitles: "/media/rhythm-rider/dense-patterns.vtt",
+            },
+          },
+          {
+            label: "Earlier gameplay excerpt",
+            asset: {
+              ...video(
+                "rhythm-rider",
+                "Earlier Rhythm Rider gameplay",
+                "Original portfolio footage with its original audio. The source revision is unverified; the new main film demonstrates the current project.",
+                "The car moves through the earlier neon course, with obstacles and score feedback visible.",
+              ),
+              width: 1600,
+              height: 932,
+            },
+          },
+        ],
+      },
+      {
+        id: "give-different-successes-different-signals",
+        layout: "wide",
+        title: "Give different successes different signals",
+        paragraphs: [
+          "A Perfect dodge and a combo bonus communicate different information. The feedback controller listens for separate gameplay events and gives them separate visual treatments: a cyan scan for the dodge and a gold scan for the bonus.",
+          "The controller applies mesh-overlay feedback with a MaterialPropertyBlock. Colour, width, intensity, duration and softness can be tuned without folding presentation code into the scoring logic.",
+        ],
+        media: image(
+          "rhythm-rider",
+          "earned-perfect",
+          "Cyan Perfect scan earned by a timed lane change",
+          "A real movement judgement triggers the cyan scan, score response and Perfect label together.",
         ),
-        createVideoAsset(
-          "Layered Water Ring",
-          "A composite water ring built from stacked effects.",
-          "#8ff9ff",
-          "linear-gradient(180deg, rgba(7, 13, 18, 0.06), rgba(7, 13, 18, 0.3))",
-          "Single VFXs/Water Ring effect.mp4",
+      },
+      {
+        id: "treat-clarity-as-part-of-the-implementation",
+        layout: "split",
+        title: "Treat clarity as part of the implementation",
+        paragraphs: [
+          "A strong effect must remain readable at game speed. Separating the two signals helps communicate both the immediate success and the larger combo state, while keeping the response attached to a specific event.",
+          "This breakdown distinguishes the event-driven controller from the wider Shader Graph and environment work. It also leaves cross-machine timing behavior as a separate validation question rather than treating one successful recording as proof on every device.",
+        ],
+        media: image(
+          "rhythm-rider",
+          "earned-combo",
+          "Gold combo scan and a 2x multiplier",
+          "Five consecutive Perfect actions trigger the gold response and unlock the 2x score multiplier.",
+        ),
+      },
+      {
+        id: "compare-the-responses-in-motion",
+        layout: "wide",
+        title: "Compare the responses in motion",
+        paragraphs: [
+          "The gameplay excerpt earns both responses through the normal judgement path. The isolated effects clip makes their material changes easier to compare by invoking the existing controller methods directly; it is labeled as a controlled visual demonstration.",
+        ],
+        comparison: [
           {
-            autoPlay: true,
-            muted: true,
-            loop: true,
-            controls: false
-          }
-        )
-      ],
-    contributions: [
-      {
-        title: "Standalone Effect Design",
-        summary:
-          "Focused effect studies presented outside a full game scene.",
-        bullets: [
-          "Built as self-contained visual studies.",
-          "Centered on clarity, motion, and readable timing.",
-          "Useful for showing VFX range as its own discipline."
-        ]
-      },
-      {
-        title: "Visual Language",
-        summary:
-          "Each study is built around a direct visual idea and readable motion.",
-        bullets: [
-          "Explored lighting-driven and energy-driven forms.",
-          "Used compact clips to foreground the effect itself.",
-          "Separated these studies from other projects to keep each section clear."
-        ]
-      }
-    ],
-    facts: [
-      { label: "Focus", value: "Standalone real-time visual effect studies" },
-      { label: "Role", value: "VFX artist" },
-      { label: "Format", value: "Short effect clips" },
-      { label: "Media", value: "Three standalone VFX videos" }
-    ],
-    caseStudySections: [
-      {
-        title: "Study Focus",
-        body: [
-          "Each clip isolates one effect idea and keeps the presentation short and direct."
-        ]
-      },
-      {
-        title: "Effect Focus",
-        body: [
-          "The studies look at lighting behavior, storm energy, and circular motion in real time."
+            label: "Earned in gameplay",
+            asset: {
+              ...video(
+                "rhythm-rider",
+                "Earned Perfect and combo feedback",
+                "Timed movement earns cyan Perfect feedback and the gold combo response. Original audio; normal speed.",
+                "A lane change earns the first Perfect. The fifth consecutive Perfect unlocks the gold response and 2x multiplier, followed by more lane changes and jumps.",
+                "earned-feedback",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image(
+                "rhythm-rider",
+                "earned-perfect",
+                "Earned cyan Perfect",
+                "",
+              ).src,
+              subtitles: "/media/rhythm-rider/earned-feedback.vtt",
+            },
+          },
+          {
+            label: "Isolated effect comparison",
+            asset: {
+              ...video(
+                "rhythm-rider",
+                "Current Perfect and combo feedback comparison",
+                "Script-triggered cyan and gold scans from the current project. No audio.",
+                "The normal car appearance changes to a cyan scan and then to a gold scan. The existing production feedback methods are invoked in sequence.",
+                "feedback",
+              ),
+              poster: image("rhythm-rider", "detail-2", "Current cyan scan", "")
+                .src,
+              subtitles: "/media/rhythm-rider/feedback.vtt",
+            },
+          },
         ],
-        bullets: ["Timing", "Impact", "Readable motion"]
-      }
-    ],
-    reflection:
-      "These clips focus on timing, shape, and visual clarity.",
-    status: "ready"
-  },
-  {
-    slug: "ar-interactive-scene",
-    title: "AR Interactive Scene",
-    category: "game",
-    subtitle:
-      "An interactive AR scene built around a futuristic gate, a hidden ancient treasure, and environment storytelling.",
-    roles: ["Environment Modeler", "Interaction Developer"],
-    tools: ["Unity", "C#", "AR Interaction", "Maya"],
-    projectType: "Student interactive scene",
-    heroImage: createImageAsset(
-      "AR Interactive Scene",
-      "A scene capture focused on the gate, interactive space, and overall atmosphere.",
-      "#66d9ff",
-      "linear-gradient(180deg, rgba(6, 13, 18, 0.12), rgba(6, 13, 18, 0.62))",
-      "AR&VR resources/Screenshot 2026-04-26 225435.png",
-      {
-        eyebrow: "Interactive Scene",
-        tags: ["AR", "Environment"],
-        alt: "AR interactive scene screenshot"
-      }
-    ),
-    thumbnail: createImageAsset(
-      "AR Interactive Scene",
-      "A frame from the AR environment and interaction project.",
-      "#7de5ff",
-      "linear-gradient(180deg, rgba(8, 12, 18, 0.08), rgba(8, 12, 18, 0.58))",
-      "AR&VR resources/Screenshot 2026-04-26 225435.png",
-      {
-        eyebrow: "AR",
-        tags: ["Interaction", "Modeling"]
-      }
-    ),
-    summary:
-      "An interactive AR scene combining environment modeling with a futuristic gate and hidden ancient treasure.",
-    highlights: [
-      "Environment content modeled for an interactive AR setup.",
-      "Built around a futuristic gate and a hidden ancient treasure.",
-      "Focused on readable interaction and scene presentation."
-    ],
-    gallery: [
-      createVideoAsset(
-        "Demonstration Video",
-        "A short video showing AR interaction, the gate, and the hidden treasure setup.",
-        "#4de3ff",
-        "linear-gradient(180deg, rgba(5, 15, 22, 0.06), rgba(5, 15, 22, 0.3))",
-        "AR scene demonstration .mp4",
-        {
-          poster: assetPath("AR&VR resources/Screenshot 2026-04-26 225435.png"),
-          eyebrow: "Demonstration Video",
-          tags: ["Interaction", "AR"]
-        }
-      ),
-      createImageAsset(
-        "Wide Scene View",
-        "A shot focused on the overall space and mood of the scene.",
-        "#7cf7d4",
-        "linear-gradient(180deg, rgba(6, 15, 16, 0.08), rgba(6, 15, 16, 0.42))",
-        "AR&VR resources/Screenshot 2026-04-26 143500.png",
-        {
-          eyebrow: "Environment"
-        }
-      ),
-      createImageAsset(
-        "Gate Detail",
-        "A closer frame focused on the main interactive structure in the scene.",
-        "#8ae1ff",
-        "linear-gradient(180deg, rgba(5, 13, 19, 0.08), rgba(5, 13, 19, 0.42))",
-        "AR&VR resources/Screenshot 2026-04-26 144522.png",
-        {
-          eyebrow: "Detail"
-        }
-      ),
-      createImageAsset(
-        "Treasure Scene Frame",
-        "A supporting shot showing another angle of the interactive space.",
-        "#6ed6ff",
-        "linear-gradient(180deg, rgba(7, 14, 18, 0.08), rgba(7, 14, 18, 0.42))",
-        "AR&VR resources/Screenshot 2026-04-26 224224.png",
-        {
-          eyebrow: "Process"
-        }
-      ),
-      createImageAsset(
-        "Treasure Focus",
-        "A closer scene frame that helps show the treasure and surrounding detail.",
-        "#9df6e6",
-        "linear-gradient(180deg, rgba(6, 16, 18, 0.08), rgba(6, 16, 18, 0.45))",
-        "AR&VR resources/Screenshot 2026-04-26 225435.png",
-        {
-          eyebrow: "Treasure"
-        }
-      )
-    ],
-    contributions: [
-      {
-        title: "Environment Modeling",
-        summary:
-          "Focused on building a complete AR scene with clear visual focal points.",
-        bullets: [
-          "Modeled the gate, treasure, and core environment pieces.",
-          "Used contrast between futuristic design and ancient treasure to shape the scene.",
-          "Built the layout to keep key interactive elements readable."
-        ]
       },
       {
-        title: "Interaction Implementation",
-        summary:
-          "Focused on object-based interaction and scene response in AR.",
-        bullets: [
-          "Implemented interaction logic inside Unity.",
-          "Built the scene around discovery of the gate and the hidden treasure.",
-          "Kept the interactive flow clear and easy to follow."
-        ]
-      }
-    ],
-    facts: [
-      { label: "Engine", value: "Unity" },
-      { label: "Focus", value: "AR interaction and environmental storytelling" },
-      { label: "Role", value: "Modeling and interaction implementation" },
-      { label: "Media", value: "Demonstration video and scene screenshots" }
-    ],
-    caseStudySections: [
-      {
-        title: "Scene Intent",
-        body: [
-          "This project combines environment work with interactive AR presentation.",
-          "The scene is built around a futuristic gate that hides an ancient treasure."
-        ]
-      },
-      {
-        title: "Implementation Notes",
-        body: [
-          "The project focuses on readable AR interaction, key object emphasis, and scene clarity."
+        id: "recorded-detail",
+        layout: "wide",
+        title: "Finish the run and read the result",
+        paragraphs: [
+          "The finish trigger leads into the existing results screen, where score, judgement counts and remaining lives summarize the run. A separate missed-input take shows how collisions remove lives and end an unsuccessful attempt.",
         ],
-        bullets: ["Gate interaction", "Treasure reveal", "Scene readability"]
-      }
-    ],
-    reflection:
-      "The project combines AR interaction with a modeled scene and a simple discovery-focused setup.",
-    status: "ready"
-  },
-  {
-    slug: "vr-abandoned-mine-scene",
-    title: "VR Abandoned Mine Scene",
-    category: "game",
-    subtitle:
-      "A VR cave and abandoned mine scene built around environmental mood, player interaction, and close-range exploration.",
-    roles: ["Environment Modeler", "Environment Designer", "Interaction Developer"],
-    tools: ["Unity", "C#", "VR Interaction", "Maya"],
-    projectType: "Student interactive scene",
-    heroImage: createVideoAsset(
-      "VR Abandoned Mine Scene",
-      "A looping cave view used to introduce the abandoned mine scene.",
-      "#77c6ff",
-      "linear-gradient(180deg, rgba(5, 11, 18, 0.12), rgba(5, 11, 18, 0.64))",
-      "VR Scene/Cave VR scene2.mp4",
-      {
-        eyebrow: "Interactive Scene",
-        tags: ["VR", "Mine"],
-        autoPlay: true,
-        muted: true,
-        loop: true,
-        controls: false,
-        alt: "VR abandoned mine looping cave preview"
-      }
-    ),
-    thumbnail: createVideoAsset(
-      "VR Abandoned Mine Scene",
-      "A looping project preview from the cave and mine environment.",
-      "#8be0d2",
-      "linear-gradient(180deg, rgba(6, 13, 15, 0.08), rgba(6, 13, 15, 0.58))",
-      "VR Scene/Cave VR scene3.mp4",
-      {
-        eyebrow: "VR",
-        tags: ["Interaction", "Environment"],
-        autoPlay: true,
-        muted: true,
-        loop: true,
-        controls: false,
-        alt: "VR abandoned mine project preview"
-      }
-    ),
-    summary:
-      "A VR cave and abandoned mine scene focused on environmental atmosphere and object interaction.",
-    highlights: [
-      "A cave and abandoned mine environment built for VR exploration.",
-      "Interactive scene elements designed for close player engagement.",
-      "Short loop clips and longer walkthrough footage for presentation."
-    ],
-    gallery: [
-      createVideoAsset(
-        "Demonstration Video",
-        "A full demonstration of the cave scene, mine atmosphere, and player interaction.",
-        "#4bd8ff",
-        "linear-gradient(180deg, rgba(6, 12, 20, 0.06), rgba(6, 12, 20, 0.3))",
-        "VR Scene/Cave VR scene.mp4",
-        {
-          eyebrow: "Demonstration Video",
-          tags: ["VR", "Interaction"]
-        }
-      ),
-      createVideoAsset(
-        "Walkthrough Video",
-        "A second pass through the space showing more of the layout and interaction flow.",
-        "#80d0ff",
-        "linear-gradient(180deg, rgba(6, 12, 20, 0.06), rgba(6, 12, 20, 0.3))",
-        "VR Scene/Cave VR scene1.mp4",
-        {
-          eyebrow: "Walkthrough Video",
-          tags: ["Environment", "Exploration"]
-        }
-      ),
-      createVideoAsset(
-        "Mine Prop Interaction",
-        "A short looping clip focused on close interaction with scene objects.",
-        "#9ff0da",
-        "linear-gradient(180deg, rgba(7, 14, 16, 0.06), rgba(7, 14, 16, 0.3))",
-        "VR Scene/Cave VR scene2.mp4",
-        {
-          eyebrow: "Interaction Clip",
-          autoPlay: true,
-          muted: true,
-          loop: true,
-          controls: false
-        }
-      ),
-      createVideoAsset(
-        "Cave Space Preview",
-        "A short looping clip showing the cave layout and atmosphere in motion.",
-        "#7eb9ff",
-        "linear-gradient(180deg, rgba(6, 12, 19, 0.06), rgba(6, 12, 19, 0.3))",
-        "VR Scene/Cave VR scene3.mp4",
-        {
-          eyebrow: "Environment Clip",
-          autoPlay: true,
-          muted: true,
-          loop: true,
-          controls: false
-        }
-      ),
-      createVideoAsset(
-        "Abandoned Mine Detail",
-        "A short looping clip focused on another part of the mine environment.",
-        "#8cd9c0",
-        "linear-gradient(180deg, rgba(7, 13, 15, 0.06), rgba(7, 13, 15, 0.3))",
-        "VR Scene/Cave VR scene4.mp4",
-        {
-          eyebrow: "Detail Clip",
-          autoPlay: true,
-          muted: true,
-          loop: true,
-          controls: false
-        }
-      )
-    ],
-    contributions: [
-      {
-        title: "Environment Modeling",
-        summary:
-          "Focused on building the cave and abandoned mine space for VR exploration.",
-        bullets: [
-          "Modeled the cave and mine environment content for an explorable VR scene.",
-          "Used props, structure, and spacing to support the abandoned mine mood.",
-          "Built the environment to hold up during close-range player movement."
-        ]
-      },
-      {
-        title: "Interaction Implementation",
-        summary:
-          "Focused on object interaction and player response inside the scene.",
-        bullets: [
-          "Implemented interactive scene elements in Unity with C#.",
-          "Designed the scene so players can engage with multiple objects in the environment.",
-          "Used interaction to make the cave feel more active and discoverable."
-        ]
-      }
-    ],
-    facts: [
-      { label: "Engine", value: "Unity" },
-      { label: "Focus", value: "VR interaction and abandoned mine atmosphere" },
-      { label: "Role", value: "Modeling, design, and interaction implementation" },
-      { label: "Media", value: "Demonstration videos and looping clips" }
-    ],
-    caseStudySections: [
-      {
-        title: "Scene Intent",
-        body: [
-          "This project is built as a VR cave and abandoned mine scene with a focus on mood and exploration.",
-          "The environment is designed to feel worn, enclosed, and interactive at player scale."
-        ]
-      },
-      {
-        title: "Interaction Notes",
-        body: [
-          "The scene allows players to interact with multiple objects throughout the environment.",
-          "The recorded clips show both full-scene walkthroughs and shorter moments of interaction."
+        media: {
+          ...video(
+            "rhythm-rider",
+            "The finish and results",
+            "The same run reaches the authored finish. Its existing results panel is titled GAME OVER, with three lives remaining. Original audio.",
+            "The car reaches the finish trigger. The source game's results panel reports 29,765 points, 119 Perfects, no hits and three lives remaining.",
+            "finish",
+          ),
+          width: 1280,
+          height: 720,
+          poster: image("rhythm-rider", "results", "Run results", "").src,
+          subtitles: "/media/rhythm-rider/finish.vtt",
+        },
+        comparison: [
+          {
+            label: "Result interface",
+            asset: image(
+              "rhythm-rider",
+              "results",
+              "Results after reaching the finish",
+              "The game's existing panel summarizes score, elapsed time, judgement counts and remaining lives.",
+            ),
+          },
+          {
+            label: "Missed inputs",
+            asset: {
+              ...video(
+                "rhythm-rider",
+                "Missed inputs and life loss",
+                "Separate take: avoidance inputs stop after the opening sequence; collisions then remove lives and end the attempt. Original audio.",
+                "The car collides with obstacles. Each valid hit removes a life, and the final collision leads to the failure result.",
+                "missed-input",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image(
+                "rhythm-rider",
+                "life-loss",
+                "Life loss after collision",
+                "",
+              ).src,
+              subtitles: "/media/rhythm-rider/missed-input.vtt",
+            },
+          },
         ],
-        bullets: ["Object interaction", "Close-range exploration", "Environmental storytelling"]
-      }
+      },
     ],
-    reflection:
-      "The project combines cave environment work with VR interaction and short presentation clips.",
-    status: "ready"
+    flow: [
+      {
+        label: "Beat index",
+        detail: "Choose a position in the musical sequence",
+      },
+      { label: "Beat time", detail: "Index multiplied by seconds per beat" },
+      { label: "World position", detail: "Time multiplied by player speed" },
+      {
+        label: "Feedback event",
+        detail: "A distinct response to a successful input",
+      },
+    ],
+    result: [
+      "This project connects system design and technical art through a shared gameplay event. Placement describes the challenge; visual feedback explains the player's response.",
+      "My main takeaway is to keep the source of truth in gameplay and expose a focused set of controls for presentation.",
+    ],
+    credits: [
+      {
+        name: "Rhythm Rider team",
+        detail:
+          "Shared game production and project assets outside the contributions described here.",
+      },
+    ],
+    links: [],
   },
   {
-    slug: "factory-environment",
-    title: "Factory Environment",
-    category: "environment",
-    subtitle:
-      "An industrial environment study centered on full-scene modeling, mechanical repetition, and moody lighting.",
-    roles: ["Environment Modeler", "Environment Designer"],
-    tools: ["Maya", "Substance Painter", "Lighting"],
-    projectType: "Student environment assignment",
-    heroImage: createImageAsset(
-      "Factory Environment",
-      "A close environmental frame with strong material contrast and industrial mood.",
-      "#ffc369",
-      "linear-gradient(180deg, rgba(16, 10, 7, 0.12), rgba(16, 10, 7, 0.68))",
-      "Factory Enviroment image resources/Screenshot 2026-05-28 191039.png",
-      {
-        eyebrow: "Environment Study",
-        tags: ["Industrial", "Modeling"],
-        alt: "Factory environment industrial scene screenshot"
-      }
-    ),
-    thumbnail: createImageAsset(
-      "Factory Environment",
-      "A frame from the industrial environment study.",
-      "#ffad4c",
-      "linear-gradient(180deg, rgba(16, 10, 7, 0.08), rgba(16, 10, 7, 0.6))",
-      "Factory Enviroment image resources/Screenshot 2026-05-28 191022.png",
-      {
-        eyebrow: "Industrial"
-      }
-    ),
+    slug: "ink-vfx",
+    title: "Ink VFX",
+    subtitle: "Build the impact, layer by layer.",
     summary:
-      "An industrial environment study focused on modeling, structure, and lighting.",
-    highlights: [
-      "Built from self-modeled environment content.",
-      "Focused on hard-surface repetition and industrial form.",
-      "Uses lighting contrast to shape mood and depth."
-    ],
-    gallery: [
-      createImageAsset(
-        "Red Door Composition",
-        "A strong composition shot that pairs close industrial detail with depth into the wider space.",
-        "#ffb25f",
-        "linear-gradient(180deg, rgba(18, 11, 7, 0.08), rgba(18, 11, 7, 0.42))",
-        "Factory Enviroment image resources/Screenshot 2026-05-28 191039.png",
-        {
-          eyebrow: "Main View"
-        }
-      ),
-      createImageAsset(
-        "Gear Wall Detail",
-        "A darker frame that focuses on the repeated mechanical silhouette language of the scene.",
-        "#ffc481",
-        "linear-gradient(180deg, rgba(16, 11, 8, 0.08), rgba(16, 11, 8, 0.46))",
-        "Factory Enviroment image resources/Screenshot 2026-05-28 191058.png",
-        {
-          eyebrow: "Detail"
-        }
-      ),
-      createImageAsset(
-        "Wide Factory View",
-        "A wider angle used to show scale, composition, and environmental density.",
-        "#e3a95f",
-        "linear-gradient(180deg, rgba(18, 12, 8, 0.08), rgba(18, 12, 8, 0.42))",
-        "Factory Enviroment image resources/Screenshot 2026-05-28 190913.png",
-        {
-          eyebrow: "Wide View"
-        }
-      ),
-      createImageAsset(
-        "Pipe and Structure Frame",
-        "A frame that highlights larger industrial shapes and the scene's vertical structure.",
-        "#e1b16c",
-        "linear-gradient(180deg, rgba(18, 12, 8, 0.08), rgba(18, 12, 8, 0.42))",
-        "Factory Enviroment image resources/Screenshot 2026-05-28 191022.png",
-        {
-          eyebrow: "Structure"
-        }
-      ),
-      createImageAsset(
-        "Secondary Environment Angle",
-        "A supporting shot used to broaden the scene presentation beyond one focal area.",
-        "#f3bb79",
-        "linear-gradient(180deg, rgba(18, 12, 8, 0.08), rgba(18, 12, 8, 0.42))",
-        "Factory Enviroment image resources/Screenshot 2026-05-28 191046.png",
-        {
-          eyebrow: "Alternate Angle"
-        }
-      ),
-      createImageAsset(
-        "Industrial Layout View",
-        "A broad environmental shot showing the composition of pipes, walls, and mechanical rhythm.",
-        "#f0ca90",
-        "linear-gradient(180deg, rgba(18, 12, 8, 0.08), rgba(18, 12, 8, 0.42))",
-        "Factory Enviroment image resources/Screenshot 2026-05-28 191120.png",
-        {
-          eyebrow: "Layout"
-        }
-      )
-    ],
-    contributions: [
-      {
-        title: "Modeling",
-        summary:
-          "Focused on structure, repetition, and hard-surface scene building.",
-        bullets: [
-          "Modeled the scene elements independently.",
-          "Used hard-surface repetition and density to define the industrial identity.",
-          "Focused on environmental form and believable scene construction."
-        ]
-      },
-      {
-        title: "Environment Design",
-        summary:
-          "Focused on layout, lighting, and clear focal points.",
-        bullets: [
-          "Built visual hierarchy through framing and shadow.",
-          "Used composition to guide the eye through the scene.",
-          "Balanced heavy industrial detail with readable focal points."
-        ]
-      }
-    ],
+      "Ink-style melee, projectile and area attacks in Unreal Engine. Niagara, animated materials and character timing working together.",
+    tracks: ["technical-art"],
+    tier: "featured",
+    rank: 4,
+    publication: "published",
+    projectType: "Independent study",
+    roles: ["VFX artist", "Technical artist"],
+    tools: ["Unreal Engine", "Niagara", "Materials", "Animation timing"],
     facts: [
-      { label: "Focus", value: "Industrial modeling and atmosphere" },
-      { label: "Ownership", value: "All environment content modeled independently" },
-      { label: "Project Type", value: "Student environment study" },
-      { label: "Media", value: "Multiple environment renders" }
+      { label: "Engine", value: "Unreal Engine 5.7" },
+      { label: "Focus", value: "Real-time combat effects" },
     ],
-    caseStudySections: [
+    scope:
+      "I developed the ink-effect study and its integration. Character, animation and source resources are distinguished from the effects work.",
+    version:
+      "Captured from the selected final Unreal 5.7 project. Native montages and effect timing are preserved through fixed-step cinematic capture, with temporary cameras and a shadowless fill light. This is a visual effect study, not a collision or damage test. The earlier parameter comparison uses the same final project; temporary changes were restored without saving assets.",
+    cover: image(
+      "ink-vfx",
+      "showcase-poster",
+      "Ink-style attack effect in Unreal Engine",
+      "The area burst combines an expanding ink ring with ground and airborne marks.",
+    ),
+    showcase: {
+      ...showcase(
+        "ink-vfx",
+        "Ink VFX: Three attack cycles",
+        "One complete melee, projectile and area cycle, cut together at their original animation speed. Silent final-project capture.",
+        "A sword arc breaks into droplets. A palm charge releases a projectile across the full scene, ending in a splash that dissipates. An area attack builds into an expanding ring and layered burst, then clears. Temporary cameras and shadowless fill light improve the silhouettes; the original effects and montage timing are retained.",
+      ),
+      poster: image("ink-vfx", "showcase-poster", "Area burst", "").src,
+      posterSrcSet: image("ink-vfx", "showcase-poster", "Area burst", "")
+        .srcSet,
+      subtitles: "/media/ink-vfx/showcase.vtt",
+    },
+    context:
+      "The aim of this study is to make an ink-like effect read as an action. A slash needs to follow the character's motion, a projectile needs a clear direction, and an area attack needs a readable build-up and release. I combine Niagara with animated materials so the visual shape evolves with the attack rather than sitting on top of it.",
+    contributions: [
+      "Developed Niagara effects for melee, projectile and area attacks.",
+      "Built material layers for brush marks, trails, ground shapes and charge motion.",
+      "Coordinated effect timing with character animation.",
+      "Organized related materials and instances for effect iteration.",
+    ],
+    breakdown: [
       {
-        title: "Scene Construction",
-        body: [
-          "This scene focuses on repetition, structure, and material contrast.",
-          "Multiple views help show the full space instead of a single hero render."
-        ]
+        id: "start-with-the-motion-of-the-attack",
+        layout: "split",
+        title: "Start with the motion of the attack",
+        paragraphs: [
+          "The melee treatment follows the active part of the swing. Its trail needs enough continuity to describe the arc, but a short enough lifetime to avoid hiding the character. The sword-slash system and its ribbon and trail materials provide separate places to shape that response.",
+          "I evaluate the effect at normal playback speed before looking at isolated frames. The comparison changes TailErosion from its saved 0.78 to 0.0, revealing a subtle change in the trailing edge. Disabling OuterEdge_InkDrops isolates the ribbon and shows how the droplets break up its silhouette.",
+        ],
+        media: image(
+          "ink-vfx",
+          "melee-still",
+          "Ink melee attack",
+          "The trail describes the direction and active span of the swing.",
+        ),
+        comparison: [
+          {
+            label: "Melee in motion",
+            asset: {
+              ...video(
+                "ink-vfx",
+                "Melee animation and ink trail",
+                "The saved attack loops at its original animation speed. Silent final-project capture.",
+                "The character swings the sword, its ink arc breaks into droplets, and the trail clears during recovery. The native loop repeats for inspection.",
+                "melee",
+              ),
+              poster: image("ink-vfx", "melee-still", "Sword arc", "").src,
+              subtitles: "/media/ink-vfx/melee.vtt",
+            },
+          },
+          {
+            label: "Final: erosion 0.78",
+            asset: image(
+              "ink-vfx",
+              "erosion-final",
+              "Sword trail with TailErosion 0.78",
+              "Saved TailErosion 0.78, both emitters active. Same camera and animation frame for all three captures.",
+            ),
+          },
+          {
+            label: "Erosion 0.0",
+            asset: image(
+              "ink-vfx",
+              "erosion-zero",
+              "Sword trail with TailErosion 0.0",
+              "TailErosion 0.0: compare the light, trailing edge of the ribbon. Both emitters remain active.",
+            ),
+          },
+          {
+            label: "Ribbon only",
+            asset: image(
+              "ink-vfx",
+              "ribbon-only",
+              "Sword ribbon with the droplet emitter disabled",
+              "TailErosion restored to 0.78. OuterEdge_InkDrops disabled through Niagara's emitter API; Sword_Blade_Trail remains active.",
+            ),
+          },
+        ],
       },
       {
-        title: "Lighting and Mood",
-        body: [
-          "The darker industrial palette keeps the scene grounded and mechanical.",
-          "Lighting is used to support texture and large-form readability."
-        ]
-      }
+        id: "separate-anticipation-travel-and-impact",
+        layout: "wide",
+        title: "Separate anticipation, travel and impact",
+        paragraphs: [
+          "The projectile family separates a palm charge from the moving projectile. Material assets provide charge strands, the projectile trail and splash layers, so anticipation and impact can use different shapes while keeping the same ink vocabulary.",
+          "That separation gives the effect a readable rhythm: gather energy, release it, then let the result dissipate. The presentation focuses on those stages rather than attributing every visible layer to a single emitter.",
+        ],
+        media: {
+          ...video(
+            "ink-vfx",
+            "The complete projectile cycle",
+            "One uninterrupted angle includes the charge, full flight, endpoint splash and dissipation. The native loop repeats for inspection. No audio.",
+            "Ink gathers at the hand, travels across the scene, then opens into a splash at the endpoint and disappears. The visual endpoint is an authored Niagara effect; the scene does not demonstrate enemy collision or damage.",
+            "projectile-wide",
+          ),
+          poster: image(
+            "ink-vfx",
+            "projectile-impact",
+            "Projectile endpoint splash",
+            "",
+          ).src,
+          subtitles: "/media/ink-vfx/projectile-wide.vtt",
+        },
+        comparison: [
+          {
+            label: "Charge",
+            asset: image(
+              "ink-vfx",
+              "projectile-charge",
+              "Ink gathering at the character's palm",
+              "Anticipation gathers a compact shape before release.",
+            ),
+          },
+          {
+            label: "Flight",
+            asset: image(
+              "ink-vfx",
+              "projectile-flight",
+              "The ink projectile in flight",
+              "The traveling head and trailing ink describe the direction of motion.",
+            ),
+          },
+          {
+            label: "Endpoint splash",
+            asset: image(
+              "ink-vfx",
+              "projectile-impact",
+              "Ink splash at the projectile endpoint",
+              "A brief, wider silhouette marks the end of travel.",
+            ),
+          },
+          {
+            label: "Dissipated",
+            asset: image(
+              "ink-vfx",
+              "projectile-dissipated",
+              "The cleared scene after the projectile disappears",
+              "The splash clears after the release, leaving room for the next action.",
+            ),
+          },
+        ],
+      },
+      {
+        id: "make-the-area-effect-read-at-character-scale",
+        layout: "split",
+        title: "Make the area effect read at character scale",
+        paragraphs: [
+          "The area family includes bone-driven charge and an area burst. Ground materials, rings and sprite layers describe the radius and release, while the character remains the reference for scale.",
+          "Reading the burst beside the character makes its radius easier to judge. Reviewing the final scene in motion also exposes how ground shapes and airborne marks overlap, which a single isolated frame cannot explain.",
+        ],
+        media: image(
+          "ink-vfx",
+          "area-still",
+          "Ink area attack",
+          "A radial release makes the area of influence visible.",
+        ),
+        comparison: [
+          {
+            label: "Area attack in motion",
+            asset: {
+              ...video(
+                "ink-vfx",
+                "Area attack and recovery",
+                "A complete area attack with its native animation loop. Silent final-project capture.",
+                "The character gathers energy, releases an expanding ring and layered ink burst, then recovers as the effect clears.",
+                "area",
+              ),
+              poster: image("ink-vfx", "area-still", "Area burst", "").src,
+              subtitles: "/media/ink-vfx/area.vtt",
+            },
+          },
+          {
+            label: "After the burst",
+            asset: image(
+              "ink-vfx",
+              "area-dissipated",
+              "The area effect during recovery",
+              "The marks disperse so the character becomes readable again.",
+            ),
+          },
+        ],
+      },
+      {
+        id: "recorded-detail",
+        layout: "wide",
+        title: "Check the charge from a second angle",
+        paragraphs: [
+          "The wider shot establishes the full path. A second angle helps inspect the hand and release, while the earlier close-up remains useful for comparing anticipation and the area burst. Keeping those views together makes the coverage of each camera explicit.",
+        ],
+        media: image(
+          "ink-vfx",
+          "projectile-side-still",
+          "The projectile release from the side",
+          "A second view brings the hand, release and splash closer to the camera.",
+        ),
+        comparison: [
+          {
+            label: "Closer side angle",
+            asset: {
+              ...video(
+                "ink-vfx",
+                "Projectile release from a second angle",
+                "A separate native loop from a closer side angle. No audio.",
+                "The character charges and releases ink. This closer view complements the full-trajectory view above.",
+                "projectile-side",
+              ),
+              poster: image(
+                "ink-vfx",
+                "projectile-side-still",
+                "Projectile side view",
+                "",
+              ).src,
+              subtitles: "/media/ink-vfx/projectile-side.vtt",
+            },
+          },
+          {
+            label: "Earlier close-up",
+            asset: {
+              ...video(
+                "ink-vfx",
+                "Earlier attack close-up",
+                "Earlier final-project close-up: melee, projectile charge/release and area burst. No audio.",
+                "This earlier camera shows the hand charge and release but does not show the complete unobstructed projectile path.",
+              ),
+              width: 1280,
+              height: 720,
+            },
+          },
+        ],
+      },
     ],
-    reflection:
-      "The project focuses on hard-surface modeling, repetition, and atmosphere.",
-    status: "ready"
+    flow: [
+      { label: "Anticipation", detail: "Gather shape and direct attention" },
+      { label: "Motion", detail: "Follow the character or projectile" },
+      { label: "Impact", detail: "State the hit or affected area" },
+      { label: "Dissipation", detail: "Clear the frame for the next action" },
+    ],
+    result: [
+      "The three attack families share a material language while keeping different silhouettes and timing. That balance makes the study useful beyond a single effect.",
+      "I treat material organization and preview behavior as iteration concerns, not as evidence of a measured GPU speedup.",
+    ],
+    credits: [
+      {
+        name: "Epic Games",
+        detail: "Manny character and the supplied starter scene.",
+      },
+      {
+        name: "Mixamo",
+        detail:
+          "Source motions: Stable Sword Inward Slash, Standing 2H Magic Attack 02 and Standing 2H Magic Area Attack 01. My contribution is the VFX integration and timing.",
+        href: "https://www.mixamo.com",
+      },
+    ],
+    links: [],
   },
   {
-    slug: "low-poly-sakura-scene",
-    title: "Low Poly Sakura Scene",
-    category: "environment",
-    subtitle:
-      "A stylized sakura environment built around low poly forms, soft color atmosphere, and calm spatial composition.",
-    roles: ["Environment Modeler", "Environment Designer"],
-    tools: ["Maya", "Color Styling", "Scene Composition"],
-    projectType: "Student environment assignment",
-    heroImage: createImageAsset(
-      "Low Poly Sakura Scene",
-      "A wide atmospheric frame that establishes the low poly sakura world and its color palette.",
-      "#ff9dcf",
-      "linear-gradient(180deg, rgba(20, 10, 19, 0.12), rgba(20, 10, 19, 0.62))",
-      "Sakura scene image resources/Screenshot 2025-11-14 180725.png",
-      {
-        eyebrow: "Stylized Environment",
-        tags: ["Low Poly", "Sakura"],
-        alt: "Low poly sakura environment screenshot"
-      }
-    ),
-    thumbnail: createImageAsset(
-      "Low Poly Sakura Scene",
-      "A softer pink frame for the stylized environment project tile.",
-      "#f490c7",
-      "linear-gradient(180deg, rgba(18, 10, 18, 0.08), rgba(18, 10, 18, 0.58))",
-      "Sakura scene image resources/Screenshot 2025-09-23 184239.png",
-      {
-        eyebrow: "Stylized"
-      }
-    ),
+    slug: "one-more-second",
+    title: "One More Second",
+    subtitle: "72 hours. Seven people. One last rescue.",
     summary:
-      "A low poly sakura scene focused on stylized shapes, color, and atmosphere.",
-    highlights: [
-      "Built with a simple low poly shape language.",
-      "Focused on soft color and calm composition.",
-      "Presented through both stills and scene footage."
-    ],
-    gallery: [
-      createVideoAsset(
-        "Sakura Showcase",
-        "A recorded scene showcase used to present the environment in motion.",
-        "#ff9dcf",
-        "linear-gradient(180deg, rgba(18, 10, 18, 0.06), rgba(18, 10, 18, 0.3))",
-        "Sakura scene showcase.mp4",
-        {
-          poster: assetPath(
-            "Sakura scene image resources/Screenshot 2025-11-14 180725.png"
-          ),
-          eyebrow: "Video",
-          tags: ["Showcase", "Environment"]
-        }
-      ),
-      createVideoAsset(
-        "Interactive Walkthrough",
-        "A second clip that gives the sakura scene a more lived-in, exploratory presentation.",
-        "#f8b7df",
-        "linear-gradient(180deg, rgba(18, 10, 18, 0.06), rgba(18, 10, 18, 0.3))",
-        "Sakura scene interaction demonstration.mp4",
-        {
-          poster: assetPath(
-            "Sakura scene image resources/Screenshot 2025-09-23 184239.png"
-          ),
-          eyebrow: "Walkthrough",
-          tags: ["Atmosphere", "Scene Motion"]
-        }
-      ),
-      createImageAsset(
-        "Wide Sakura View",
-        "A broad render that captures the overall shape language and environment pacing.",
-        "#ffb6de",
-        "linear-gradient(180deg, rgba(19, 11, 17, 0.08), rgba(19, 11, 17, 0.42))",
-        "Sakura scene image resources/Screenshot 2025-11-14 180725.png",
-        {
-          eyebrow: "Wide View"
-        }
-      ),
-      createImageAsset(
-        "Petal Field Composition",
-        "A brighter scene still that highlights the stylized foliage and color grouping.",
-        "#ffd7ef",
-        "linear-gradient(180deg, rgba(19, 11, 17, 0.08), rgba(19, 11, 17, 0.42))",
-        "Sakura scene image resources/Screenshot 2025-09-23 184239.png",
-        {
-          eyebrow: "Color Study"
-        }
-      )
-    ],
-    contributions: [
-      {
-        title: "Stylized Modeling",
-        summary:
-          "Focused on simplified forms and a consistent low poly language.",
-        bullets: [
-          "Modeled the environment with a controlled low poly language.",
-          "Used repeated shape families to keep the world cohesive.",
-          "Balanced softness and readability across foliage, buildings, and terrain."
-        ]
-      },
-      {
-        title: "Environment Design",
-        summary:
-          "Focused on color harmony, pacing, and atmosphere.",
-        bullets: [
-          "Designed the scene around soft color and gentle composition.",
-          "Used environmental spacing to keep the world readable.",
-          "Presented the project through both stills and motion clips."
-        ]
-      }
-    ],
+      "A GMTK game jam about a firefighter with time-altering pocket watches. UI, dialogue, feedback, audio and final integration.",
+    tracks: ["programming"],
+    tier: "supporting",
+    rank: 5,
+    publication: "published",
+    projectType: "Game jam",
+    roles: ["Programmer", "Integration"],
+    tools: ["Unity", "C#", "FMOD", "Git"],
     facts: [
-      { label: "Focus", value: "Stylized low poly environment design" },
-      { label: "Ownership", value: "All environment content modeled independently" },
-      { label: "Project Type", value: "Student environment study" },
-      { label: "Media", value: "Scene videos and rendered stills" }
+      { label: "Team", value: "7 people" },
+      { label: "Development", value: "72 hours" },
+      { label: "Event", value: "GMTK Game Jam 2026" },
     ],
-    caseStudySections: [
+    scope:
+      "I built the menus, final dialogue system, timer pickups, skill and drag feedback, integrated audio, and handled the final integration.",
+    version:
+      "The available films cover the opening dialogue and a controlled tool response from the current jam project. They do not show a complete rescue, scene progression or the final dialogue. The tool excerpt invokes production handlers and is separate from normal-input gameplay evidence.",
+    cover: image(
+      "one-more-second",
+      "hero",
+      "One More Second firefighter game",
+      "Time-altering tools in a mall rescue scenario.",
+    ),
+
+    context:
+      "One More Second was made by seven people in 72 hours for GMTK Game Jam 2026. The player is a firefighter in a burning mall, using pocket watches to change how objects behave. My contribution concentrated on the interfaces and integration that turn separate mechanics into an understandable playable flow.",
+    contributions: [
+      "Menus and the final dialogue system.",
+      "Timer pickups, skill cues and drag-and-drop feedback.",
+      "Audio integration and final project integration.",
+    ],
+    breakdown: [
       {
-        title: "Stylized Direction",
-        body: [
-          "This scene uses lighter shapes, softer palette choices, and a calmer mood.",
-          "It contrasts with the more industrial and realistic environment work."
-        ]
+        id: "connect-the-interaction-to-its-response",
+        layout: "split",
+        title: "Connect the interaction to its response",
+        paragraphs: [
+          "Dragging a tool needs a readable target and a clear result. I worked on the feedback around those actions alongside menus, dialogue and timer-related UI, so the player can understand what the game expects and what their input changed.",
+          "Final integration brought those pieces together with audio and the team's gameplay work. The limited schedule made the complete interaction loop the priority: enter the scene, understand an action, perform it and see its consequence.",
+        ],
+        media: image(
+          "one-more-second",
+          "detail-1",
+          "One More Second opening dialogue",
+          "Character portraits and progressive text reveal support the opening dialogue.",
+        ),
       },
       {
-        title: "Atmosphere and Presentation",
-        body: [
-          "The selected renders and videos show both still composition and scene motion."
-        ]
-      }
+        id: "a-tool-response-in-the-running-project",
+        layout: "wide",
+        title: "A tool response in the running project",
+        paragraphs: [
+          "The controlled excerpt below calls the existing pickup and drag handlers. The timer disappears, the tool is unlocked and a red outline appears on the affected pipe. It isolates the response without claiming that a complete level or the normal input path has been tested.",
+        ],
+        media: {
+          ...video(
+            "one-more-second",
+            "Timer pickup and tool feedback",
+            "Controlled runtime handler demonstration of pickup, unlock and boost feedback. No audio.",
+            "The existing pickup routine unlocks the tool. The production drag handlers apply a boost to a pipe and display its outline. Prerequisite positioning is excluded from the excerpt.",
+            "tool-response",
+          ),
+          subtitles: "/media/one-more-second/tool-response.vtt",
+          poster: image(
+            "one-more-second",
+            "detail-2",
+            "Boost feedback on a pipe",
+            "",
+          ).src,
+          width: 1600,
+          height: 900,
+        },
+      },
+      {
+        id: "recorded-detail",
+        layout: "wide",
+        title: "Hand off from the menu to play",
+        paragraphs: [
+          "The opening establishes the rescue setting before the gameplay scene begins. The menu, portraits and progressive dialogue carry that handoff, giving the player a clear starting point for the team's time-tool mechanics.",
+        ],
+        media: {
+          ...video(
+            "one-more-second",
+            "One More Second opening and dialogue",
+            "Opening menu and dialogue excerpt from a scripted play session. No audio.",
+            "The real opening menu starts the game and advances the configured dialogue into the gameplay scene. The wait for opening audio is trimmed; no soundtrack is added.",
+          ),
+          width: 1600,
+          height: 900,
+        },
+      },
     ],
-    reflection:
-      "The scene focuses on soft color, simple forms, and calm composition.",
-    status: "ready"
+    flow: [
+      { label: "Introduce", detail: "Menus and dialogue establish the task" },
+      { label: "Interact", detail: "Select, drag and use a tool" },
+      { label: "Respond", detail: "Visual, timer and audio feedback" },
+      {
+        label: "Integrate",
+        detail: "UI, feedback and audio connected across the game",
+      },
+    ],
+    result: [
+      "The finished jam is a useful example of collaborative delivery under a fixed deadline. My contribution was making the interfaces, feedback and audio work together in the final integrated game.",
+    ],
+    credits: [
+      {
+        name: "One More Second team",
+        detail:
+          "Seven-person jam team. Full release and creator credits are on itch.io.",
+        href: "https://morton-mao.itch.io/one-more-second",
+      },
+    ],
+    links: [
+      {
+        label: "Play on itch.io",
+        href: "https://morton-mao.itch.io/one-more-second",
+        kind: "play",
+      },
+    ],
   },
-  {
-    slug: "realistic-corner",
-    title: "Realistic Corner",
-    category: "environment",
-    subtitle:
-      "A realistic interior corner study focused on furniture composition, material finish, and warm natural lighting.",
-    roles: ["Environment Modeler", "Environment Designer"],
-    tools: ["Maya", "Substance Painter", "Lighting"],
-    projectType: "Student environment assignment",
-    heroImage: createImageAsset(
-      "Realistic Corner",
-      "A warm interior render that establishes the scene's scale, prop arrangement, and lighting.",
-      "#d9c49c",
-      "linear-gradient(180deg, rgba(18, 14, 10, 0.12), rgba(18, 14, 10, 0.64))",
-      "realistic Conor image resources/Screenshot 2026-05-28 184105.png",
-      {
-        eyebrow: "Realistic Study",
-        tags: ["Interior", "Lighting"],
-        alt: "Realistic interior corner environment screenshot"
-      }
-    ),
-    thumbnail: createImageAsset(
-      "Realistic Corner",
-      "Project tile frame for the realistic interior corner study.",
-      "#d1b58c",
-      "linear-gradient(180deg, rgba(17, 13, 10, 0.08), rgba(17, 13, 10, 0.6))",
-      "realistic Conor image resources/Screenshot 2026-05-28 184105.png",
-      {
-        eyebrow: "Realistic"
-      }
-    ),
-    summary:
-      "A realistic interior scene focused on prop layout, material finish, and warm lighting.",
-    highlights: [
-      "Focused on realistic materials and interior mood.",
-      "Built around a compact space with close detail.",
-      "Presented with both a still and a short walkthrough."
-    ],
-    gallery: [
-      createVideoAsset(
-        "Realistic Corner Walkthrough",
-        "A video pass that helps the interior feel spatial rather than purely still-image based.",
-        "#d5bc95",
-        "linear-gradient(180deg, rgba(18, 15, 12, 0.06), rgba(18, 15, 12, 0.3))",
-        "realistic corner.mp4",
-        {
-          poster: assetPath(
-            "realistic Conor image resources/Screenshot 2026-05-28 184105.png"
-          ),
-          eyebrow: "Video",
-          tags: ["Interior", "Presentation"]
-        }
-      ),
-      createImageAsset(
-        "Interior Beauty Shot",
-        "A still image focused on warm light, furniture layout, and material response.",
-        "#eedfc1",
-        "linear-gradient(180deg, rgba(18, 15, 12, 0.08), rgba(18, 15, 12, 0.42))",
-        "realistic Conor image resources/Screenshot 2026-05-28 184105.png",
-        {
-          eyebrow: "Still Render"
-        }
-      )
-    ],
-    contributions: [
-      {
-        title: "Modeling and Finish",
-        summary:
-          "Focused on believable props, finish, and material response.",
-        bullets: [
-          "Modeled the furniture and supporting scene content.",
-          "Focused on the relationship between surface finish and light.",
-          "Used a compact scene size to emphasize close reading and material response."
-        ]
-      },
-      {
-        title: "Environment Direction",
-        summary:
-          "Focused on warm mood, layout, and visual balance.",
-        bullets: [
-          "Built a warm, readable interior mood.",
-          "Used furniture placement and wall treatment to create hierarchy.",
-          "Balanced realism with clean presentation."
-        ]
-      }
-    ],
-    facts: [
-      { label: "Focus", value: "Realistic interior scene and material finish" },
-      { label: "Ownership", value: "All environment content modeled independently" },
-      { label: "Project Type", value: "Student environment study" },
-      { label: "Media", value: "Interior video and still render" }
-    ],
-    caseStudySections: [
-      {
-        title: "Realism Goals",
-        body: [
-          "This project focuses on smaller-scale realism through prop arrangement, finish, and lighting."
-        ]
-      },
-      {
-        title: "Presentation Notes",
-        body: [
-          "The warm light and room composition give the scene a calm, finished feel."
-        ]
-      }
-    ],
-    reflection:
-      "The scene focuses on interior detail, material finish, and warm lighting.",
-    status: "ready"
-  }
 ];
 
-export const projectCategoryLabel: Record<ProjectCategory, string> = {
-  game: "Game Projects",
-  environment: "Environment Projects",
-  vfx: "VFX Studies"
-};
-
-export const projectFilters = [
-  { key: "all", label: "All Projects" },
-  { key: "game", label: "Game Projects" },
-  { key: "environment", label: "Environment Projects" },
-  { key: "vfx", label: "VFX Studies" }
-] as const;
-
-export type ProjectFilterKey = (typeof projectFilters)[number]["key"];
-
-export const featuredProject = projects[0];
-
-export function getProjectBySlug(slug: string) {
-  return projects.find((project) => project.slug === slug);
-}
-
-export function getProjectsByCategory(category: ProjectCategory) {
-  return projects.filter((project) => project.category === category);
+export const projects: PublishedProjectRecord[] = [
+  ...mainProjects,
+  oasis,
+  ...studies,
+];
+export const featuredProjects = projects
+  .filter((p) => p.tier === "featured")
+  .sort((a, b) => a.rank - b.rank);
+export function getProjectBySlug(slug: string | undefined) {
+  return projects.find((p) => p.slug === slug);
 }
