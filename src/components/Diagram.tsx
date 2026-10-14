@@ -1,5 +1,15 @@
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import type { ProjectRecord } from "../types/project";
+import Icon, { type IconName } from "./Icon";
+
+const flowIcons: Record<string, IconName[]> = {
+  deinosavros: ["sword", "cards", "route", "dice", "arrow-right"],
+  "procedural-city": ["sliders", "layers", "lock", "refresh"],
+  "rhythm-rider": ["music", "speed", "code", "sparkles"],
+  "ink-vfx": ["sword", "brush", "layers", "sparkles"],
+  "one-more-second": ["message", "watch", "sparkles", "headphones"],
+  "oasis-environment": ["tree", "layers", "droplet", "brush"],
+};
 
 export default function Diagram({ project }: { project: ProjectRecord }) {
   const [bpm, setBpm] = useState(90);
@@ -9,25 +19,43 @@ export default function Diagram({ project }: { project: ProjectRecord }) {
   return (
     <figure className="diagram">
       <div className="diagram-heading">
-        <span className="eyebrow">Implementation map</span>
-        <span className="diagram-note">Conceptual diagram</span>
+        <span className="diagram-note">Conceptual flow</span>
       </div>
-      <ol className="flow-steps">
+      <ol
+        className="flow-steps"
+        style={{ "--flow-count": project.flow.length } as CSSProperties}
+      >
         {project.flow.map((step, i) => (
           <li key={step.label}>
-            <span className="step-number">
-              {String(i + 1).padStart(2, "0")}
+            <span className="flow-icon">
+              <Icon name={flowIcons[project.slug]?.[i] ?? "layers"} />
             </span>
             <strong>{step.label}</strong>
-            <span>{step.detail}</span>
           </li>
         ))}
       </ol>
+      <details className="diagram-details">
+        <summary aria-label="Diagram explanation" title="Diagram explanation">
+          <Icon name="info" />
+          <Icon name="chevron-down" />
+        </summary>
+        {project.flow.map((step) => (
+          <p key={step.label}>
+            <strong>{step.label}.</strong> {step.detail}
+          </p>
+        ))}
+        <p>
+          The diagram explains the implementation described in this case; it is
+          not a screenshot of the game or editor.
+        </p>
+      </details>
       {project.slug === "rhythm-rider" ? (
         <div className="beat-demo">
           <div className="beat-controls">
             <label htmlFor="beat-bpm">
-              Tempo <output htmlFor="beat-bpm">{bpm} BPM</output>
+              <span className="sr-only">Tempo</span>
+              <Icon name="music" />
+              <output htmlFor="beat-bpm">{bpm} BPM</output>
               <input
                 id="beat-bpm"
                 type="range"
@@ -39,7 +67,9 @@ export default function Diagram({ project }: { project: ProjectRecord }) {
               />
             </label>
             <label htmlFor="beat-speed">
-              Player speed <output htmlFor="beat-speed">{speed} units/s</output>
+              <span className="sr-only">Player speed</span>
+              <Icon name="speed" />
+              <output htmlFor="beat-speed">{speed} units/s</output>
               <input
                 id="beat-speed"
                 type="range"
@@ -87,10 +117,6 @@ export default function Diagram({ project }: { project: ProjectRecord }) {
           </p>
         </div>
       ) : null}
-      <figcaption>
-        The diagram explains the implementation described in this case; it is
-        not a screenshot of the game or editor.
-      </figcaption>
     </figure>
   );
 }

@@ -254,6 +254,10 @@ test("new playback pauses the previous film and route changes stop playback", as
   await expect
     .poll(() => first.evaluate((video) => video.currentTime))
     .toBeGreaterThan(0.1);
+  await page
+    .locator("#combat-feedback .media-comparison")
+    .getByRole("button", { name: "Combat & reward", exact: true })
+    .click();
   await posters
     .nth(1)
     .getByRole("button", { name: /^Play / })
@@ -301,7 +305,9 @@ test("every comparison variant loads, including films outside the default select
         } else {
           await expect
             .poll(() =>
-              comparison.locator("img").evaluate((node) => node.naturalWidth),
+              comparison
+                .locator(".comparison-panel .media-frame img")
+                .evaluate((node) => node.naturalWidth),
             )
             .toBeGreaterThan(0);
         }
@@ -310,7 +316,7 @@ test("every comparison variant loads, including films outside the default select
   }
 });
 
-test("Ink showcase dialog is named, quiet before play and restores keyboard focus", async ({
+test("visual showcase activation starts playback and restores keyboard focus", async ({
   page,
 }) => {
   const requests = [];
@@ -319,18 +325,20 @@ test("Ink showcase dialog is named, quiet before play and restores keyboard focu
       requests.push(request.url());
   });
   await page.goto("/");
-  const opener = page.getByRole("button", { name: /View showcase/ });
+  const opener = page.getByRole("button", {
+    name: "Play Ink VFX showcase",
+    exact: true,
+  });
+  expect(requests).toEqual([]);
   await opener.focus();
   await page.keyboard.press("Enter");
-  const dialog = page.getByRole("dialog");
+  const dialog = page.getByRole("dialog").filter({ visible: true });
   await expect(dialog).toBeVisible();
   await expect(dialog).toHaveAccessibleName(/Ink/);
-  expect(requests).toEqual([]);
   const scan = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
     .analyze();
   expect(scan.violations).toEqual([]);
-  await dialog.getByRole("button", { name: /^Play / }).click();
   const video = dialog.locator("video");
   await expect
     .poll(() => video.evaluate((node) => node.currentTime))
@@ -441,6 +449,9 @@ test("showcase chapters support sharing, history, captions and deliberate playba
   const map = gallery.locator('[data-clip="map-and-chance"]');
   await expect(map).toHaveAttribute("aria-pressed", "true");
   await expect(gallery.locator("figcaption")).toContainText("Hidden Spring");
+  await expect(gallery.locator(".media-info")).not.toHaveAttribute("open", "");
+  await gallery.locator(".media-info summary").click();
+  await expect(gallery.locator(".media-info > div")).toBeVisible();
   expect(requests).toEqual([]);
   await gallery.getByRole("button", { name: /^Play / }).click();
   await expect(gallery.locator("track")).toHaveAttribute(
@@ -605,15 +616,18 @@ test("Ink comparison switches actual captures and remains keyboard accessible", 
   await erosion.focus();
   await page.keyboard.press("Enter");
   await expect(erosion).toHaveAttribute("aria-pressed", "true");
-  await expect(comparison.locator("img")).toHaveAttribute(
-    "src",
-    /erosion-zero/,
-  );
+  await expect(
+    comparison.locator(".comparison-panel .media-frame img"),
+  ).toHaveAttribute("src", /erosion-zero/);
   await comparison.getByRole("button", { name: "Ribbon only" }).click();
-  await expect(comparison.locator("img")).toHaveAttribute("src", /ribbon-only/);
+  await expect(
+    comparison.locator(".comparison-panel .media-frame img"),
+  ).toHaveAttribute("src", /ribbon-only/);
   await expect
     .poll(() =>
-      comparison.locator("img").evaluate((image) => image.naturalWidth),
+      comparison
+        .locator(".comparison-panel .media-frame img")
+        .evaluate((image) => image.naturalWidth),
     )
     .toBeGreaterThan(0);
   await expect(comparison.locator("figcaption")).toContainText(
@@ -644,4 +658,35 @@ test("referenced public media exists and no private data is built", async () => 
     for (const ref of refs)
       expect((await stat(path.join("dist", ref))).size).toBeGreaterThan(0);
   }
+});
+
+test("visual controls work without visible instruction paragraphs", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const cover = page.getByRole("button", {
+    name: "Play Deinosavros showcase",
+    exact: true,
+  });
+  await expect(cover).toHaveText("");
+  await cover.click();
+  const dialog = page.getByRole("dialog").filter({ visible: true });
+  await expect
+    .poll(() => dialog.locator("video").evaluate((video) => video.currentTime))
+    .toBeGreaterThan(0.1);
+  await dialog.getByRole("button", { name: "Close", exact: true }).click();
+  await expect(cover).toBeFocused();
+  await page
+    .getByRole("link", { name: "Open Deinosavros case", exact: true })
+    .click();
+  await expect(page.locator(".case-chapters a").first()).toHaveText("");
+  await expect(page.locator(".video-poster-button").first()).toHaveText("");
+  await expect(
+    page.getByText("Choose a clip, then press play.", { exact: true }),
+  ).toHaveCount(0);
+  await expect(page.locator(".thumb-duration").first()).toHaveText("1:16");
+  const notes = page.locator("#combat-feedback .chapter-notes");
+  await expect(notes).not.toHaveAttribute("open", "");
+  await notes.locator("summary").click();
+  await expect(notes.locator("p").first()).toBeVisible();
 });

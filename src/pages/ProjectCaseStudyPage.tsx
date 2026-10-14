@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { getProjectBySlug, projects } from "../data/projects";
 import Media from "../components/Media";
 import MediaComparison from "../components/MediaComparison";
@@ -6,17 +6,19 @@ import ShowcaseGallery from "../components/ShowcaseGallery";
 import Diagram from "../components/Diagram";
 import ProjectCard from "../components/ProjectCard";
 import NotFoundPage from "./NotFoundPage";
+import Icon, { type IconName } from "../components/Icon";
 
-const chapters = [
-  { id: "context", name: "Role & context" },
-  { id: "contribution", name: "What I built" },
-  { id: "breakdown", name: "Technical breakdown" },
-  { id: "results", name: "Results & lessons" },
-  { id: "credits", name: "Credits & links" },
+const chapters: { id: string; name: string; icon: IconName }[] = [
+  { id: "context", name: "Role & context", icon: "info" },
+  { id: "contribution", name: "What I built", icon: "code" },
+  { id: "breakdown", name: "Technical breakdown", icon: "layers" },
+  { id: "results", name: "Results & lessons", icon: "trophy" },
+  { id: "credits", name: "Credits & links", icon: "link" },
 ];
 
 export default function ProjectCaseStudyPage() {
   const { slug } = useParams();
+  const { hash } = useLocation();
   const project = getProjectBySlug(slug);
   if (!project) return <NotFoundPage />;
   const related = projects
@@ -33,14 +35,18 @@ export default function ProjectCaseStudyPage() {
       data-project={project.slug}
     >
       <header className="case-header container">
-        <Link to="/projects" className="back-link">
-          ← All work
+        <Link
+          to="/projects"
+          className="back-link icon-button"
+          aria-label="← All work"
+          title="All work"
+        >
+          <Icon name="arrow-left" />
         </Link>
         <h1>{project.title}</h1>
         <p className="case-role">
           {project.roles.join(" / ")} · {project.tools[0]}
         </p>
-        <p className="case-summary">{project.summary}</p>
       </header>
       <div className="case-lead-media container" id="showcase">
         {project.showcase ? (
@@ -70,16 +76,29 @@ export default function ProjectCaseStudyPage() {
       <div className="case-body container">
         <nav className="case-chapters" aria-label="Case study chapters">
           {chapters.map((chapter) => (
-            <a key={chapter.id} href={`#${chapter.id}`}>
-              {chapter.name}
+            <a
+              key={chapter.id}
+              href={`#${chapter.id}`}
+              className="icon-button"
+              aria-label={chapter.name}
+              title={chapter.name}
+              aria-current={hash === `#${chapter.id}` ? "location" : undefined}
+            >
+              <Icon name={chapter.icon} />
             </a>
           ))}
         </nav>
         <div className="case-context-grid">
           <section id="context">
             <h2>Role &amp; context</h2>
-            <p>{project.context}</p>
             <p>{project.scope}</p>
+            <details className="chapter-notes">
+              <summary aria-label="Project context" title="Project context">
+                <Icon name="info" />
+                <Icon name="chevron-down" />
+              </summary>
+              <p>{project.context}</p>
+            </details>
             <p className="context-facts">
               {[
                 project.projectType,
@@ -112,29 +131,39 @@ export default function ProjectCaseStudyPage() {
             >
               <div className="chapter-copy">
                 <h3>{chapter.title}</h3>
-                {chapter.paragraphs.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
+                <details className="chapter-notes">
+                  <summary
+                    aria-label={`Implementation notes: ${chapter.title}`}
+                    title="Implementation notes"
+                  >
+                    <Icon name="code" />
+                    <Icon name="chevron-down" />
+                  </summary>
+                  {chapter.paragraphs.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </details>
               </div>
               {chapter.media || chapter.comparison?.length ? (
                 <div className="chapter-media">
-                  {chapter.media ? (
+                  {chapter.media && !chapter.comparison?.length ? (
                     <Media
                       key={chapter.media.src}
                       asset={chapter.media}
                       sizes={
                         chapter.layout === "split"
-                          ? "(max-width: 800px) calc(100vw - 40px), 560px"
+                          ? "(max-width: 800px) calc(100vw - 40px), (max-width: 944px) calc(100vw - 64px), 880px"
                           : "(max-width: 1200px) calc(100vw - 64px), 1120px"
                       }
                     />
                   ) : null}
                   {chapter.comparison?.length ? (
                     <MediaComparison
+                      initialAsset={chapter.media}
                       variants={chapter.comparison}
                       sizes={
                         chapter.layout === "split"
-                          ? "(max-width: 800px) calc(100vw - 40px), 560px"
+                          ? "(max-width: 800px) calc(100vw - 40px), (max-width: 944px) calc(100vw - 64px), 880px"
                           : "(max-width: 1200px) calc(100vw - 64px), 1120px"
                       }
                     />

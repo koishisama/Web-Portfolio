@@ -2,7 +2,9 @@ import { useId, useSyncExternalStore } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getShowcaseChapters } from "../data/showcaseChapters";
 import type { ProjectRecord } from "../types/project";
-import Media, { Picture } from "./Media";
+import Media from "./Media";
+import MediaThumbnail from "./MediaThumbnail";
+import Icon from "./Icon";
 
 const subscribe = () => () => {};
 export default function ShowcaseGallery({
@@ -17,9 +19,10 @@ export default function ShowcaseGallery({
     () => true,
     () => false,
   );
-  const requested = hydrated ? params.get("clip") : null;
   const selected =
-    chapters.find((chapter) => chapter.id === requested) ?? chapters[0];
+    chapters.find(
+      (chapter) => chapter.id === (hydrated ? params.get("clip") : null),
+    ) ?? chapters[0];
   const playerId = useId();
   if (!selected) return <Media asset={project.cover} eager />;
   return (
@@ -29,6 +32,8 @@ export default function ShowcaseGallery({
           key={selected.id}
           asset={selected.asset}
           eager
+          compactCaption
+          captionTitle={selected.label}
           sizes="(max-width: 800px) calc(100vw - 40px), (max-width: 1200px) calc(100vw - 64px), 1120px"
         />
       </div>
@@ -42,6 +47,7 @@ export default function ShowcaseGallery({
             type="button"
             key={chapter.id}
             data-clip={chapter.id}
+            aria-label={chapter.label}
             aria-pressed={selected.id === chapter.id}
             aria-controls={playerId}
             onClick={() => {
@@ -56,27 +62,28 @@ export default function ShowcaseGallery({
               );
             }}
           >
-            <Picture
-              asset={{
-                ...chapter.asset,
-                mediaType: "image",
-                purpose: "illustration",
-                src: chapter.asset.poster!,
-                srcSet: chapter.asset.posterSrcSet,
-                alt: `Preview: ${chapter.label}`,
-              }}
-              sizes="(max-width: 560px) calc((100vw - 56px) / 2), (max-width: 1200px) 24vw, 264px"
+            <MediaThumbnail
+              asset={chapter.asset}
+              label={chapter.label}
+              selected={selected.id === chapter.id}
+              duration={chapter.duration}
             />
-            <span>{chapter.label}</span>
           </button>
         ))}
       </div>
       <div className="gallery-note">
-        <p role="status">
-          {selected.label} selected. Choose a clip, then press play.
+        <p className="sr-only" role="status">
+          {selected.label} selected.
         </p>
         {selected.section ? (
-          <a href={`#${selected.section}`}>Read the related explanation</a>
+          <a
+            className="icon-button"
+            href={`#${selected.section}`}
+            aria-label="Open related technical explanation"
+            title="Open related technical explanation"
+          >
+            <Icon name="code" />
+          </a>
         ) : null}
       </div>
     </div>

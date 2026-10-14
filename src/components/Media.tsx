@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { VisualAsset } from "../types/project";
+import Icon from "./Icon";
 
 export function Picture({
   asset,
@@ -48,12 +49,14 @@ function VideoPlayer({
   asset,
   eager,
   sizes,
+  playOnMount,
 }: {
   asset: VisualAsset;
   eager: boolean;
   sizes: string;
+  playOnMount: boolean;
 }) {
-  const [activated, setActivated] = useState(false);
+  const [activated, setActivated] = useState(playOnMount);
   const [failed, setFailed] = useState(false);
   const player = useRef<HTMLVideoElement>(null);
   useEffect(() => {
@@ -98,8 +101,8 @@ function VideoPlayer({
             />
           </span>
         ) : null}
-        <span className="video-play-label">
-          <span aria-hidden="true">▶</span> Play video
+        <span className="video-play-label" aria-hidden="true">
+          <Icon name="play" />
         </span>
       </button>
     );
@@ -173,7 +176,7 @@ function ImageViewer({
       >
         <Picture key={asset.src} asset={asset} eager={eager} sizes={sizes} />
         <span className="expand-label" aria-hidden="true">
-          View full size
+          <Icon name="expand" />
         </span>
       </a>
       <dialog
@@ -189,10 +192,12 @@ function ImageViewer({
           <h2 id={titleId}>{asset.title}</h2>
           <button
             type="button"
-            className="media-dialog-close"
+            className="icon-button media-dialog-close"
+            aria-label="Close"
+            title="Close"
             onClick={() => dialog.current?.close()}
           >
-            Close
+            <Icon name="close" />
           </button>
         </div>
         {open ? (
@@ -215,10 +220,16 @@ export default function Media({
   asset,
   eager = false,
   sizes = "(max-width: 800px) 88vw, (max-width: 1600px) 91vw, 1460px",
+  playOnMount = false,
+  compactCaption = false,
+  captionTitle,
 }: {
   asset: VisualAsset;
   eager?: boolean;
   sizes?: string;
+  playOnMount?: boolean;
+  compactCaption?: boolean;
+  captionTitle?: string;
 }) {
   return (
     <figure
@@ -232,6 +243,7 @@ export default function Media({
             asset={asset}
             eager={eager}
             sizes={sizes}
+            playOnMount={playOnMount}
           />
         ) : (
           <ImageViewer
@@ -242,13 +254,32 @@ export default function Media({
           />
         )}
       </div>
-      <figcaption>
-        <span className="caption-mark" aria-hidden="true" />
-        {asset.caption}
+      <figcaption className={compactCaption ? "compact-caption" : undefined}>
+        {compactCaption ? (
+          <>
+            <span>{captionTitle ?? asset.title}</span>
+            <details className="media-info">
+              <summary
+                aria-label={`Recording details: ${asset.title}`}
+                title="Recording details"
+              >
+                <Icon name="info" />
+              </summary>
+              <div>
+                <p>{asset.caption}</p>
+                {asset.transcript ? <p>{asset.transcript}</p> : null}
+              </div>
+            </details>
+          </>
+        ) : (
+          asset.caption
+        )}
       </figcaption>
-      {asset.mediaType === "video" && asset.transcript ? (
+      {asset.mediaType === "video" && asset.transcript && !compactCaption ? (
         <details className="video-description">
-          <summary>Video description</summary>
+          <summary aria-label="Video description" title="Video description">
+            <Icon name="info" />
+          </summary>
           <p>{asset.transcript}</p>
         </details>
       ) : null}

@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from "react";
 import { useSearchParams } from "react-router-dom";
 import type { Track } from "../types/project";
+import Icon from "./Icon";
 
 const subscribe = () => () => {};
 export function useProjectTrack() {
@@ -56,10 +57,26 @@ export default function ProjectFilter({
         <button
           type="button"
           key={filter.id}
+          aria-label={filter.label}
           aria-pressed={selected === filter.id}
           onClick={() => onSelect(filter.id)}
         >
-          {filter.label}
+          <Icon
+            name={
+              filter.id === "all"
+                ? "grid"
+                : filter.id === "programming"
+                  ? "code"
+                  : "sparkles"
+            }
+          />
+          <span>
+            {filter.id === "programming"
+              ? "Code"
+              : filter.id === "technical-art"
+                ? "Art"
+                : "All"}
+          </span>
         </button>
       ))}
       <p className="sr-only" role="status">

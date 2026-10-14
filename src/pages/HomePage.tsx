@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { featuredProjects, projects } from "../data/projects";
 import ProjectCard from "../components/ProjectCard";
 import ProjectFilter, { useProjectTrack } from "../components/ProjectFilter";
-import MediaDialog from "../components/MediaDialog";
 import ContactCTA from "../components/ContactCTA";
 
 export default function HomePage() {
@@ -18,11 +17,7 @@ export default function HomePage() {
       <section className="home-intro container" aria-labelledby="home-title">
         <h1 id="home-title">Hi, I’m Hongtao.</h1>
         <p className="home-role">Game Programmer &amp; Technical Artist</p>
-        <p className="home-hello">
-          I work with Unity and Unreal Engine, building game interfaces,
-          gameplay systems, real-time effects and editor tools. Here are some of
-          the projects I’ve worked on.
-        </p>
+        <p className="home-hello">Unity · Unreal Engine</p>
       </section>
       <section
         className="home-work container"
@@ -44,21 +39,6 @@ export default function HomePage() {
               key={project.slug}
               project={project}
               eager={project.rank === 1}
-              actions={
-                project.slug === "deinosavros" ? (
-                  <Link
-                    to="/projects/deinosavros#route-and-chance"
-                    className="text-link"
-                  >
-                    Map &amp; Chance
-                  </Link>
-                ) : project.slug === "ink-vfx" && project.showcase ? (
-                  <MediaDialog
-                    asset={project.showcase}
-                    triggerLabel="View showcase"
-                  />
-                ) : undefined
-              }
             />
           ))}
         </div>
@@ -84,11 +64,6 @@ export default function HomePage() {
       <section className="home-about container" aria-labelledby="about-heading">
         <div>
           <h2 id="about-heading">Programming and technical art, together.</h2>
-          <p>
-            My work spans game systems and the things players see. I’m
-            interested in making interfaces readable, effects expressive and
-            editor tools useful to the people building a game.
-          </p>
         </div>
         <Link className="text-link" to="/about">
           A little more about me

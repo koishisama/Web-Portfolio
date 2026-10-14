@@ -1,13 +1,18 @@
 import { useRef, useState } from "react";
-import type { ShowcaseAsset } from "../types/project";
-import Media from "./Media";
+import type { ShowcaseAsset, VisualAsset } from "../types/project";
+import Media, { Picture } from "./Media";
+import Icon from "./Icon";
 
 export default function MediaDialog({
   asset,
   triggerLabel,
+  preview,
+  eager = false,
 }: {
   asset: ShowcaseAsset;
   triggerLabel: string;
+  preview?: VisualAsset;
+  eager?: boolean;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
@@ -17,13 +22,26 @@ export default function MediaDialog({
       <button
         ref={trigger}
         type="button"
-        className="button button-secondary showcase-trigger"
+        className={
+          preview ? "project-cover-button" : "icon-button showcase-trigger"
+        }
+        aria-label={triggerLabel}
+        title={triggerLabel}
         onClick={() => {
           setOpen(true);
           dialog.current?.showModal();
         }}
       >
-        {triggerLabel} <span aria-hidden="true">↗</span>
+        {preview ? (
+          <Picture
+            asset={preview}
+            eager={eager}
+            sizes="(max-width: 560px) calc(100vw - 40px), (max-width: 1200px) 45vw, 544px"
+          />
+        ) : null}
+        <span className={preview ? "cover-play" : ""}>
+          <Icon name="play" />
+        </span>
       </button>
       <dialog
         ref={dialog}
@@ -33,22 +51,29 @@ export default function MediaDialog({
           for (const video of dialog.current?.querySelectorAll("video") ?? [])
             video.pause();
           setOpen(false);
-          trigger.current?.focus();
+          trigger.current?.focus({ preventScroll: true });
         }}
       >
         <div className="media-dialog-header">
           <h2>{asset.title}</h2>
           <button
             type="button"
-            className="media-dialog-close"
+            className="icon-button media-dialog-close"
+            aria-label="Close"
+            title="Close"
             onClick={() => dialog.current?.close()}
           >
-            Close <span aria-hidden="true">×</span>
+            <Icon name="close" />
           </button>
         </div>
         <div className="media-dialog-body">
           {open ? (
-            <Media asset={asset} sizes="(max-width: 800px) 94vw, 1100px" />
+            <Media
+              asset={asset}
+              playOnMount
+              compactCaption
+              sizes="(max-width: 800px) 94vw, 1100px"
+            />
           ) : null}
         </div>
       </dialog>

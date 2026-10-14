@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { site } from "../data/site";
+import Icon from "../components/Icon";
 export default function ContactPage() {
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">(
     "idle",
@@ -16,7 +17,6 @@ export default function ContactPage() {
     <section className="contact-page container">
       <header className="page-header">
         <h1>Get in touch</h1>
-        <p>You can reach me by email, or find my work on GitHub.</p>
       </header>
       <div className="contact-options">
         <a className="email-address" href={`mailto:${site.email}`}>
@@ -24,13 +24,18 @@ export default function ContactPage() {
         </a>
         <button
           type="button"
-          className="button button-secondary"
+          className="icon-button copy-button"
+          aria-label={copyState === "copied" ? "Email copied" : "Copy email"}
+          title="Copy email"
           onClick={copyEmail}
         >
-          {copyState === "copied" ? "Email copied ✓" : "Copy email"}
+          <Icon name={copyState === "copied" ? "check" : "copy"} />
         </button>
       </div>
-      <p className="copy-status" role="status">
+      <p
+        className={copyState === "failed" ? "copy-status" : "sr-only"}
+        role="status"
+      >
         {copyState === "copied"
           ? "The email address is on your clipboard."
           : copyState === "failed"
@@ -38,9 +43,23 @@ export default function ContactPage() {
             : ""}
       </p>
       <div className="contact-links">
-        <a href={`mailto:${site.email}`}>Write an email</a>
-        <a href={site.github} target="_blank" rel="noreferrer">
-          github.com/koishisama
+        <a
+          className="icon-button"
+          href={`mailto:${site.email}`}
+          aria-label="Write an email"
+          title="Write an email"
+        >
+          <Icon name="mail" />
+        </a>
+        <a
+          className="icon-button"
+          href={site.github}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="GitHub repositories"
+          title="GitHub repositories"
+        >
+          <Icon name="code" />
         </a>
       </div>
     </section>

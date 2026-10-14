@@ -40,6 +40,8 @@ Featured order is explicit. A project can belong to both Programming and Technic
 
 The homepage uses a compact personal introduction and a simple project grid, ordered by rank. Homepage and Work filters use the same URL state. Case chapters have stable IDs and `stack`, `split` or `wide` layouts. Cross-page fragment links focus and scroll to their chapter; query-only filter and clip changes preserve the scroll position.
 
+Project covers use explicit play controls for reviewed films and arrow controls for case entry. Cover activation opens and starts the film; hovering does not fetch video. Cards retain project identity and personal roles without a summary paragraph. Chapter and comparison controls use real thumbnails, familiar SVG symbols and verified clip durations. Detailed implementation and recording explanations remain available through native disclosures; accessible names, focus and text alternatives remain in English.
+
 ## Media
 
 Optimized public media is in `public/media/`. Original recordings and capture tooling are kept outside the website. The historical `Assets/` folder is retained as existing repository content but is no longer imported or deployed.

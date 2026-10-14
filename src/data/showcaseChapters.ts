@@ -6,6 +6,32 @@ export type ShowcaseChapter = {
   label: string;
   asset: VisualAsset;
   section?: string;
+  duration?: number;
+};
+
+const durations: Record<string, Record<string, number>> = {
+  deinosavros: {
+    showcase: 76.6,
+    "combat-and-reward": 47.9,
+    "map-and-chance": 28.73,
+    "offering-to-combat": 32,
+  },
+  "procedural-city": {
+    showcase: 42,
+    "editor-controls": 14.8,
+    "locked-neighbor": 8,
+    "street-traffic": 7,
+  },
+  "rhythm-rider": {
+    showcase: 61.91,
+    "earned-feedback": 17,
+    "normal-patterns": 15,
+    "dense-patterns": 15,
+    finish: 14.9,
+  },
+  "ink-vfx": { showcase: 8.23, melee: 7, "projectile-wide": 10.97, area: 8 },
+  "oasis-environment": { showcase: 24.5, courtyard: 5, water: 4.5, sand: 5 },
+  "one-more-second": { demo: 17.8, "tool-response": 12.47 },
 };
 const selection: Record<
   string,
@@ -95,6 +121,7 @@ export function getShowcaseChapters(project: ProjectRecord): ShowcaseChapter[] {
         id: item.id,
         label: item.label,
         section: found.section,
+        duration: durations[project.slug]?.[item.id],
         asset: {
           ...found.asset,
           poster: poster.src,
