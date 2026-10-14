@@ -1,0 +1,14 @@
+.git
+.vercel
+node_modules
+dist
+.build
+Assets
+verification
+test-results
+playwright-report
+.research
+.env*
+*.local
+*.log
+*.tsbuildinfo
