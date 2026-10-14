@@ -45,7 +45,7 @@ for (const project of projects) {
   for (const asset of media.filter(Boolean)) {
     if (!(asset.width > 0 && asset.height > 0))
       throw new Error(`Missing media dimensions: ${project.slug}/${asset.id}`);
-    const files = [asset.src, asset.poster, asset.subtitles];
+    const files = [asset.src, asset.poster, asset.subtitles, asset.animation?.src];
     for (const sourceSet of [asset.srcSet, asset.posterSrcSet])
       if (sourceSet)
         files.push(

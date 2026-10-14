@@ -45,6 +45,116 @@ export function Picture({
   );
 }
 
+function AnimatedPreview({
+  asset,
+  eager,
+  sizes,
+  onPlayVideo,
+}: {
+  asset: VisualAsset;
+  eager: boolean;
+  sizes: string;
+  onPlayVideo: () => void;
+}) {
+  const frame = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(true);
+  const [explicitMotion, setExplicitMotion] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePreference = () => {
+      setReducedMotion(preference.matches);
+      setExplicitMotion(false);
+    };
+    updatePreference();
+    preference.addEventListener("change", updatePreference);
+    const observer = new IntersectionObserver(
+      ([entry]) =>
+        setVisible(entry.isIntersecting && entry.intersectionRatio >= 0.1),
+      { threshold: 0.1 },
+    );
+    if (frame.current) observer.observe(frame.current);
+    const pauseForVideo = (event: Event) => {
+      if (event.target instanceof HTMLVideoElement) setPaused(true);
+    };
+    document.addEventListener("play", pauseForVideo, true);
+    return () => {
+      observer.disconnect();
+      preference.removeEventListener("change", updatePreference);
+      document.removeEventListener("play", pauseForVideo, true);
+    };
+  }, []);
+  const active =
+    visible && !paused && !failed && (!reducedMotion || explicitMotion);
+  return (
+    <div
+      ref={frame}
+      className="animated-preview"
+      style={{ aspectRatio: `${asset.width} / ${asset.height}` }}
+      data-animation-state={active ? "playing" : "stopped"}
+    >
+      <Picture
+        asset={{
+          ...asset,
+          src: asset.poster!,
+          srcSet: asset.posterSrcSet,
+          mediaType: "image",
+          purpose: "illustration",
+          alt: active ? "" : asset.alt,
+        }}
+        eager={eager}
+        sizes={sizes}
+      />
+      {active ? (
+        <img
+          className="animated-frames"
+          src={asset.animation!.src}
+          alt={asset.alt}
+          width={asset.animation!.width}
+          height={asset.animation!.height}
+          decoding="async"
+          onError={() => setFailed(true)}
+        />
+      ) : null}
+      <span className="animation-format" aria-hidden="true">
+        GIF
+      </span>
+      <div className="animation-controls">
+        {!failed ? (
+          <button
+            type="button"
+            className="icon-button"
+            aria-label={`${active ? "Pause" : "Start"} animation: ${asset.title}`}
+            title={active ? "Pause animation" : "Start animation"}
+            onClick={() => {
+              setPaused(active);
+              if (!active) setExplicitMotion(true);
+            }}
+          >
+            <Icon name={active ? "pause" : "play"} />
+          </button>
+        ) : null}
+        <button
+          type="button"
+          className="icon-button"
+          aria-label={`Play original video: ${asset.title}`}
+          title="Play original video"
+          onClick={onPlayVideo}
+        >
+          <Icon name="expand" />
+        </button>
+      </div>
+      {failed ? (
+        <p className="animation-error" role="status">
+          Animation unavailable. <a href={asset.animation!.src}>Open GIF file</a>
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
 function VideoPlayer({
   asset,
   eager,
@@ -75,6 +185,15 @@ function VideoPlayer({
         <p>{asset.transcript ?? asset.caption}</p>
         <a href={asset.src}>Open video file</a>
       </div>
+    );
+  if (!activated && asset.animation)
+    return (
+      <AnimatedPreview
+        asset={asset}
+        eager={eager}
+        sizes={sizes}
+        onPlayVideo={() => setActivated(true)}
+      />
     );
   if (!activated)
     return (

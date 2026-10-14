@@ -1,5 +1,6 @@
 const paths = {
   play: "M8 5l11 7-11 7z",
+  pause: "M8 4v16M16 4v16",
   expand: "M9 3H3v6m12-6h6v6M3 15v6h6m12-6v6h-6",
   "arrow-up-right": "M7 17L17 7M7 7h10v10",
   "arrow-left": "M19 12H5m6-6-6 6 6 6",

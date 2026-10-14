@@ -10,6 +10,7 @@ export type VisualAsset = {
   srcSet?: string;
   poster?: string;
   posterSrcSet?: string;
+  animation?: { src: string; width: number; height: number };
   width: number;
   height: number;
   mediaType: "image" | "video";

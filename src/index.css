@@ -473,6 +473,58 @@ body:has(.home-page) .site-footer {
 .video-poster-button:hover .video-play-label {
   background: #266567;
 }
+.animated-preview {
+  position: relative;
+  overflow: hidden;
+}
+.animated-preview > picture,
+.animated-preview > picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.animated-frames {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.animation-controls {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  display: flex;
+  gap: 8px;
+}
+.animation-controls .icon-button {
+  color: #fff;
+  background: #1c2d2ef2;
+  border: 1px solid #e1e9e099;
+}
+.animation-controls .icon-button:hover {
+  background: #266567;
+}
+.animation-format {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #fff;
+  background: #1c2d2ef2;
+}
+.animation-error {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  font-size: 14px;
+  color: #fff;
+  background: #1c2d2ef2;
+}
 .video-description {
   max-width: 850px;
   margin-top: 10px;

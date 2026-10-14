@@ -1,4 +1,5 @@
 import index from "./asset-index.json";
+import { getAnimation } from "./animations";
 import type { ShowcaseAsset, VisualAsset } from "../types/project";
 type AssetEntry = { width: number; height: number; variants: number[] };
 const assets = index as Record<string, AssetEntry>;
@@ -44,6 +45,7 @@ export function video(
     alt: title,
     src: `/media/${slug}/${id}.mp4`,
     poster: `/media/${slug}/hero-${posterWidth}.webp`,
+    animation: getAnimation(slug, id),
     width: 1920,
     height: 1080,
     mediaType: "video",

@@ -32,6 +32,7 @@ Reports and screenshots are written to ignored `verification/`, `test-results/` 
 - `src/data/studies.ts`: four retained studies and their existing URLs.
 - `src/data/asset-index.json`: dimensions and responsive image variants.
 - `src/data/showcaseChapters.ts`: curated clip labels and posters drawn from the case records.
+- `src/data/animations.ts`: short, silent clips with captioned GIF derivatives.
 - `src/types/project.ts`: the public content model.
 
 Only curated public entries belong in these modules. Public arrays require PublishedProjectRecord, so a draft entry cannot be added accidentally. Project type, optional completion status and publication status are independent; omit completion status when it is unverified. Keep drafts, source paths, session records and private evidence outside the checkout. There is no client-side draft filter that could accidentally ship draft content.
@@ -49,6 +50,8 @@ Optimized public media is in `public/media/`. Original recordings and capture to
 Images have responsive WebP variants and JPEG full-size fallbacks. `showcase` is reserved for a reviewed main film; focused clips belong beside their technical explanation. Each asset declares its purpose as `showcase`, `evidence` or `illustration`.
 
 Videos use H.264, faststart and native controls. Only the poster is mounted before a play action; the video element and its source are created on demand. A thumbnail selection updates the clip query parameter, poster, caption, transcript and subtitle together. Starting a film pauses other films; changing clips, leaving the page or closing the Ink dialog stops playback. Full-size images open in named native dialogs with Escape and focus restoration. Silent controlled captures and separate takes are labeled. See `MEDIA_CREDITS.md` for source context.
+
+Eleven short silent clips also have GIF previews with the existing English captions burned in. A GIF loads and loops only while its display is visible; a pause control returns to the still poster. Reduced-motion visitors see the poster unless they deliberately start the animation. Starting an original film stops visible GIF motion. The original MP4 remains accessible through the preview's video control, with its native controls and subtitles. Home covers and thumbnail strips remain still images.
 
 The interface uses the system Arial/Helvetica stack. The previous licensed font files remain retained assets but are not loaded by the current pages.
 

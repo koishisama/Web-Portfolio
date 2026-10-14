@@ -660,6 +660,65 @@ test("referenced public media exists and no private data is built", async () => 
   }
 });
 
+test("GIF previews move, pause, leave the viewport and retain original video", async ({ page }) => {
+  const videoRequests = [];
+  page.on("request", request => {
+    if (new URL(request.url()).pathname.endsWith(".mp4")) videoRequests.push(request.url());
+  });
+  await page.goto("/projects/ink-vfx");
+  const preview = page.locator(".gallery-player .animated-preview");
+  await expect(preview).toHaveAttribute("data-animation-state", "playing");
+  const animation = preview.locator(".animated-frames");
+  await expect(animation).toHaveAttribute("src", "/media/ink-vfx/showcase.gif");
+  await expect.poll(() => animation.evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true);
+  const first = await animation.screenshot();
+  await page.waitForTimeout(800);
+  expect((await animation.screenshot()).equals(first)).toBe(false);
+  expect(videoRequests).toEqual([]);
+  await preview.getByRole("button", { name: /^Pause animation:/ }).click();
+  await expect(animation).toHaveCount(0);
+  await expect(preview).toHaveAttribute("data-animation-state", "stopped");
+  await preview.getByRole("button", { name: /^Start animation:/ }).click();
+  await expect(animation).toHaveCount(1);
+  await page.locator("#credits").scrollIntoViewIfNeeded();
+  await expect(preview).toHaveAttribute("data-animation-state", "stopped");
+  await expect(animation).toHaveCount(0);
+  await preview.scrollIntoViewIfNeeded();
+  await expect(preview).toHaveAttribute("data-animation-state", "playing");
+  await preview.getByRole("button", { name: /^Play original video:/ }).click();
+  await expect.poll(() => page.locator(".gallery-player video").evaluate(video => !video.paused && video.currentTime > 0)).toBe(true);
+  await expect(page.locator('.animated-preview[data-animation-state="playing"]')).toHaveCount(0);
+});
+
+test("reduced motion avoids GIF downloads until explicit activation", async ({ page }) => {
+  const requests = [];
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  page.on("request", request => {
+    if (/\.(gif|mp4)$/.test(new URL(request.url()).pathname)) requests.push(request.url());
+  });
+  await page.goto("/projects/ink-vfx", { waitUntil: "networkidle" });
+  const preview = page.locator(".gallery-player .animated-preview");
+  await expect(preview).toHaveAttribute("data-animation-state", "stopped");
+  expect(requests).toEqual([]);
+  await preview.getByRole("button", { name: /^Start animation:/ }).click();
+  await expect(preview.locator(".animated-frames")).toBeVisible();
+  await expect.poll(() => requests.filter(url => url.endsWith(".gif")).length).toBe(1);
+  expect(requests.some(url => url.endsWith(".mp4"))).toBe(false);
+  await page.goto("/projects/deinosavros");
+  await expect(page.locator(".animated-preview")).toHaveCount(0);
+});
+
+test("failed GIF retains its still poster and playable original", async ({ page }) => {
+  await page.route("**/media/ink-vfx/showcase.gif", route => route.abort());
+  await page.goto("/projects/ink-vfx");
+  const preview = page.locator(".gallery-player .animated-preview");
+  await expect(preview.getByRole("status")).toContainText("Animation unavailable");
+  await expect.poll(() => preview.locator("picture img").evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
+  await expect(preview.getByRole("link", { name: "Open GIF file" })).toHaveAttribute("href", "/media/ink-vfx/showcase.gif");
+  await preview.getByRole("button", { name: /^Play original video:/ }).click();
+  await expect.poll(() => page.locator(".gallery-player video").evaluate(video => !video.paused && video.currentTime > 0)).toBe(true);
+});
+
 test("visual controls work without visible instruction paragraphs", async ({
   page,
 }) => {

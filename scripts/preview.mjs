@@ -15,6 +15,7 @@ const mime = {
   ".webp": "image/webp",
   ".jpg": "image/jpeg",
   ".png": "image/png",
+  ".gif": "image/gif",
   ".mp4": "video/mp4",
   ".vtt": "text/vtt",
   ".woff2": "font/woff2",
