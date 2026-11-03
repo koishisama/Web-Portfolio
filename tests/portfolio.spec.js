@@ -10,6 +10,7 @@ const cases = [
   "ink-vfx",
   "one-more-second",
   "oasis-environment",
+  "archer-duel",
   "single-vfx-studies",
   "factory-environment",
   "low-poly-sakura-scene",
@@ -69,7 +70,7 @@ test("filter state survives direct links, reload and browser history", async ({
   await expect(
     page.getByRole("button", { name: "Programming", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
-  await expect(page.locator(".project-card")).toHaveCount(4);
+  await expect(page.locator(".project-card")).toHaveCount(5);
   expect(
     await page
       .locator(".project-card")
@@ -79,9 +80,10 @@ test("filter state survives direct links, reload and browser history", async ({
     "procedural-city",
     "rhythm-rider",
     "one-more-second",
+    "archer-duel",
   ]);
   await page.reload();
-  await expect(page.locator(".project-card")).toHaveCount(4);
+  await expect(page.locator(".project-card")).toHaveCount(5);
   await page.evaluate(() => window.scrollTo({ top: 80, behavior: "instant" }));
   const beforeFilter = await page.evaluate(() => scrollY);
   await page
@@ -91,12 +93,12 @@ test("filter state survives direct links, reload and browser history", async ({
   await expect(page.locator(".project-card")).toHaveCount(8);
   expect(await page.evaluate(() => scrollY)).toBe(beforeFilter);
   await page.goBack();
-  await expect(page.locator(".project-card")).toHaveCount(4);
+  await expect(page.locator(".project-card")).toHaveCount(5);
   await page.goForward();
   await expect(page.locator(".project-card")).toHaveCount(8);
   await page.getByRole("button", { name: "All work", exact: true }).click();
   await expect(page).toHaveURL(/\/projects$/);
-  await expect(page.locator(".project-card")).toHaveCount(10);
+  await expect(page.locator(".project-card")).toHaveCount(11);
   expect(errors).toEqual([]);
 });
 test("navigation, chapters and beat illustration work", async ({ page }) => {
@@ -148,6 +150,7 @@ for (const width of [360, 390, 768, 1440, 1920]) {
       "/",
       "/projects",
       "/projects/deinosavros",
+      "/projects/archer-duel",
       "/projects/rhythm-rider",
       "/about",
       "/contact",
@@ -350,7 +353,7 @@ test("visual showcase activation starts playback and restores keyboard focus", a
 });
 
 for (const slug of cases
-  .slice(0, 6)
+  .slice(0, 7)
   .filter((slug) => slug !== "one-more-second")) {
   test(`${slug} has a complete main media interface on mobile`, async ({
     page,
@@ -512,13 +515,13 @@ test("homepage filtering uses the accepted project grid and URL state", async ({
   await expect(page.locator(".project-card")).toHaveCount(4);
   await page.getByRole("button", { name: "Programming", exact: true }).click();
   await expect(page).toHaveURL(/track=programming/);
-  await expect(page.locator(".project-card")).toHaveCount(4);
+  await expect(page.locator(".project-card")).toHaveCount(5);
   await page.goBack();
   await expect(
     page.getByRole("button", { name: "Technical Art", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "All", exact: true }).click();
-  await expect(page.locator(".project-card")).toHaveCount(6);
+  await expect(page.locator(".project-card")).toHaveCount(7);
 });
 
 test("failed poster and video retain a readable explanation and file access", async ({
@@ -738,12 +741,12 @@ test("visual controls work without visible instruction paragraphs", async ({
   await page
     .getByRole("link", { name: "Open Deinosavros case", exact: true })
     .click();
-  await expect(page.locator(".case-chapters a").first()).toHaveText("");
+  await expect(page.locator(".case-chapters a").first()).toHaveText("Overview");
   await expect(page.locator(".video-poster-button").first()).toHaveText("");
   await expect(
     page.getByText("Choose a clip, then press play.", { exact: true }),
   ).toHaveCount(0);
-  await expect(page.locator(".thumb-duration").first()).toHaveText("1:16");
+  await expect(page.locator(".thumb-duration").first()).toHaveText("0:56");
   const notes = page.locator("#combat-feedback .chapter-notes");
   await expect(notes).not.toHaveAttribute("open", "");
   await notes.locator("summary").click();

@@ -53,6 +53,12 @@ export default function ProjectCard({
             <span aria-hidden="true"> · </span>
             {project.tools[0]}
           </p>
+          <ul className="tag-list card-tags" aria-label="Project details">
+            <li className="tag-type">{project.projectType}</li>
+            {project.tools.slice(1, compact ? 3 : 4).map((tool) => (
+              <li key={tool}>{tool}</li>
+            ))}
+          </ul>
         </div>
         <div className="card-actions">
           {project.slug === "deinosavros" ? (

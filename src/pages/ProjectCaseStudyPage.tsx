@@ -8,12 +8,12 @@ import ProjectCard from "../components/ProjectCard";
 import NotFoundPage from "./NotFoundPage";
 import Icon, { type IconName } from "../components/Icon";
 
-const chapters: { id: string; name: string; icon: IconName }[] = [
-  { id: "context", name: "Role & context", icon: "info" },
-  { id: "contribution", name: "What I built", icon: "code" },
-  { id: "breakdown", name: "Technical breakdown", icon: "layers" },
-  { id: "results", name: "Results & lessons", icon: "trophy" },
-  { id: "credits", name: "Credits & links", icon: "link" },
+const chapters: { id: string; name: string; label: string; icon: IconName }[] = [
+  { id: "context", name: "Role & context", label: "Overview", icon: "info" },
+  { id: "contribution", name: "What I built", label: "My role", icon: "code" },
+  { id: "breakdown", name: "Technical breakdown", label: "Process", icon: "layers" },
+  { id: "results", name: "Results & lessons", label: "Takeaways", icon: "trophy" },
+  { id: "credits", name: "Credits & links", label: "Credits", icon: "link" },
 ];
 
 export default function ProjectCaseStudyPage() {
@@ -43,10 +43,15 @@ export default function ProjectCaseStudyPage() {
         >
           <Icon name="arrow-left" />
         </Link>
-        <h1>{project.title}</h1>
-        <p className="case-role">
-          {project.roles.join(" / ")} · {project.tools[0]}
-        </p>
+        <div className="case-heading">
+          <div>
+            <h1>{project.title}</h1>
+            <p className="case-role">
+              {project.roles.join(" / ")} · {project.tools[0]}
+            </p>
+          </div>
+          <p className="case-introduction">{project.subtitle}</p>
+        </div>
       </header>
       <div className="case-lead-media container" id="showcase">
         {project.showcase ? (
@@ -85,6 +90,7 @@ export default function ProjectCaseStudyPage() {
               aria-current={hash === `#${chapter.id}` ? "location" : undefined}
             >
               <Icon name={chapter.icon} />
+              <span>{chapter.label}</span>
             </a>
           ))}
         </nav>

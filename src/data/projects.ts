@@ -2,6 +2,7 @@ import type { PublishedProjectRecord } from "../types/project";
 import { image, video, showcase } from "./media";
 import { studies } from "./studies";
 import { oasis } from "./oasis";
+import { archerDuel } from "./archerDuel";
 
 const mainProjects: PublishedProjectRecord[] = [
   {
@@ -24,39 +25,39 @@ const mainProjects: PublishedProjectRecord[] = [
     scope:
       "I programmed the menus and map interfaces, together with combat and map UI. The card-battle game, its artwork and its wider systems are a team effort.",
     version:
-      "Recorded from the current Unity 6000.3 project. Production input handlers drive the demonstration; combat, resource costs, rewards and Chance resolve normally. The 76.6-second main film is one continuous sequence with original game audio. Additional chapters are separate takes at normal speed.",
+      "The main film is an edited, silent capture of the October 29 build. The combat, reward, map and sacrifice are from one play session. Older chapters were recorded on October 13 with original game audio and scripted inputs.",
     cover: image(
       "deinosavros",
-      "hero",
-      "Deinosavros combat with player resources, enemy states and a hand of cards",
-      "The battlefield, player resources and available cards remain visible together.",
+      "latest-map",
+      "Deinosavros map and card detail",
+      "The updated map and card inspection interface.",
     ),
     showcase: {
       ...showcase(
         "deinosavros",
-        "Deinosavros: combat, route choices and Chance",
-        "One continuous encounter: battle, earned reward, route choice, Chance recovery and return to the map. Script-driven production inputs with original game audio; normal gameplay rules remain active.",
-        "Cards spend elixir while timed attacks continue. Victory unlocks a card reward. The map offers reachable destinations; the selected Opportunity reveals Hidden Spring, restoring health from 181 to 200. Continue returns to the map.",
+        "Deinosavros: battle, map and sacrifice",
+        "Battle, reward and the updated map and sacrifice sequence. Edited gameplay capture; no audio.",
+        "A battle ends in victory and a card reward. On the map, a card is inspected and sacrificed; it moves to the centre and burns, and its benefit appears for the next battle.",
+        "latest-run",
       ),
       width: 1280,
       height: 720,
-      poster: image("deinosavros", "showcase-poster", "Combat in progress", "")
+      poster: image("deinosavros", "latest-map", "Map and card detail", "")
         .src,
       posterSrcSet: image(
         "deinosavros",
-        "showcase-poster",
-        "Combat in progress",
+        "latest-map",
+        "Map and card detail",
         "",
       ).srcSet,
-      subtitles: "/media/deinosavros/showcase.vtt",
+      subtitles: "/media/deinosavros/latest-run.vtt",
     },
     context:
       "Deinosavros is a team card battler that connects encounters through a branching route. Combat changes the player's resources, rewards carry forward, and map choices lead to battles, chance events or recovery. My interface work makes those changes readable across menus, the battlefield and the map. The challenge is continuity: a player should understand the current state before deciding what to do next.",
     contributions: [
-      "Programmed menu navigation and map interfaces.",
-      "Connected card selection, sacrifice previews and confirmation feedback.",
-      "Presented pending effects and departure prompts in the map flow.",
-      "Implemented combat and map UI as part of the wider team project.",
+      "Programmed menu, map and combat UI.",
+      "Built card inspection, sacrifice feedback and the burn sequence.",
+      "Connected map choices and pending effects across encounters.",
     ],
     breakdown: [
       {
@@ -134,6 +135,7 @@ const mainProjects: PublishedProjectRecord[] = [
         paragraphs: [
           "Opening the panel and moving between cards must remain reversible. The preview carries the information needed to describe the choice, while the actual transaction is deferred until confirmation. Cancelling closes the interaction without turning inspection into an accidental sacrifice.",
           "This separation also gives the interface a clear responsibility: explain the current choice, expose whether it can be confirmed, and display the result only after the underlying operation succeeds.",
+          "The later card-detail update uses a Timeline-driven burn sequence after the selection is committed, with input locked until the sequence finishes.",
         ],
         media: image(
           "deinosavros",
@@ -202,11 +204,28 @@ const mainProjects: PublishedProjectRecord[] = [
       {
         id: "recorded-detail",
         layout: "wide",
-        title: "Inspect, cancel, then commit",
+        title: "Inspect and sacrifice",
         paragraphs: [
-          "This controlled detail shows the reversible states directly. Preview and cancellation leave room to inspect; confirmation applies the selected change and keeps the resulting benefit visible.",
+          "The updated sequence shows a card being inspected and sacrificed, with the benefit carried into the next battle.",
         ],
         comparison: [
+          {
+            label: "Updated sacrifice",
+            asset: {
+              ...video(
+                "deinosavros",
+                "Card inspection and sacrifice",
+                "Updated map and sacrifice sequence. Edited gameplay capture; no audio.",
+                "A card is inspected and sacrificed. The card moves to the centre, burns and leaves a benefit for the next battle.",
+                "map-sacrifice",
+              ),
+              width: 1280,
+              height: 720,
+              poster: image("deinosavros", "latest-map", "Map and card detail", "").src,
+              posterSrcSet: image("deinosavros", "latest-map", "Map and card detail", "").srcSet,
+              subtitles: "/media/deinosavros/map-sacrifice.vtt",
+            },
+          },
           {
             label: "Offering into combat",
             asset: {
@@ -230,7 +249,7 @@ const mainProjects: PublishedProjectRecord[] = [
               ...video(
                 "deinosavros",
                 "A card decision, from preview to confirmation",
-                "Current map interface: preview, cancel, confirm and inspect the pending benefit. Controlled UI walkthrough; no audio.",
+                "Earlier map interface: preview, cancel, confirm and inspect the pending benefit. Controlled UI walkthrough; no audio.",
                 "A scripted play session opens the offering panel, inspects a card, cancels the choice, reopens it and confirms. The pending benefit remains visible after commitment.",
               ),
               width: 1600,
@@ -1195,6 +1214,7 @@ const mainProjects: PublishedProjectRecord[] = [
 export const projects: PublishedProjectRecord[] = [
   ...mainProjects,
   oasis,
+  archerDuel,
   ...studies,
 ];
 export const featuredProjects = projects

@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { featuredProjects, projects } from "../data/projects";
+import { site, skillGroups } from "../data/site";
 import ProjectCard from "../components/ProjectCard";
 import ProjectFilter, { useProjectTrack } from "../components/ProjectFilter";
 import ContactCTA from "../components/ContactCTA";
+import HeroReel from "../components/HeroReel";
+import Icon, { type IconName } from "../components/Icon";
 
 export default function HomePage() {
   const { selected, select } = useProjectTrack();
@@ -12,12 +15,35 @@ export default function HomePage() {
   const supporting = projects
     .filter((project) => project.tier === "supporting" && matches(project))
     .sort((a, b) => a.rank - b.rank);
+  const stats = [
+    { value: projects.length, label: "Projects & studies" },
+    { value: 2, label: "Engines · Unity & Unreal" },
+    {
+      value: projects.filter((project) => project.projectType === "Team project" || project.projectType === "Game jam").length,
+      label: "Team productions",
+    },
+  ];
   return (
     <div className="home-page">
       <section className="home-intro container" aria-labelledby="home-title">
-        <h1 id="home-title">Hi, I’m Hongtao.</h1>
-        <p className="home-role">Game Programmer &amp; Technical Artist</p>
-        <p className="home-hello">Unity · Unreal Engine</p>
+        <div className="home-intro-main">
+          <p className="intro-eyebrow"><span aria-hidden="true" /> {site.availability}</p>
+          <h1 id="home-title">Hi, I’m Hongtao.</h1>
+          <p className="home-role">Game Programmer &amp; Technical Artist</p>
+          <p className="home-tagline">{site.tagline}</p>
+          <div className="hero-actions">
+            <a className="button button-primary" href="#selected-work">
+              View work <Icon name="arrow-right" />
+            </a>
+            {site.resume ? (
+              <a className="button button-ghost" href={site.resume} download>
+                <Icon name="download" /> Download CV
+              </a>
+            ) : null}
+          </div>
+          <p className="home-hello">Unity <span aria-hidden="true">/</span> Unreal Engine</p>
+        </div>
+        <HeroReel />
       </section>
       <section
         className="home-work container"
@@ -62,12 +88,34 @@ export default function HomePage() {
         </section>
       ) : null}
       <section className="home-about container" aria-labelledby="about-heading">
-        <div>
+        <div className="home-about-intro">
           <h2 id="about-heading">Programming and technical art, together.</h2>
+          <dl className="stat-row">
+            {stats.map((stat) => (
+              <div key={stat.label}>
+                <dt>{stat.label}</dt>
+                <dd>{stat.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <Link className="text-link" to="/about">
+            A little more about me
+          </Link>
         </div>
-        <Link className="text-link" to="/about">
-          A little more about me
-        </Link>
+        <div className="skill-groups">
+          {skillGroups.map((group) => (
+            <div className="skill-group" key={group.title}>
+              <h3>
+                <Icon name={group.icon as IconName} /> {group.title}
+              </h3>
+              <ul className="tag-list">
+                {group.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </section>
       <ContactCTA />
     </div>

@@ -53,7 +53,7 @@ Videos use H.264, faststart and native controls. Only the poster is mounted befo
 
 Eleven short silent clips also have GIF previews with the existing English captions burned in. A GIF loads and loops only while its display is visible; a pause control returns to the still poster. Reduced-motion visitors see the poster unless they deliberately start the animation. Starting an original film stops visible GIF motion. The original MP4 remains accessible through the preview's video control, with its native controls and subtitles. Home covers and thumbnail strips remain still images.
 
-The interface uses the system Arial/Helvetica stack. The previous licensed font files remain retained assets but are not loaded by the current pages.
+The interface uses the locally hosted Instrument Sans font with a system sans-serif fallback.
 
 Five cases have reviewed main films. One More Second retains explicitly limited opening and controlled-tool excerpts by user agreement; neither is classified as a complete showcase. Its missing rescue, scene-progression and final-dialogue coverage remains visible.
 

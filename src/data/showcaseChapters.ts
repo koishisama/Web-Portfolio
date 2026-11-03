@@ -10,8 +10,10 @@ export type ShowcaseChapter = {
 };
 
 const durations: Record<string, Record<string, number>> = {
+  "archer-duel": { "duel-highlights": 34, "client-sync": 10 },
   deinosavros: {
-    showcase: 76.6,
+    "latest-run": 56,
+    "map-sacrifice": 11,
     "combat-and-reward": 47.9,
     "map-and-chance": 28.73,
     "offering-to-combat": 32,
@@ -37,15 +39,20 @@ const selection: Record<
   string,
   { id: string; label: string; poster: string }[]
 > = {
+  "archer-duel": [
+    { id: "duel-highlights", label: "Duel", poster: "duel-cover" },
+    { id: "client-sync", label: "Both clients", poster: "duel-cover" },
+  ],
   deinosavros: [
-    { id: "showcase", label: "Full sequence", poster: "showcase-poster" },
+    { id: "latest-run", label: "Battle & map", poster: "latest-map" },
+    { id: "map-sacrifice", label: "Card & sacrifice", poster: "latest-map" },
     {
       id: "combat-and-reward",
-      label: "Combat & reward",
+      label: "Earlier combat",
       poster: "showcase-poster",
     },
-    { id: "map-and-chance", label: "Map & Chance", poster: "route" },
-    { id: "offering-to-combat", label: "Offering choice", poster: "offering" },
+    { id: "map-and-chance", label: "Earlier map & Chance", poster: "route" },
+    { id: "offering-to-combat", label: "Earlier offering", poster: "offering" },
   ],
   "procedural-city": [
     {

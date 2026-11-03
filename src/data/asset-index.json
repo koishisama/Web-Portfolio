@@ -1,4 +1,19 @@
 {
+  "archer-duel/duel-cover": {
+    "width": 960,
+    "height": 540,
+    "variants": [480, 960]
+  },
+  "archer-duel/server-test": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
+  "deinosavros/latest-map": {
+    "width": 1280,
+    "height": 720,
+    "variants": [480, 960, 1280]
+  },
   "deinosavros/hero": {
     "width": 1600,
     "height": 900,

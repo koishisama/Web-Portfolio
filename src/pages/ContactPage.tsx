@@ -17,6 +17,10 @@ export default function ContactPage() {
     <section className="contact-page container">
       <header className="page-header">
         <h1>Get in touch</h1>
+        <p className="contact-status">
+          <span aria-hidden="true" /> {site.availability}. Email is the fastest
+          way to reach me.
+        </p>
       </header>
       <div className="contact-options">
         <a className="email-address" href={`mailto:${site.email}`}>
@@ -61,7 +65,27 @@ export default function ContactPage() {
         >
           <Icon name="code" />
         </a>
+        {site.profiles
+          .filter((profile) => profile.href)
+          .map((profile) => (
+            <a
+              key={profile.label}
+              className="icon-button"
+              href={profile.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={profile.label}
+              title={profile.label}
+            >
+              <Icon name="globe" />
+            </a>
+          ))}
       </div>
+      {site.resume ? (
+        <a className="button button-primary contact-cv" href={site.resume} download>
+          <Icon name="download" /> Download CV
+        </a>
+      ) : null}
     </section>
   );
 }
