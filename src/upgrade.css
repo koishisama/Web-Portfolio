@@ -48,14 +48,8 @@
   background: transparent;
 }
 
-.home-intro .button-ghost {
-  color: #e6f5ef;
-  border-color: #b9ead880;
-}
-
 .home-intro .button-ghost:hover {
-  border-color: var(--glow);
-  color: var(--glow);
+  color: var(--accent);
 }
 
 .page-header .button-primary,
@@ -104,33 +98,51 @@
   height: 15px;
 }
 
-/* Hero */
+/* Hero: the same pale-green panel as the case headers, with a faint grid */
 .home-intro {
   grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
   gap: 48px;
-  min-height: 440px;
+  min-height: 420px;
   padding: 56px 5%;
+  border-left: 4px solid #4e8f80;
   border-radius: 6px;
+  color: var(--text);
   background:
-    radial-gradient(ellipse at 78% 40%, #2a6a6e 0%, transparent 55%),
-    radial-gradient(ellipse at 10% 110%, #1d4a3f 0%, transparent 45%),
-    var(--deep);
+    radial-gradient(ellipse at 78% 45%, #c6e2d6 0%, transparent 55%),
+    linear-gradient(110deg, #e1eee6, #edf3ed 60%, #ddebe7);
+}
+
+.home-intro::before {
+  opacity: .5;
+  background-image: linear-gradient(#c4d9cf 1px, transparent 1px), linear-gradient(90deg, #c4d9cf 1px, transparent 1px);
 }
 
 .home-intro h1 {
+  color: var(--text);
   font-size: clamp(42px, 5.4vw, 70px);
+}
+
+.home-role {
+  max-width: none;
+  color: var(--accent);
 }
 
 .home-tagline {
   max-width: 40ch;
   margin-top: 16px;
-  color: #a9cbc4;
+  color: var(--muted);
   font-size: 15px;
   line-height: 1.55;
 }
 
-.home-hello {
-  margin-top: 22px;
+.home-intro .button-primary {
+  color: #f4fbf5;
+  background: var(--accent);
+  box-shadow: 0 6px 20px #27666233;
+}
+
+.home-intro .button-primary:hover {
+  background: #1e524f;
 }
 
 .hero-reel {
@@ -141,7 +153,7 @@
   border: 1px solid #b9ead84d;
   border-radius: 4px;
   background: #0a1d24;
-  box-shadow: 0 30px 60px -20px #00000080, 0 0 0 6px #b9ead80f;
+  box-shadow: 0 24px 50px -24px #203331a6;
 }
 
 /* HUD-style corner brackets */
@@ -153,7 +165,7 @@
   height: 22px;
   content: "";
   pointer-events: none;
-  border: 2px solid var(--glow);
+  border: 2px solid #f4fbf5b3;
 }
 
 .hero-reel::before {
