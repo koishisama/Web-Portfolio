@@ -27,7 +27,6 @@ export default function HomePage() {
     <div className="home-page">
       <section className="home-intro container" aria-labelledby="home-title">
         <div className="home-intro-main">
-          <p className="intro-eyebrow"><span aria-hidden="true" /> {site.availability}</p>
           <h1 id="home-title">Hi, I’m Hongtao.</h1>
           <p className="home-role">Game Programmer &amp; Technical Artist</p>
           <p className="home-tagline">{site.tagline}</p>
@@ -41,7 +40,6 @@ export default function HomePage() {
               </a>
             ) : null}
           </div>
-          <p className="home-hello">Unity <span aria-hidden="true">/</span> Unreal Engine</p>
         </div>
         <HeroReel />
       </section>

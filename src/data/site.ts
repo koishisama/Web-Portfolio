@@ -3,8 +3,7 @@ export const site = {
   role: "Game Programmer & Technical Artist",
   description:
     "Gameplay systems, expressive effects and tools for making worlds. Selected Unity and Unreal Engine work by Hongtao Gao.",
-  tagline:
-    "I build gameplay systems, interfaces and tools — and the shaders and effects that make them readable.",
+  tagline: "Gameplay, interfaces and real-time effects in Unity and Unreal.",
   email: "mm2212425586@gmail.com",
   github: "https://github.com/koishisama",
   url: "https://web-portfolio-eta-eosin.vercel.app",

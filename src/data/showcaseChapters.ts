@@ -60,7 +60,7 @@ const selection: Record<
       label: "City & tool overview",
       poster: "showcase-poster",
     },
-    { id: "editor-controls", label: "Editor controls", poster: "detail-1" },
+    { id: "editor-controls", label: "Editor controls", poster: "tool-panel" },
     {
       id: "locked-neighbor",
       label: "Lock & rebuild",

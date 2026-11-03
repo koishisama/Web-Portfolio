@@ -355,7 +355,7 @@ const mainProjects: PublishedProjectRecord[] = [
         ],
         media: image(
           "procedural-city",
-          "detail-1",
+          "tool-panel",
           "City tool panel before a preset change",
           "Green Residential preset and lock controls in the recorded editor panel.",
         ),
@@ -469,7 +469,7 @@ const mainProjects: PublishedProjectRecord[] = [
               ),
               poster: image(
                 "procedural-city",
-                "detail-1",
+                "tool-panel",
                 "City tool panel",
                 "",
               ).src,
