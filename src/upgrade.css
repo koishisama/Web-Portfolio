@@ -620,3 +620,271 @@
     font-size: 40px;
   }
 }
+
+/* Unit labels */
+.card-tags .tag-unit {
+  border-color: transparent;
+  color: #f4fbf5;
+  background: var(--deep-2);
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+
+.case-unit {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  color: #f4fbf5;
+  background: var(--deep-2);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Reflection */
+.reflection-page section {
+  margin-top: 56px;
+}
+
+.reflection-page section > h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 24px;
+  letter-spacing: -.025em;
+}
+
+.reflection-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.reflection-toc a {
+  padding: 6px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.reflection-toc a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.unit-list {
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.unit-list > li {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.unit-code {
+  color: var(--accent);
+  font-size: 18px;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+
+.other-units {
+  margin: 12px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.other-units li + li {
+  margin-top: 6px;
+}
+
+.other-units strong {
+  color: var(--text);
+}
+
+.unit-list p {
+  margin: 0 0 10px;
+}
+
+.unit-list .tag-list a {
+  color: var(--accent);
+}
+
+.skill-evidence {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.skill-evidence article {
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent);
+  border-radius: 4px;
+  background: var(--paper);
+}
+
+.skill-evidence h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+}
+
+.skill-evidence p {
+  margin: 0 0 12px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.skill-growth {
+  color: var(--text);
+}
+
+.section-lead {
+  margin: 14px 0 0;
+  color: var(--muted);
+}
+
+.skill-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: auto !important;
+  padding-top: 6px;
+}
+
+.skill-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.skill-links .icon {
+  width: 14px;
+  height: 14px;
+}
+
+.learning-list {
+  display: grid;
+  gap: 14px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: learning;
+}
+
+.learning-list li {
+  position: relative;
+  padding: 18px 20px 18px 64px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper);
+  counter-increment: learning;
+}
+
+.learning-list li::before {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  content: counter(learning, decimal-leading-zero);
+  color: var(--accent);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.learning-list h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+}
+
+.learning-list p {
+  margin: 0;
+}
+
+.proudest {
+  padding: 36px 5%;
+  border-radius: 6px;
+  color: #e6f5ef;
+  background:
+    radial-gradient(ellipse at 100% 0%, #2a6a6e 0%, transparent 55%),
+    var(--deep);
+}
+
+.reflection-page .proudest > h2 {
+  border-bottom-color: #b9ead833;
+  color: #f5fbf5;
+}
+
+.proudest h2 .icon {
+  color: var(--glow);
+}
+
+.proudest h3 {
+  color: var(--glow);
+  font-size: 22px;
+}
+
+.proudest .text-link {
+  color: var(--glow);
+}
+
+/* Visible placeholder for reflection text still to be written. */
+.to-write {
+  padding: 10px 14px;
+  border: 1px dashed #c08a2e;
+  border-radius: 4px;
+  color: #7a5310;
+  background: #fbf1dc;
+  font-size: 14px;
+  font-style: italic;
+}
+
+@media (max-width: 800px) {
+  .skill-evidence {
+    grid-template-columns: 1fr;
+  }
+
+  .unit-list > li {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 560px) {
+  .header-inner {
+    flex-wrap: wrap;
+    row-gap: 6px;
+    padding-block: 14px 10px;
+  }
+
+  .header-inner nav {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+  }
+}
+
+.unit-subheading {
+  margin: 36px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}

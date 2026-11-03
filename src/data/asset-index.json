@@ -239,6 +239,16 @@
     "height": 720,
     "variants": [480, 960, 1280]
   },
+  "deinosavros/arena-grass": {
+    "width": 1600,
+    "height": 900,
+    "variants": [480, 960, 1600]
+  },
+  "deinosavros/arena-desert": {
+    "width": 1600,
+    "height": 900,
+    "variants": [480, 960, 1600]
+  },
   "deinosavros/later-battle": {
     "width": 1280,
     "height": 720,

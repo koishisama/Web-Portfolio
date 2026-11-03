@@ -9,12 +9,13 @@ export const site = {
   github: "https://github.com/koishisama",
   url: "https://web-portfolio-eta-eosin.vercel.app",
   // Place the PDF at public/Hongtao-Gao-CV.pdf; leave empty to hide every CV button.
-  resume: "/Hongtao-Gao-CV.pdf",
+  // Add the PDF to public/ and set the path here to show the CV buttons.
+  resume: "",
   availability: "Open to gameplay & technical art roles",
   // Optional extra profiles; entries with an empty href are not rendered.
   profiles: [
-    { label: "LinkedIn", href: "" },
-    { label: "itch.io", href: "" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/hongtao-gao-076630443" },
+    { label: "itch.io", href: "https://chanelaforet.itch.io/" },
     { label: "ArtStation", href: "" },
   ],
   // Optional portrait at public/media/portrait.webp; empty shows a monogram.

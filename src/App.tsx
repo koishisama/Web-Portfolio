@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import ProjectsPage from "./pages/ProjectsPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
+import ReflectionPage from "./pages/ReflectionPage";
 import ProjectCaseStudyPage from "./pages/ProjectCaseStudyPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { getMetadata, redirects } from "./metadata";
@@ -76,6 +77,7 @@ export default function App() {
           ))}
           <Route path="projects/:slug" element={<ProjectCaseStudyPage />} />
           <Route path="about" element={<AboutPage />} />
+          <Route path="reflection" element={<ReflectionPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>

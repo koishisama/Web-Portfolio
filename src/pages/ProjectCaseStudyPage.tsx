@@ -48,6 +48,9 @@ export default function ProjectCaseStudyPage() {
             <h1>{project.title}</h1>
             <p className="case-role">
               {project.roles.join(" / ")} · {project.tools[0]}
+              {project.unit ? (
+                <span className="case-unit">Coursework · {project.unit}</span>
+              ) : null}
             </p>
           </div>
           <p className="case-introduction">{project.subtitle}</p>

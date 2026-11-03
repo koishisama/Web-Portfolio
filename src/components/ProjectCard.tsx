@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import type { ProjectRecord } from "../types/project";
 import { Picture } from "./Media";
-import MediaDialog from "./MediaDialog";
 import Icon from "./Icon";
 
 export default function ProjectCard({
@@ -19,29 +18,20 @@ export default function ProjectCard({
       data-project={project.slug}
     >
       <div className="card-image">
-        {project.showcase ? (
-          <MediaDialog
-            asset={project.showcase}
-            preview={project.cover}
+        <Link
+          to={`/projects/${project.slug}`}
+          className="project-link"
+          aria-label={`Explore ${project.title}`}
+        >
+          <Picture
+            asset={project.cover}
             eager={eager}
-            triggerLabel={`Play ${project.title} showcase`}
+            sizes="(max-width: 560px) calc(100vw - 40px), (max-width: 1200px) 45vw, 544px"
           />
-        ) : (
-          <Link
-            to={`/projects/${project.slug}`}
-            className="project-link"
-            aria-label={`Explore ${project.title}`}
-          >
-            <Picture
-              asset={project.cover}
-              eager={eager}
-              sizes="(max-width: 560px) calc(100vw - 40px), (max-width: 1200px) 45vw, 544px"
-            />
-            <span className="cover-open">
-              <Icon name="arrow-up-right" />
-            </span>
-          </Link>
-        )}
+          <span className="cover-open">
+            <Icon name="arrow-up-right" />
+          </span>
+        </Link>
       </div>
       <div className="card-body">
         <div>
@@ -54,6 +44,7 @@ export default function ProjectCard({
             {project.tools[0]}
           </p>
           <ul className="tag-list card-tags" aria-label="Project details">
+            {project.unit ? <li className="tag-unit">{project.unit}</li> : null}
             <li className="tag-type">{project.projectType}</li>
             {project.tools.slice(1, compact ? 3 : 4).map((tool) => (
               <li key={tool}>{tool}</li>

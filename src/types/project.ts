@@ -10,13 +10,11 @@ export type VisualAsset = {
   srcSet?: string;
   poster?: string;
   posterSrcSet?: string;
-  animation?: { src: string; width: number; height: number };
   width: number;
   height: number;
   mediaType: "image" | "video";
   purpose: MediaPurpose;
   transcript?: string;
-  subtitles?: string;
 };
 export type ShowcaseAsset = VisualAsset & {
   mediaType: "video";
@@ -43,8 +41,12 @@ export type ProjectRecord = {
   projectType:
     | "Team project"
     | "Independent study"
+    | "Coursework"
     | "Game jam"
+    | "Practice project"
     | "Environment study";
+  /** Name of the Monash unit the work was made for; omit for personal work. */
+  unit?: string;
   roles: string[];
   tools: string[];
   facts: { label: string; value: string }[];

@@ -89,33 +89,11 @@ export default function AboutPage() {
           </Link>
           <figcaption>{street.caption}</figcaption>
         </figure>
-        <section>
-          <h2>Programming and technical art, together</h2>
-          <p>
-            In <Link to="/projects/deinosavros">Deinosavros</Link>, my work
-            connects menus, map decisions and combat through the interface. In{" "}
-            <Link to="/projects/rhythm-rider">Rhythm Rider</Link>, gameplay and
-            effects communicate timing. For{" "}
-            <Link to="/projects/procedural-city">Procedural City</Link>, the
-            goal is to give generation a useful editing workflow.
-          </p>
-          <p>
-            My <Link to="/projects/ink-vfx">Ink VFX</Link> study focuses on
-            complete effect cycles, materials and animation timing.{" "}
-            <Link to="/projects/oasis-environment">Oasis</Link> connects
-            material detail with a wider environment composition.
-          </p>
-        </section>
-        <section>
-          <h2>Working with a team</h2>
-          <p>
-            For <Link to="/projects/one-more-second">One More Second</Link>,
-            seven people worked for 72 hours. I contributed menus, the final
-            dialogue system, pickups, skill and drag feedback, audio and final
-            integration. The case pages distinguish my part from the complete
-            team game.
-          </p>
-        </section>
+        <p>
+          <Link className="text-link" to="/reflection">
+            Read my degree reflection
+          </Link>
+        </p>
       </article>
       <ContactCTA />
     </>

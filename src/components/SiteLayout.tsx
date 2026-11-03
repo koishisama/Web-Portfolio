@@ -4,7 +4,7 @@ import { site } from "../data/site";
 import Icon from "./Icon";
 
 const revealTargets =
-  ".project-card, .home-about, .skill-group, .timeline li, .breakdown-module";
+  ".project-card, .home-about, .skill-group, .timeline li, .breakdown-module, .unit-list > li, .skill-evidence > article";
 
 // Fade sections in as they scroll into view; anything already on screen is left alone.
 function useReveal(pathname: string) {
@@ -48,6 +48,7 @@ export default function SiteLayout() {
           <nav aria-label="Main navigation">
             <NavLink to="/projects">Work</NavLink>
             <NavLink to="/about">About</NavLink>
+            <NavLink to="/reflection">Reflection</NavLink>
             <NavLink to="/contact">Contact</NavLink>
             {site.resume ? (
               <a className="nav-cv" href={site.resume} download>

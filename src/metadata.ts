@@ -8,6 +8,7 @@ export const publicRoutes = [
   "/",
   "/projects",
   "/about",
+  "/reflection",
   "/contact",
   ...projects.map((project) => `/projects/${project.slug}`),
 ];
@@ -20,6 +21,7 @@ export function getMetadata(path: string) {
     "/": site.role,
     "/projects": "Selected Work",
     "/about": "About",
+    "/reflection": "Reflection",
     "/contact": "Contact",
   };
   const found = Boolean(project || names[pathname]);

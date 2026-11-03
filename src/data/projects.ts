@@ -10,12 +10,13 @@ const mainProjects: PublishedProjectRecord[] = [
     title: "Deinosavros",
     subtitle: "Readable decisions, from battle to the next encounter.",
     summary:
-      "Combat, route choices and chance encounters in a team card battler. My contribution connects menus, map interfaces and combat UI.",
+      "Combat, route choices and chance encounters in a team card battler. My contribution connects menus, map interfaces and combat UI. Made as coursework for Studio Project 2.",
     tracks: ["programming"],
     tier: "featured",
     rank: 1,
     publication: "published",
     projectType: "Team project",
+    unit: "Studio Project 2",
     roles: ["UI programmer"],
     tools: ["Unity", "C#", "UI state"],
     facts: [
@@ -36,8 +37,8 @@ const mainProjects: PublishedProjectRecord[] = [
       ...showcase(
         "deinosavros",
         "Deinosavros: battle, map and sacrifice",
-        "Battle, reward and the updated map and sacrifice sequence. Edited gameplay capture; no audio.",
-        "A battle ends in victory and a card reward. On the map, a card is inspected and sacrificed; it moves to the centre and burns, and its benefit appears for the next battle.",
+        "Battle, reward and the map sacrifice sequence. Gameplay capture; no audio.",
+        "A battle ends in victory and a card reward. On the map, cards are inspected and one is sacrificed; it moves to the centre and burns, and its benefit appears for the next battle.",
         "latest-run",
       ),
       width: 1280,
@@ -50,7 +51,6 @@ const mainProjects: PublishedProjectRecord[] = [
         "Map and card detail",
         "",
       ).srcSet,
-      subtitles: "/media/deinosavros/latest-run.vtt",
     },
     context:
       "Deinosavros is a team card battler that connects encounters through a branching route. Combat changes the player's resources, rewards carry forward, and map choices lead to battles, chance events or recovery. My interface work makes those changes readable across menus, the battlefield and the map. The challenge is continuity: a player should understand the current state before deciding what to do next.",
@@ -81,8 +81,8 @@ const mainProjects: PublishedProjectRecord[] = [
               ...video(
                 "deinosavros",
                 "Combat and an earned reward",
-                "The first encounter resolves through legal card plays and native damage. Original game audio.",
-                "Nine legal card actions support the timed battle. After the final enemy falls, victory presents three cards and the chosen reward carries into the map.",
+                "A battle resolves through card plays and native damage. Gameplay capture; no audio.",
+                "Cards are played through the timed battle. After the enemy falls, victory presents three cards and the chosen reward carries into the map.",
                 "combat-and-reward",
               ),
               width: 1280,
@@ -93,7 +93,6 @@ const mainProjects: PublishedProjectRecord[] = [
                 "Active combat",
                 "",
               ).src,
-              subtitles: "/media/deinosavros/combat-and-reward.vtt",
             },
           },
           {
@@ -102,8 +101,8 @@ const mainProjects: PublishedProjectRecord[] = [
               ...video(
                 "deinosavros",
                 "A later battle after the offering",
-                "Separate take: the next battle and its earned reward, with original audio. Normal speed; no forced result.",
-                "The offering carries into another encounter. Legal card plays and the native combat loop resolve the battle before another reward selection.",
+                "The next battle, its reward and a Recovery event. Normal speed; no audio.",
+                "The sacrifice carries into another encounter. Card plays resolve the battle, a reward is chosen, and a Recovery event restores health on the map.",
                 "later-battle",
               ),
               width: 1280,
@@ -114,7 +113,6 @@ const mainProjects: PublishedProjectRecord[] = [
                 "Next combat encounter",
                 "",
               ).src,
-              subtitles: "/media/deinosavros/later-battle.vtt",
             },
           },
           {
@@ -123,7 +121,25 @@ const mainProjects: PublishedProjectRecord[] = [
               "deinosavros",
               "reward",
               "Three reward cards after victory",
-              "The reward screen follows an earned victory. This take selected Radiant Ward.",
+              "The reward screen follows an earned victory and offers three cards.",
+            ),
+          },
+          {
+            label: "Grassland arena",
+            asset: image(
+              "deinosavros",
+              "arena-grass",
+              "Battle in the grassland arena",
+              "The same combat interface over the grassland arena.",
+            ),
+          },
+          {
+            label: "Desert arena",
+            asset: image(
+              "deinosavros",
+              "arena-desert",
+              "Battle in the desert arena",
+              "A later encounter moves to the desert arena; the interface stays the same.",
             ),
           },
         ],
@@ -169,16 +185,15 @@ const mainProjects: PublishedProjectRecord[] = [
         media: {
           ...video(
             "deinosavros",
-            "Map selection, Chance reveal and continuation",
-                "A reachable route choice reveals Hidden Spring. Health recovers from 181 to 200 before returning to the map.",
-            "Two reachable nodes are inspected. Selecting Opportunity enters the Chance scene. Hidden Spring restores health, and Continue carries the updated state back to the route.",
+            "Map selection, Opportunity reveal and the next battle",
+            "A route choice opens an Opportunity, which reveals an Ambush and leads straight into battle. No audio.",
+            "A reachable node is selected on the map. The Opportunity scene reveals Ambush, and the game carries the current deck and state into the battle countdown.",
             "map-and-chance",
           ),
           width: 1280,
           height: 720,
           poster: image("deinosavros", "route", "Reachable route selection", "")
             .src,
-          subtitles: "/media/deinosavros/map-and-chance.vtt",
         },
         comparison: [
           {
@@ -195,7 +210,7 @@ const mainProjects: PublishedProjectRecord[] = [
             asset: image(
               "deinosavros",
               "chance",
-              "Hidden Spring recovery result",
+              "Recovery event result",
               "The revealed outcome explains both the health change and the next action.",
             ),
           },
@@ -215,7 +230,7 @@ const mainProjects: PublishedProjectRecord[] = [
               ...video(
                 "deinosavros",
                 "Card inspection and sacrifice",
-                "Updated map and sacrifice sequence. Edited gameplay capture; no audio.",
+                "Map and sacrifice sequence. Gameplay capture; no audio.",
                 "A card is inspected and sacrificed. The card moves to the centre, burns and leaves a benefit for the next battle.",
                 "map-sacrifice",
               ),
@@ -223,7 +238,6 @@ const mainProjects: PublishedProjectRecord[] = [
               height: 720,
               poster: image("deinosavros", "latest-map", "Map and card detail", "").src,
               posterSrcSet: image("deinosavros", "latest-map", "Map and card detail", "").srcSet,
-              subtitles: "/media/deinosavros/map-sacrifice.vtt",
             },
           },
           {
@@ -231,35 +245,15 @@ const mainProjects: PublishedProjectRecord[] = [
             asset: {
               ...video(
                 "deinosavros",
-                "Preview, cancel, confirm and enter combat",
-                "A separate genuine run: inspect the offering, cancel, confirm and continue to the next battle. Original audio.",
-                "The offering panel opens and previews a selected card. Cancellation leaves the choice reversible. Reopening and confirming creates a pending benefit, which is applied through the next encounter's production flow.",
+                "Sacrifice a card and enter the next battle",
+                "Inspect cards, sacrifice one and continue into the next battle. No audio.",
+                "Several cards are previewed before one is sacrificed. The card burns, its pending benefit stays visible on the map, and the next battle begins with that benefit applied.",
                 "offering-to-combat",
               ),
               width: 1280,
               height: 720,
               poster: image("deinosavros", "offering", "Offering preview", "")
                 .src,
-              subtitles: "/media/deinosavros/offering-to-combat.vtt",
-            },
-          },
-          {
-            label: "Isolated UI walkthrough",
-            asset: {
-              ...video(
-                "deinosavros",
-                "A card decision, from preview to confirmation",
-                "Earlier map interface: preview, cancel, confirm and inspect the pending benefit. Controlled UI walkthrough; no audio.",
-                "A scripted play session opens the offering panel, inspects a card, cancels the choice, reopens it and confirms. The pending benefit remains visible after commitment.",
-              ),
-              width: 1600,
-              height: 900,
-              poster: image(
-                "deinosavros",
-                "detail-1",
-                "Card sacrifice preview",
-                "",
-              ).src,
             },
           },
         ],
@@ -299,12 +293,13 @@ const mainProjects: PublishedProjectRecord[] = [
     title: "Procedural City",
     subtitle: "Generate a city. Keep the parts you love.",
     summary:
-      "An Unreal editor tool with seeded rules, locked blocks and local regeneration. Built to leave room for an artist's decisions.",
+      "An Unreal editor tool with seeded rules, locked blocks and local regeneration. Built to leave room for an artist's decisions. Made as coursework for Technical Art.",
     tracks: ["technical-art", "programming"],
     tier: "featured",
     rank: 2,
     publication: "published",
-    projectType: "Independent study",
+    projectType: "Coursework",
+    unit: "Technical Art",
     roles: ["Tool developer", "Technical artist"],
     tools: ["Unreal Engine", "Python", "Blueprint", "Editor Utility Widgets"],
     facts: [
@@ -340,7 +335,6 @@ const mainProjects: PublishedProjectRecord[] = [
         "Generated city overview",
         "",
       ).srcSet,
-      subtitles: "/media/procedural-city/showcase.vtt",
     },
     context:
       "Procedural generation becomes more useful when an artist can keep a successful composition. I built this tool around a practical question: how can the city change without throwing away a block that already works? Seeded generation establishes a repeatable base, and block-level controls let the user refine that base incrementally.",
@@ -389,7 +383,6 @@ const mainProjects: PublishedProjectRecord[] = [
             "Before the local rebuild",
             "",
           ).src,
-          subtitles: "/media/procedural-city/locked-neighbor.vtt",
         },
         comparison: [
           {
@@ -443,7 +436,6 @@ const mainProjects: PublishedProjectRecord[] = [
                 "Street-level view",
                 "",
               ).src,
-              subtitles: "/media/procedural-city/street-traffic.vtt",
             },
           },
           {
@@ -481,7 +473,6 @@ const mainProjects: PublishedProjectRecord[] = [
                 "City tool panel",
                 "",
               ).src,
-              subtitles: "/media/procedural-city/editor-controls.vtt",
             },
           },
           {
@@ -521,12 +512,13 @@ const mainProjects: PublishedProjectRecord[] = [
     title: "Rhythm Rider",
     subtitle: "Turn a good input into a visible moment.",
     summary:
-      "Gameplay programming and VFX for a three-lane rhythm runner, connecting beat-based obstacle placement with precise visual feedback.",
+      "Gameplay programming and VFX for a three-lane rhythm runner, connecting beat-based obstacle placement with precise visual feedback. Made as coursework for Studio Project 1.",
     tracks: ["programming", "technical-art"],
     tier: "featured",
     rank: 3,
     publication: "published",
     projectType: "Team project",
+    unit: "Studio Project 1",
     roles: ["Gameplay programmer", "VFX artist"],
     tools: ["Unity", "C#", "URP", "Shader Graph"],
     facts: [
@@ -564,7 +556,6 @@ const mainProjects: PublishedProjectRecord[] = [
         "Earned Perfect response",
         "",
       ).srcSet,
-      subtitles: "/media/rhythm-rider/showcase.vtt",
     },
     context:
       "Rhythm Rider is a three-lane runner where lane changes and jumps clear obstacles along a musical track. I worked on the relationship between the song's beat structure, obstacle placement and the effects that acknowledge successful input. The challenge was to connect those responsibilities while keeping the track, the judgement and the player's next action readable at speed.",
@@ -608,7 +599,6 @@ const mainProjects: PublishedProjectRecord[] = [
                 "Normal obstacle pattern",
                 "",
               ).src,
-              subtitles: "/media/rhythm-rider/normal-patterns.vtt",
             },
           },
           {
@@ -629,7 +619,6 @@ const mainProjects: PublishedProjectRecord[] = [
                 "Dense obstacle pattern",
                 "",
               ).src,
-              subtitles: "/media/rhythm-rider/dense-patterns.vtt",
             },
           },
           {
@@ -703,7 +692,6 @@ const mainProjects: PublishedProjectRecord[] = [
                 "Earned cyan Perfect",
                 "",
               ).src,
-              subtitles: "/media/rhythm-rider/earned-feedback.vtt",
             },
           },
           {
@@ -718,7 +706,6 @@ const mainProjects: PublishedProjectRecord[] = [
               ),
               poster: image("rhythm-rider", "detail-2", "Current cyan scan", "")
                 .src,
-              subtitles: "/media/rhythm-rider/feedback.vtt",
             },
           },
         ],
@@ -741,7 +728,6 @@ const mainProjects: PublishedProjectRecord[] = [
           width: 1280,
           height: 720,
           poster: image("rhythm-rider", "results", "Run results", "").src,
-          subtitles: "/media/rhythm-rider/finish.vtt",
         },
         comparison: [
           {
@@ -771,7 +757,6 @@ const mainProjects: PublishedProjectRecord[] = [
                 "Life loss after collision",
                 "",
               ).src,
-              subtitles: "/media/rhythm-rider/missed-input.vtt",
             },
           },
         ],
@@ -807,12 +792,13 @@ const mainProjects: PublishedProjectRecord[] = [
     title: "Ink VFX",
     subtitle: "Build the impact, layer by layer.",
     summary:
-      "Ink-style melee, projectile and area attacks in Unreal Engine. Niagara, animated materials and character timing working together.",
+      "Ink-style melee, projectile and area attacks in Unreal Engine. Niagara, animated materials and character timing working together. Made as coursework for Technical Art.",
     tracks: ["technical-art"],
     tier: "featured",
     rank: 4,
     publication: "published",
-    projectType: "Independent study",
+    projectType: "Coursework",
+    unit: "Technical Art",
     roles: ["VFX artist", "Technical artist"],
     tools: ["Unreal Engine", "Niagara", "Materials", "Animation timing"],
     facts: [
@@ -839,7 +825,6 @@ const mainProjects: PublishedProjectRecord[] = [
       poster: image("ink-vfx", "showcase-poster", "Area burst", "").src,
       posterSrcSet: image("ink-vfx", "showcase-poster", "Area burst", "")
         .srcSet,
-      subtitles: "/media/ink-vfx/showcase.vtt",
     },
     context:
       "The aim of this study is to make an ink-like effect read as an action. A slash needs to follow the character's motion, a projectile needs a clear direction, and an area attack needs a readable build-up and release. I combine Niagara with animated materials so the visual shape evolves with the attack rather than sitting on top of it.",
@@ -876,7 +861,6 @@ const mainProjects: PublishedProjectRecord[] = [
                 "melee",
               ),
               poster: image("ink-vfx", "melee-still", "Sword arc", "").src,
-              subtitles: "/media/ink-vfx/melee.vtt",
             },
           },
           {
@@ -930,7 +914,6 @@ const mainProjects: PublishedProjectRecord[] = [
             "Projectile endpoint splash",
             "",
           ).src,
-          subtitles: "/media/ink-vfx/projectile-wide.vtt",
         },
         comparison: [
           {
@@ -997,7 +980,6 @@ const mainProjects: PublishedProjectRecord[] = [
                 "area",
               ),
               poster: image("ink-vfx", "area-still", "Area burst", "").src,
-              subtitles: "/media/ink-vfx/area.vtt",
             },
           },
           {
@@ -1041,7 +1023,6 @@ const mainProjects: PublishedProjectRecord[] = [
                 "Projectile side view",
                 "",
               ).src,
-              subtitles: "/media/ink-vfx/projectile-side.vtt",
             },
           },
           {
@@ -1151,7 +1132,6 @@ const mainProjects: PublishedProjectRecord[] = [
             "The existing pickup routine unlocks the tool. The production drag handlers apply a boost to a pipe and display its outline. Prerequisite positioning is excluded from the excerpt.",
             "tool-response",
           ),
-          subtitles: "/media/one-more-second/tool-response.vtt",
           poster: image(
             "one-more-second",
             "detail-2",

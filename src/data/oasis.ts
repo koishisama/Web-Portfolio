@@ -5,12 +5,13 @@ export const oasis: PublishedProjectRecord = {
   title: "Oasis",
   subtitle: "A little relief in the desert.",
   summary:
-    "A material and environment study in Unreal Engine: moving water, animated sand and a sheltered courtyard built from modular resources.",
+    "A material and environment study in Unreal Engine: moving water, animated sand and a sheltered courtyard built from modular resources. Made as coursework for Technical Art.",
   tracks: ["technical-art"],
   tier: "supporting",
   rank: 6,
   publication: "published",
   projectType: "Environment study",
+  unit: "Technical Art",
   roles: ["Technical artist", "Environment assembly"],
   tools: ["Unreal Engine", "Materials", "Landscape"],
   facts: [
@@ -42,7 +43,6 @@ export const oasis: PublishedProjectRecord = {
       "Oasis courtyard",
       "",
     ).srcSet,
-    subtitles: "/media/oasis-environment/showcase.vtt",
   },
   context:
     "Oasis explores the contrast between a dry desert enclosure and a cooler central water feature. I used a modular fort, layered rocks and desert vegetation to build a sheltered composition, then developed material treatments that give the space subtle motion.",
@@ -69,7 +69,6 @@ export const oasis: PublishedProjectRecord = {
         ),
         poster: image("oasis-environment", "water-still", "Water surface", "")
           .src,
-        subtitles: "/media/oasis-environment/water.vtt",
       },
     },
     {
@@ -90,7 +89,6 @@ export const oasis: PublishedProjectRecord = {
         ),
         poster: image("oasis-environment", "sand-still", "Sand and masonry", "")
           .src,
-        subtitles: "/media/oasis-environment/sand.vtt",
       },
       comparison: [
         {
@@ -134,7 +132,6 @@ export const oasis: PublishedProjectRecord = {
           "Courtyard reveal",
           "",
         ).src,
-        subtitles: "/media/oasis-environment/courtyard.vtt",
       },
       comparison: [
         {
