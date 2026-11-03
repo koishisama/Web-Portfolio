@@ -7,3 +7,10 @@ dist
 .vercel
 
 .vercel
+
+.build
+playwright-report
+test-results
+verification
+*.tsbuildinfo
+.env*

@@ -1,63 +1,60 @@
-import { useState } from "react";
-import Reveal from "../components/Reveal";
-import SectionHeading from "../components/SectionHeading";
-import FeaturedProjectCard from "../components/FeaturedProjectCard";
+import { projects } from "../data/projects";
 import ProjectCard from "../components/ProjectCard";
-import ProjectFilter from "../components/ProjectFilter";
-import ContactCTA from "../components/ContactCTA";
-import {
-  featuredProject,
-  projects,
-  type ProjectFilterKey
-} from "../data/projects";
+import ProjectFilter, { useProjectTrack } from "../components/ProjectFilter";
 
 export default function ProjectsPage() {
-  const [filter, setFilter] = useState<ProjectFilterKey>("all");
-
-  const filteredProjects =
-    filter === "all"
-      ? projects
-      : projects.filter((project) => project.category === filter);
-
-  const supportingProjects = filteredProjects.filter(
-    (project) => project.slug !== featuredProject.slug
+  const { selected, select } = useProjectTrack();
+  const visible = projects.filter(
+    (project) => selected === "all" || project.tracks.includes(selected),
   );
-  const showFeatured =
-    filter === "all" || (filter === "game" && featuredProject.category === "game");
-
   return (
-    <>
-      <section className="page-section page-header">
-        <div className="page-shell">
-          <p className="eyebrow">Project Index</p>
-          <h1 className="display-title">Projects</h1>
-          <p className="lead">Browse the work by category.</p>
-          <ProjectFilter activeFilter={filter} onChange={setFilter} />
-        </div>
-      </section>
-
-      <Reveal className="page-section">
-        <div className="page-shell">
-          <SectionHeading
-            eyebrow="All Projects"
-            title="Game, VFX, and environment work"
-            description="Filter the work by category and open each project for more detail."
-          />
-          <div className="stack-gap">
-            {showFeatured ? <FeaturedProjectCard project={featuredProject} /> : null}
-            <div className="project-grid">
-              {supportingProjects.map((project) => (
-                <ProjectCard key={project.slug} project={project} />
+    <div className="container work-page">
+      <header className="page-header">
+        <h1>Work</h1>
+        <p>
+          Games, real-time effects and tools made with Unity and Unreal Engine.
+        </p>
+      </header>
+      <ProjectFilter
+        selected={selected}
+        onSelect={select}
+        count={visible.length}
+      />
+      {[
+        { tier: "featured", title: "Selected projects" },
+        { tier: "supporting", title: "More projects" },
+        { tier: "study", title: "Studies" },
+      ].map((section) => {
+        const items = visible
+          .filter((project) => project.tier === section.tier)
+          .sort((a, b) => a.rank - b.rank);
+        return items.length ? (
+          <section
+            key={section.tier}
+            className="work-group"
+            aria-labelledby={`work-${section.tier}`}
+          >
+            <h2 id={`work-${section.tier}`}>{section.title}</h2>
+            {section.tier === "study" ? (
+              <p className="group-note">
+                Earlier explorations in form, materials and motion.
+              </p>
+            ) : null}
+            <div
+              className={`project-grid${section.tier === "study" ? " studies-grid" : ""}`}
+            >
+              {items.map((project, index) => (
+                <ProjectCard
+                  key={project.slug}
+                  project={project}
+                  compact={section.tier === "study"}
+                  eager={section.tier === "featured" && index === 0}
+                />
               ))}
             </div>
-          </div>
-        </div>
-      </Reveal>
-
-      <ContactCTA
-        title="Interested in the work?"
-        description="Reach out by email or explore more work on GitHub."
-      />
-    </>
+          </section>
+        ) : null;
+      })}
+    </div>
   );
 }

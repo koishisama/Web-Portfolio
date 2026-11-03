@@ -1,31 +1,77 @@
 import { Link } from "react-router-dom";
-import { projectCategoryLabel } from "../data/projects";
 import type { ProjectRecord } from "../types/project";
-import MediaPlaceholder from "./MediaPlaceholder";
+import { Picture } from "./Media";
+import Icon from "./Icon";
 
-type ProjectCardProps = {
+export default function ProjectCard({
+  project,
+  compact = false,
+  eager = false,
+}: {
   project: ProjectRecord;
-};
-
-export default function ProjectCard({ project }: ProjectCardProps) {
+  compact?: boolean;
+  eager?: boolean;
+}) {
   return (
-    <article className="project-card">
-      <Link className="project-card__link" to={`/projects/${project.slug}`}>
-        <MediaPlaceholder asset={project.thumbnail} compact />
-        <div className="project-card__body">
-          <div className="project-card__meta">
-            <span>{projectCategoryLabel[project.category]}</span>
-            <span>{project.projectType}</span>
-          </div>
-          <h3>{project.title}</h3>
-          <p>{project.subtitle}</p>
-          <div className="tag-row" aria-label={`${project.title} roles`}>
-            {project.roles.map((role) => (
-              <span key={role}>{role}</span>
+    <article
+      className={`project-card${compact ? " compact-card" : ""}`}
+      data-project={project.slug}
+    >
+      <div className="card-image">
+        <Link
+          to={`/projects/${project.slug}`}
+          className="project-link"
+          aria-label={`Explore ${project.title}`}
+        >
+          <Picture
+            asset={project.cover}
+            eager={eager}
+            sizes="(max-width: 560px) calc(100vw - 40px), (max-width: 1200px) 45vw, 544px"
+          />
+          <span className="cover-open">
+            <Icon name="arrow-up-right" />
+          </span>
+        </Link>
+      </div>
+      <div className="card-body">
+        <div>
+          <h3>
+            <Link to={`/projects/${project.slug}`}>{project.title}</Link>
+          </h3>
+          <p className="contribution-line">
+            <strong>{project.roles.join(" / ")}</strong>
+            <span aria-hidden="true"> · </span>
+            {project.tools[0]}
+          </p>
+          <ul className="tag-list card-tags" aria-label="Project details">
+            {project.unit ? <li className="tag-unit">{project.unit}</li> : null}
+            <li className="tag-type">{project.projectType}</li>
+            {project.tools.slice(1, compact ? 3 : 4).map((tool) => (
+              <li key={tool}>{tool}</li>
             ))}
-          </div>
+          </ul>
         </div>
-      </Link>
+        <div className="card-actions">
+          {project.slug === "deinosavros" ? (
+            <Link
+              to="/projects/deinosavros#route-and-chance"
+              className="icon-button"
+              aria-label="Map & Chance"
+              title="Map & Chance"
+            >
+              <Icon name="route" />
+            </Link>
+          ) : null}
+          <Link
+            to={`/projects/${project.slug}`}
+            className="icon-button case-entry"
+            aria-label={`Open ${project.title} case`}
+            title={`Open ${project.title} case`}
+          >
+            <Icon name="arrow-up-right" />
+          </Link>
+        </div>
+      </div>
     </article>
   );
 }

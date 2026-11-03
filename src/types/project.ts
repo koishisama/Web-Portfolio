@@ -1,58 +1,72 @@
-export type ProjectCategory = "game" | "environment" | "vfx";
-
-export type ProjectStatus = "ready" | "placeholder";
-
+export type Track = "programming" | "technical-art";
+export type ProjectTier = "featured" | "supporting" | "study";
+export type MediaPurpose = "showcase" | "evidence" | "illustration";
 export type VisualAsset = {
+  id: string;
   title: string;
   caption: string;
   alt: string;
-  accent: string;
-  overlay: string;
-  src?: string;
+  src: string;
+  srcSet?: string;
   poster?: string;
-  mediaType?: "image" | "video";
-  objectPosition?: string;
-  autoPlay?: boolean;
-  muted?: boolean;
-  loop?: boolean;
-  controls?: boolean;
-  eyebrow?: string;
-  tags?: string[];
+  posterSrcSet?: string;
+  width: number;
+  height: number;
+  mediaType: "image" | "video";
+  purpose: MediaPurpose;
+  transcript?: string;
 };
-
-export type CaseStudySection = {
+export type ShowcaseAsset = VisualAsset & {
+  mediaType: "video";
+  purpose: "showcase";
+};
+export type Breakdown = {
+  id: string;
+  layout?: "stack" | "split" | "wide";
   title: string;
-  body: string[];
-  bullets?: string[];
+  paragraphs: string[];
+  media?: VisualAsset;
+  comparison?: { label: string; asset: VisualAsset }[];
 };
-
-export type Contribution = {
-  title: string;
-  summary: string;
-  bullets: string[];
-};
-
-export type Fact = {
-  label: string;
-  value: string;
-};
-
 export type ProjectRecord = {
   slug: string;
   title: string;
-  category: ProjectCategory;
   subtitle: string;
+  summary: string;
+  tracks: Track[];
+  tier: ProjectTier;
+  rank: number;
+  publication: "published" | "draft";
+  completionStatus?: "in-progress" | "completed" | "archived";
+  projectType:
+    | "Team project"
+    | "Independent study"
+    | "Coursework"
+    | "Game jam"
+    | "Practice project"
+    | "Environment study";
+  /** Name of the Monash unit the work was made for; omit for personal work. */
+  unit?: string;
   roles: string[];
   tools: string[];
-  projectType: string;
-  heroImage: VisualAsset;
-  thumbnail: VisualAsset;
-  summary: string;
-  highlights: string[];
-  gallery: VisualAsset[];
-  caseStudySections: CaseStudySection[];
-  contributions: Contribution[];
-  facts: Fact[];
-  reflection: string;
-  status: ProjectStatus;
+  facts: { label: string; value: string }[];
+  scope: string;
+  version: string;
+  cover: VisualAsset;
+  showcase?: ShowcaseAsset;
+  contributions: string[];
+  context: string;
+  breakdown: Breakdown[];
+  flow: { label: string; detail: string }[];
+  result: string[];
+  credits: { name: string; detail: string; href?: string }[];
+  links: {
+    label: string;
+    href: string;
+    kind: "play" | "source" | "documentation";
+  }[];
+};
+
+export type PublishedProjectRecord = ProjectRecord & {
+  publication: "published";
 };

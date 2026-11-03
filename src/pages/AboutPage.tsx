@@ -1,92 +1,101 @@
-import Reveal from "../components/Reveal";
-import SectionHeading from "../components/SectionHeading";
-import ToolStack from "../components/ToolStack";
+import { Link } from "react-router-dom";
+import { Picture } from "../components/Media";
+import { image } from "../data/media";
+import { site, skillGroups, timeline } from "../data/site";
 import ContactCTA from "../components/ContactCTA";
-import { siteMeta } from "../data/site";
+import Icon, { type IconName } from "../components/Icon";
 
-const focusAreas = [
-  {
-    title: "Programming",
-    description:
-      "Gameplay systems, interaction logic, and player-facing responsiveness inside Unity."
-  },
-  {
-    title: "VFX",
-    description:
-      "Real-time feedback, scene energy, and readable visual communication for gameplay moments."
-  },
-  {
-    title: "Environment",
-    description:
-      "Modeling, composition, and environment presentation that support both atmosphere and gameplay."
-  }
-];
-
+const street = image(
+  "procedural-city",
+  "street",
+  "A street in the Procedural City environment",
+  "Street detail from my Procedural City editor-tool study.",
+);
 export default function AboutPage() {
   return (
     <>
-      <section className="page-section page-header">
-        <div className="page-shell">
-          <p className="eyebrow">About</p>
-          <h1 className="display-title">{siteMeta.ownerName}</h1>
-          <p className="hero-statement">{siteMeta.roleLabel}</p>
-          <p className="lead">{siteMeta.aboutIntro}</p>
-        </div>
-      </section>
-
-      <Reveal className="page-section">
-        <div className="page-shell two-column-layout">
-          <div className="body-copy">
-            {siteMeta.aboutDetails.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+      <article className="about-page container">
+        <header className="page-header about-header">
+          <div className="about-portrait">
+            {site.portrait ? (
+              <img src={site.portrait} alt={site.name} width="240" height="240" />
+            ) : (
+              <span aria-hidden="true">HG</span>
+            )}
           </div>
-          <div className="panel">
-            <p className="eyebrow">Education Context</p>
-            <h2>Student projects with hands-on production roles</h2>
+          <div>
+            <h1>A little about me</h1>
             <p>
-              Most of the work here comes from student projects, with a focus on clear
-              ownership across implementation, VFX, and environment production.
+              I’m Hongtao Gao, a game programmer and technical artist with a
+              background in Game and Immersive Media at Monash University.
             </p>
+            <div className="hero-actions">
+              {site.resume ? (
+                <a className="button button-primary" href={site.resume} download>
+                  <Icon name="download" /> Download CV
+                </a>
+              ) : null}
+              <Link className="button button-ghost" to="/contact">
+                <Icon name="mail" /> Get in touch
+              </Link>
+            </div>
           </div>
-        </div>
-      </Reveal>
-
-      <Reveal className="page-section">
-        <div className="page-shell">
-          <SectionHeading
-            eyebrow="Focus Areas"
-            title="Main areas of work"
-            description="Programming, VFX, and environment production are the three main areas across the current projects."
-          />
-          <div className="contribution-grid">
-            {focusAreas.map((area) => (
-              <article key={area.title} className="panel contribution-card">
-                <h3>{area.title}</h3>
-                <p>{area.description}</p>
-              </article>
+        </header>
+        <p>
+          I work across Unity and Unreal Engine. My projects range from game
+          interfaces and beat-based gameplay to Niagara effects, materials and
+          tools for generating a city.
+        </p>
+        <section className="about-skills" aria-labelledby="skills-heading">
+          <h2 id="skills-heading">Skills</h2>
+          <div className="skill-groups">
+            {skillGroups.map((group) => (
+              <div className="skill-group" key={group.title}>
+                <h3>
+                  <Icon name={group.icon as IconName} /> {group.title}
+                </h3>
+                <ul className="tag-list">
+                  {group.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
             ))}
           </div>
-        </div>
-      </Reveal>
-
-      <Reveal className="page-section">
-        <div className="page-shell">
-          <SectionHeading
-            eyebrow="Toolkit"
-            title="Tools used across these projects"
-            description="A small selection of software and workflows used across the current work."
-          />
-          <div className="panel tools-panel">
-            <ToolStack tools={siteMeta.tools} />
-          </div>
-        </div>
-      </Reveal>
-
-      <ContactCTA
-        title="Get in touch or explore more work."
-        description="Reach out by email or explore more work on GitHub."
-      />
+        </section>
+        <section aria-labelledby="timeline-heading">
+          <h2 id="timeline-heading">Education &amp; experience</h2>
+          <ol className="timeline">
+            {timeline.map((entry) => (
+              <li key={entry.title}>
+                <span className="timeline-period">{entry.period}</span>
+                <h3>{entry.title}</h3>
+                <p className="timeline-place">{entry.place}</p>
+                <p>{entry.detail}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+        <figure className="about-photo">
+          <Link
+            to="/projects/procedural-city"
+            aria-label="Explore Procedural City"
+          >
+            <Picture
+              asset={street}
+              eager
+              sizes="(max-width: 800px) calc(100vw - 40px), 800px"
+            />
+          </Link>
+          <figcaption>{street.caption}</figcaption>
+        </figure>
+        <p>
+          <Link className="text-link" to="/reflection">
+            Read my degree reflection
+          </Link>
+        </p>
+      </article>
+      <ContactCTA />
     </>
   );
 }

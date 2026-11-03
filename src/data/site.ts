@@ -1,57 +1,60 @@
-export const siteMeta = {
-  ownerName: "Hongtao Gao",
-  brandMark: "HG",
-  roleLabel: "Programmer, VFX Artist, and Environment Modeler",
-  heroStatement:
-    "Building game systems, real-time effects, and environment work in Unity.",
-  heroSummary:
-    "Selected work across gameplay programming, VFX, interactive scene work, and environment production.",
-  aboutIntro:
-    "I work across gameplay programming, real-time VFX, and environment modeling, with a focus on clear playable results.",
-  aboutDetails: [
-    "Most of my work is built in Unity and presented through game projects, environment studies, and short VFX pieces.",
-    "I enjoy combining systems, visual feedback, and scene building in the same workflow."
+export const site = {
+  name: "Hongtao Gao",
+  role: "Game Programmer & Technical Artist",
+  description:
+    "Gameplay systems, expressive effects and tools for making worlds. Selected Unity and Unreal Engine work by Hongtao Gao.",
+  tagline:
+    "I build gameplay systems, interfaces and tools — and the shaders and effects that make them readable.",
+  email: "mm2212425586@gmail.com",
+  github: "https://github.com/koishisama",
+  url: "https://web-portfolio-eta-eosin.vercel.app",
+  // Place the PDF at public/Hongtao-Gao-CV.pdf; leave empty to hide every CV button.
+  // Add the PDF to public/ and set the path here to show the CV buttons.
+  resume: "",
+  availability: "Open to gameplay & technical art roles",
+  // Optional extra profiles; entries with an empty href are not rendered.
+  profiles: [
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/hongtao-gao-076630443" },
+    { label: "itch.io", href: "https://chanelaforet.itch.io/" },
+    { label: "ArtStation", href: "" },
   ],
-  tools: [
-    "Unity",
-    "Unreal Engine",
-    "C#",
-    "Maya",
-    "Substance Painter",
-    "Shader Graph",
-    "FMOD",
-    "AR and VR Interaction",
-    "Environment Modeling"
-  ],
-  categoryCopy: {
-    game: {
-      title: "Game Projects",
-      description:
-        "Playable work focused on systems, interaction, and real-time feedback."
-    },
-    vfx: {
-      title: "VFX Studies",
-      description:
-        "Short real-time effect studies focused on timing, motion, and impact."
-    },
-    environment: {
-      title: "Environment Projects",
-      description:
-        "Scene work focused on modeling, composition, lighting, and presentation."
-    }
-  },
-  contactCards: [
-    {
-      label: "Email",
-      value: "mm2212425586@gmail.com",
-      href: "mailto:mm2212425586@gmail.com",
-      note: "Primary contact email."
-    },
-    {
-      label: "GitHub",
-      value: "github.com/koishisama",
-      href: "https://github.com/koishisama",
-      note: "Portfolio repository and related work."
-    }
-  ]
+  // Optional portrait at public/media/portrait.webp; empty shows a monogram.
+  portrait: "",
+};
+export const tracks = {
+  programming: "Programming",
+  "technical-art": "Technical Art",
 } as const;
+
+export const skillGroups = [
+  {
+    title: "Programming",
+    icon: "code",
+    items: ["C#", "Python", "Blueprint", "UI state & flow", "Networking (TCP)", "Git"],
+  },
+  {
+    title: "Technical art",
+    icon: "sparkles",
+    items: ["Niagara", "Materials", "Shader Graph", "URP", "Procedural generation", "Animation timing"],
+  },
+  {
+    title: "Engines & tools",
+    icon: "layers",
+    items: ["Unity", "Unreal Engine 5", "Editor Utility Widgets", "FMOD", "Maya", "Substance Painter"],
+  },
+] as const;
+
+export const timeline = [
+  {
+    period: "Education",
+    title: "Game and Immersive Media",
+    place: "Monash University",
+    detail: "Team productions, gameplay programming and real-time art in Unity and Unreal Engine.",
+  },
+  {
+    period: "2026",
+    title: "GMTK Game Jam — One More Second",
+    place: "Team of 7 · 72 hours",
+    detail: "Menus, final dialogue system, pickups, skill feedback, audio and final integration.",
+  },
+] as const;
