@@ -34,12 +34,12 @@ export const skillGroups = [
   {
     title: "Technical art",
     icon: "sparkles",
-    items: ["Niagara", "Materials", "Shader Graph", "URP", "Procedural generation", "Animation timing"],
+    items: ["Niagara", "Materials", "Shader Graph", "URP", "Procedural generation (WFC)", "Animation timing"],
   },
   {
     title: "Engines & tools",
     icon: "layers",
-    items: ["Unity", "Unreal Engine 5", "Editor Utility Widgets", "FMOD", "Maya", "Substance Painter"],
+    items: ["Unity", "Unreal Engine 5", "UI Toolkit", "FMOD", "Maya", "Substance Painter"],
   },
 ] as const;
 

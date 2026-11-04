@@ -26,7 +26,7 @@ export const units: UnitEntry[] = [
       { title: "Ink VFX", slug: "ink-vfx" },
       { title: "Oasis", slug: "oasis-environment" },
     ],
-    note: "Materials, VFX and a procedural editor tool in Unreal Engine.",
+    note: "Materials and VFX in Unreal Engine, and a procedural city tool in Unity.",
   },
 ];
 

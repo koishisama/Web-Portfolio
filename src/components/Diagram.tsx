@@ -4,7 +4,7 @@ import Icon, { type IconName } from "./Icon";
 
 const flowIcons: Record<string, IconName[]> = {
   deinosavros: ["sword", "cards", "route", "dice", "arrow-right"],
-  "procedural-city": ["sliders", "layers", "lock", "refresh"],
+  "procedural-city": ["route", "grid", "lock", "refresh"],
   "rhythm-rider": ["music", "speed", "code", "sparkles"],
   "ink-vfx": ["sword", "brush", "layers", "sparkles"],
   "one-more-second": ["message", "watch", "sparkles", "headphones"],
