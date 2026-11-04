@@ -293,7 +293,7 @@ const mainProjects: PublishedProjectRecord[] = [
     title: "Procedural City",
     subtitle: "Generate a city. Keep the parts you love.",
     summary:
-      "An Unreal editor tool with seeded rules, locked blocks and local regeneration. Built to leave room for an artist's decisions. Made as coursework for Technical Art.",
+      "A Unity editor tool that plans a city's streets and districts, then lets Wave Function Collapse fill each parcel with modular buildings. Pin the parcels that work and regenerate the rest. Made as coursework for Technical Art.",
     tracks: ["technical-art", "programming"],
     tier: "featured",
     rank: 2,
@@ -301,27 +301,27 @@ const mainProjects: PublishedProjectRecord[] = [
     projectType: "Coursework",
     unit: "Technical Art",
     roles: ["Tool developer", "Technical artist"],
-    tools: ["Unreal Engine", "Python", "Blueprint", "Editor Utility Widgets"],
+    tools: ["Unity", "C#", "UI Toolkit", "Wave Function Collapse", "URP"],
     facts: [
-      { label: "Engine", value: "Unreal Engine" },
-      { label: "Focus", value: "Procedural editor tooling" },
+      { label: "Engine", value: "Unity 6.3 · URP" },
+      { label: "Grid", value: "12 m cells, up to 50 × 50" },
     ],
     scope:
-      "I implemented the generation and editing workflow and integrated the environment assets. The third-party building, prop and texture sources are credited separately.",
+      "Solo project. I wrote the generator, the WFC solver and the Designer window in C#, and made the building, road and park kit for this project. Two Poly Haven facades were used only as visual references.",
     version:
-      "The main film combines fresh fixed-step editor and native Play-in-Editor views with the existing tool-panel recording. The lock/rebuild chapter uses one camera and the production Python API. Temporary cameras preserve the scene's lighting and native animation timing; source assets remain unchanged.",
+      "Captured in the Unity 6.3 editor from the saved showcase scene: a 50 × 50 city with Building Seed 43, regenerated with seed 44 around one pinned parcel. Captions and title cards from my original edit are removed. Silent.",
     cover: image(
       "procedural-city",
       "hero",
-      "A modular city generated in Unreal Engine",
-      "An overview of the generated blocks, streets and skyline.",
+      "A modular city generated in Unity",
+      "The commercial core rises above the surrounding housing.",
     ),
     showcase: {
       ...showcase(
         "procedural-city",
-        "Procedural City: generate, preserve and refine",
-        "A 42-second edit of the city, editor controls, a same-camera local rebuild and street-level composition. Scripted native captures; silent.",
-        "An overview leads into residential and industrial blocks. The tool panel changes a preset and locks a block. The locked left block remains intact while the right block is rerolled. Street and plaza views show the resulting environment.",
+        "Procedural City: plan, solve, pin and regenerate",
+        "A 54-second edit: the prefab kit, the Designer and its street plan, pinning a parcel before regenerating, and the finished 50 × 50 city. Unity editor captures; silent.",
+        "Three prefabs turn in place: a 2 × 1 row house, a 2 × 2 podium tower and a road junction. The Designer opens beside a top-down view of road guides and district zones. A 2 × 2 parcel is selected and pinned, the Building Seed changes from 43 to 44, and the city regenerates around it. The camera then moves over the finished city, from the commercial core to the lawns and a street-level view.",
       ),
       poster: image(
         "procedural-city",
@@ -337,171 +337,166 @@ const mainProjects: PublishedProjectRecord[] = [
       ).srcSet,
     },
     context:
-      "Procedural generation becomes more useful when an artist can keep a successful composition. I built this tool around a practical question: how can the city change without throwing away a block that already works? Seeded generation establishes a repeatable base, and block-level controls let the user refine that base incrementally.",
+      "My first version of this tool was an Unreal editor widget that locked whole blocks. For this version I moved to Unity and rebuilt the generator around one question: how can a city keep a readable structure and still change? I set the structure first — streets, districts and heights — and let Wave Function Collapse choose the modules inside it. Pins then keep the parcels I like while everything else is regenerated.",
     contributions: [
-      "Implemented seeded block generation and local rebuild operations.",
-      "Built an artist-facing editor workflow with Blueprint and Editor Utility Widgets.",
-      "Added block locking and separate building/detail seed offsets.",
-      "Integrated modular assets and instanced mesh placement.",
+      "Wrote a C# Wave Function Collapse solver with entropy-based choice, propagation and backtracking.",
+      "Planned the city in layers: road guides, district zones and height influences come before any building is chosen.",
+      "Built a UI Toolkit Designer window with Generate and Cancel, Building Seed, and Pin / Unpin Selection.",
+      "Made a modular kit on a 12 m grid with 3 m facade bays, using prefab variants for different tower heights.",
     ],
     breakdown: [
       {
-        id: "a-repeatable-starting-point",
+        id: "plan-first",
         layout: "split",
-        title: "A repeatable starting point",
+        title: "Plan the streets first, then fill the parcels",
         paragraphs: [
-          "The generator works from a grid, rules and seed values. Buildings and details use separate offsets so their variation can be changed independently. Instanced meshes support repeated modular elements without making each repeated piece a separate authored object.",
-          "The system is an editor tool implemented through Python and Blueprint. Its purpose is to generate and refine authored city layouts; it is not presented as a native PCG Graph implementation.",
-        ],
-        media: image(
-          "procedural-city",
-          "tool-panel",
-          "City tool panel before a preset change",
-          "Green Residential preset and lock controls in the recorded editor panel.",
-        ),
-      },
-      {
-        id: "preserve-the-block-that-already-works",
-        layout: "wide",
-        title: "Preserve the block that already works",
-        paragraphs: [
-          "Global generation skips locked blocks. This lets an artist preserve a particular skyline, landmark arrangement or neighborhood while exploring alternatives around it. A lock is meaningful only if later operations respect it.",
-          "Changing grid or road dimensions would invalidate those relationships, so the tool rejects that change while blocks remain locked. This is a deliberate constraint that protects the user's existing choices.",
-          "In this same-camera capture, the left block is locked while the right block is rerolled. Comparing instance transforms and materials across all 64 blocks confirmed that only Block_01_02 changed. This checks a concrete edit operation, without turning it into a broad performance claim.",
+          "My first blockout had connected roads, but it was hard to tell where the centre ended and the neighbourhoods began. Hierarchical WFC research showed me how a broad pattern can guide later detail, so I changed the order of work.",
+          "Road guides, district zones and height influences are edited in the scene. The generator turns them into parcels, and only then does WFC choose buildings. Height guides raise the commercial core, so the roofs step down towards the housing and industry around it.",
         ],
         media: {
           ...video(
             "procedural-city",
-            "A locked block beside a local rebuild",
-            "The camera and scene settings stay fixed. Only the right block is rerolled; the locked left block keeps its geometry. Silent.",
-            "The first view establishes two neighboring blocks. Rerolling the right block changes its building arrangement while the left block and surrounding city remain unchanged.",
-            "locked-neighbor",
+            "Opening the Designer and its street plan",
+            "Tools > PCG City > Open Designer, then a top-down view of the road guides and district zones. Silent.",
+            "The Designer window opens beside the 50 × 50 city. The view switches to top-down, where road guides and district zones such as Commercial Core and Industrial Southeast are outlined over the generated blocks.",
+            "street-layout",
           ),
           poster: image(
             "procedural-city",
-            "rebuild-before",
-            "Before the local rebuild",
+            "designer",
+            "PCG City Designer beside the street plan",
+            "",
+          ).src,
+        },
+      },
+      {
+        id: "matching-edges",
+        layout: "split",
+        title: "A kit whose edges have to match",
+        paragraphs: [
+          "Each parcel filters the prefabs by footprint, building family, height and entrance direction, so a building faces the street it sits on. The solver starts with the cell that has the fewest options, picks a module by weight and removes incompatible neighbours. If a cell runs out of options, it backs up and tries another choice.",
+          "Road prefabs carry an edge width. A junction that meets 6 m roads on two sides and 4 m roads on the others cannot be turned a quarter, because that would swap the widths. The buildings use a 12 m grid and 3 m facade bays, and the 8-, 10- and 12-storey towers are prefab variants on the same 2 × 2 footprint.",
+        ],
+        media: {
+          ...video(
+            "procedural-city",
+            "Three pieces of the prefab kit",
+            "A 2 × 1 row house, a 2 × 2 podium tower and a junction that links two street widths, each in Prefab Mode. Silent.",
+            "Each prefab turns in place in Unity's Prefab Mode: a three-storey brick row house, a ten-storey tower on a podium and a road junction with crossings and street lights.",
+            "prefab-kit",
+          ),
+          poster: image(
+            "procedural-city",
+            "prefab-kit",
+            "Row house, podium tower and junction prefabs",
+            "",
+          ).src,
+        },
+      },
+      {
+        id: "pin-and-regenerate",
+        layout: "wide",
+        title: "Pin a parcel, regenerate the rest",
+        paragraphs: [
+          "Selecting a parcel, or any of its children, and choosing Pin Selection keeps its footprint, rotation and instance edits. A new Building Seed then varies everything else within the same plan, and the same settings and pins always reproduce the same city.",
+          "Generate runs in steps and becomes Cancel while it works. Unity only applies the result once a complete city is ready, so cancelling leaves the previous city in place, and the change can be undone in one step.",
+        ],
+        media: {
+          ...video(
+            "procedural-city",
+            "Pinning a parcel before regenerating",
+            "A 2 × 2 parcel is pinned, the Building Seed changes from 43 to 44 and the city regenerates around it. Silent.",
+            "In the Designer, a 2 × 2 parcel is selected and pinned. The Building Seed is changed from 43 to 44 and Generate is pressed; a progress bar runs while the button reads Cancel. The surrounding buildings change and the pinned parcel stays selected and unchanged.",
+            "pin-regenerate",
+          ),
+          poster: image(
+            "procedural-city",
+            "pin-before",
+            "Pinned parcel before regenerating",
             "",
           ).src,
         },
         comparison: [
           {
-            label: "Before local rebuild",
+            label: "Seed 43 · before",
             asset: image(
               "procedural-city",
-              "rebuild-before",
-              "Locked left block and neighboring block before a local rebuild",
-              "Before: the central road separates locked Block_01_01 on the left from the rebuild target Block_01_02 on the right.",
+              "pin-before",
+              "Pinned parcel with its neighbours at seed 43",
+              "Before: the pinned 2 × 2 parcel, marked by the move gizmo, among the seed 43 buildings.",
             ),
           },
           {
-            label: "After local rebuild",
+            label: "Seed 44 · after",
             asset: image(
               "procedural-city",
-              "rebuild-after",
-              "Unchanged locked block beside the rebuilt neighboring block",
-              "After: the right block's building and detail seed offsets advance from 0 to 1. The locked left block and the other 62 blocks retain their instance and material state.",
+              "pin-after",
+              "The same pinned parcel with new neighbours at seed 44",
+              "After: the pinned parcel keeps the same prefab, footprint and orientation, while the buildings around it change.",
             ),
           },
         ],
       },
       {
-        id: "rebuild-locally-then-continue-editing",
+        id: "testing-at-scale",
         layout: "split",
-        title: "Rebuild locally, then continue editing",
+        title: "Testing at a larger scale",
         paragraphs: [
-          "A local rebuild reads the saved state for the selected block. Rerolling advances the building and detail offsets rather than requiring a completely new city. The implementation groups editor changes into an undoable transaction.",
-          "The saved validation work checks generation rules, editor behavior and persistence. Traffic density also exposes a performance tradeoff, so I avoid describing a single editor measurement as a guaranteed frame rate for every scene or packaged build.",
+          "At 50 × 50, repeating a small garden on every spare tile made the open space hard to read. I grouped neighbouring green tiles into shared lawns, placed trees in small groups near the edges, and ran paths through areas that meet a street.",
+          "I tested the full 50 × 50 grid in a copy of the project: the same settings reproduced the city, a second seed gave a different set of modules, and cancelling while prefabs were being prepared kept the previous city. I also checked Undo, Redo and reopening the saved scene.",
         ],
-        media: image(
-          "procedural-city",
-          "plaza",
-          "Landmark plaza in the generated city",
-          "Local composition remains an artistic decision within the procedural layout.",
-        ),
+        media: {
+          ...video(
+            "procedural-city",
+            "The finished 50 × 50 city",
+            "The camera moves over the connected road network, the commercial core and the lawns, then drops to street level. Silent.",
+            "An overview of the whole city in the editor leads into a closer pass over the tall commercial core, then over lawns and paths between residential blocks, ending at street level beside a group of trees.",
+            "city-result",
+          ),
+          poster: image(
+            "procedural-city",
+            "lawns",
+            "Lawns and paths between residential blocks",
+            "",
+          ).src,
+        },
         comparison: [
           {
-            label: "Street composition",
-            asset: {
-              ...video(
-                "procedural-city",
-                "Street-level composition",
-                "A fixed-step camera shot in the existing Play-in-Editor scene. Silent; this view demonstrates composition rather than traffic behavior.",
-                "A camera moves through the street-level environment, bringing facades, road markings and street furniture into view.",
-                "street-traffic",
-              ),
-              poster: image(
-                "procedural-city",
-                "street",
-                "Street-level view",
-                "",
-              ).src,
-            },
-          },
-          {
-            label: "Plaza detail",
+            label: "Before",
             asset: image(
               "procedural-city",
-              "plaza",
-              "Generated plaza composition",
-              "An open space provides a focal point within the repeated city grid.",
+              "park-before",
+              "Small gardens repeated on every spare tile",
+              "Before the landscape update: small gardens fill every spare tile.",
             ),
           },
-        ],
-      },
-      {
-        id: "recorded-detail",
-        layout: "wide",
-        title: "An editing workflow at the tool panel",
-        paragraphs: [
-          "Preset changes, block locking and local variation share one editing workflow. The panel exposes those choices, while the unobstructed geometry comparison above shows what they preserve and change.",
-        ],
-        comparison: [
           {
-            label: "Panel controls",
-            asset: {
-              ...video(
-                "procedural-city",
-                "Preset and lock controls",
-                "A focused excerpt from the existing editor delivery recording. Production tool commands drive the visible controls. Silent.",
-                "The editor panel changes the preset, protects a selected block and adjusts the surrounding generated layout.",
-                "editor-controls",
-              ),
-              poster: image(
-                "procedural-city",
-                "tool-panel",
-                "City tool panel",
-                "",
-              ).src,
-            },
-          },
-          {
-            label: "Earlier editor recording",
-            asset: video(
+            label: "After",
+            asset: image(
               "procedural-city",
-              "Procedural City editor demonstration",
-              "Recorded editor workflow with scripted tool commands and traffic. No audio.",
-              "The demonstration shows the city tool panel, generated city variations and traffic in the Unreal editor. The visible changes are driven by actual controller commands.",
+              "park-after",
+              "Shared lawns with grouped trees",
+              "After: neighbouring green tiles join into shared lawns, with trees grouped near the edges.",
             ),
           },
         ],
       },
     ],
     flow: [
-      { label: "Generate", detail: "Grid, rules and a repeatable seed" },
-      { label: "Lock", detail: "Preserve selected blocks" },
-      { label: "Regenerate", detail: "Change only unlocked areas" },
-      { label: "Refine", detail: "Rebuild or reroll one block" },
+      { label: "Plan", detail: "Streets, districts and height guides" },
+      { label: "Solve", detail: "WFC fills each parcel" },
+      { label: "Pin", detail: "Keep the parcels that work" },
+      { label: "Regenerate", detail: "A new seed within the same plan" },
     ],
     result: [
-      "The tool supports an iterative workflow instead of a single generate-and-accept step. Repeatability and selective control make procedural output easier to art-direct.",
-      "The next useful evaluation would compare iteration time across a fixed layout task. No unmeasured time saving or universal performance claim is attached to this project.",
+      "Generation became a loop rather than a single roll: plan the structure once, try seeds, and keep what works. In the recording, the Designer reported 9.9 s for regenerating the 50 × 50 city in the editor; that is one measurement, not a benchmark.",
+      "If I started again, I would build one test street first — a house frontage, a mixed-width junction and a greenway — and check it at eye level before expanding the art kit.",
     ],
     credits: [
       {
         name: "Poly Haven",
         detail:
-          "Third-party environment resources integrated into the tool demonstration.",
+          "Modular Urban Apartments Facade and Modular Factory Facade by J. R. Cock (CC0), used only as visual references for the window rhythm and the factory kit.",
         href: "https://polyhaven.com",
       },
     ],

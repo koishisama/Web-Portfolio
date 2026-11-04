@@ -69,21 +69,6 @@
     "height": 900,
     "variants": [480, 960, 1600]
   },
-  "procedural-city/hero": {
-    "width": 1600,
-    "height": 900,
-    "variants": [480, 640, 768, 960, 1600]
-  },
-  "procedural-city/tool-panel": {
-    "width": 1600,
-    "height": 900,
-    "variants": [480, 960, 1600]
-  },
-  "procedural-city/detail-3": {
-    "width": 1600,
-    "height": 900,
-    "variants": [480, 960, 1600]
-  },
   "ink-vfx/hero": {
     "width": 1280,
     "height": 720,
@@ -194,16 +179,6 @@
     "height": 720,
     "variants": [480, 960, 1280]
   },
-  "procedural-city/lock-before": {
-    "width": 1600,
-    "height": 900,
-    "variants": [480, 960, 1600]
-  },
-  "procedural-city/lock-after": {
-    "width": 1600,
-    "height": 900,
-    "variants": [480, 960, 1600]
-  },
   "deinosavros/combat": {
     "width": 1600,
     "height": 900,
@@ -248,31 +223,6 @@
     "width": 1280,
     "height": 720,
     "variants": [480, 960, 1280]
-  },
-  "procedural-city/showcase-poster": {
-    "width": 1920,
-    "height": 1080,
-    "variants": [480, 960, 1600, 1920]
-  },
-  "procedural-city/rebuild-before": {
-    "width": 1920,
-    "height": 1080,
-    "variants": [480, 960, 1600, 1920]
-  },
-  "procedural-city/rebuild-after": {
-    "width": 1920,
-    "height": 1080,
-    "variants": [480, 960, 1600, 1920]
-  },
-  "procedural-city/street": {
-    "width": 1920,
-    "height": 1080,
-    "variants": [480, 960, 1600, 1920]
-  },
-  "procedural-city/plaza": {
-    "width": 1920,
-    "height": 1080,
-    "variants": [480, 960, 1600, 1920]
   },
   "rhythm-rider/run": {
     "width": 1280,
@@ -378,5 +328,55 @@
     "width": 1920,
     "height": 1080,
     "variants": [480, 960, 1600, 1920]
+  },
+  "procedural-city/hero": {
+    "width": 1600,
+    "height": 900,
+    "variants": [480, 640, 768, 960, 1600]
+  },
+  "procedural-city/showcase-poster": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "procedural-city/street": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "procedural-city/lawns": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [480, 960, 1600, 1920]
+  },
+  "procedural-city/designer": {
+    "width": 1600,
+    "height": 900,
+    "variants": [480, 960, 1600]
+  },
+  "procedural-city/prefab-kit": {
+    "width": 1600,
+    "height": 640,
+    "variants": [480, 960, 1600]
+  },
+  "procedural-city/pin-before": {
+    "width": 1200,
+    "height": 750,
+    "variants": [480, 960, 1200]
+  },
+  "procedural-city/pin-after": {
+    "width": 1200,
+    "height": 750,
+    "variants": [480, 960, 1200]
+  },
+  "procedural-city/park-before": {
+    "width": 1600,
+    "height": 1000,
+    "variants": [480, 960, 1600]
+  },
+  "procedural-city/park-after": {
+    "width": 1600,
+    "height": 1000,
+    "variants": [480, 960, 1600]
   }
 }

@@ -19,10 +19,11 @@ const durations: Record<string, Record<string, number>> = {
     "offering-to-combat": 32,
   },
   "procedural-city": {
-    showcase: 42,
-    "editor-controls": 14.8,
-    "locked-neighbor": 8,
-    "street-traffic": 7,
+    showcase: 54.2,
+    "street-layout": 11.3,
+    "prefab-kit": 13.6,
+    "pin-regenerate": 18.5,
+    "city-result": 22.3,
   },
   "rhythm-rider": {
     showcase: 61.91,
@@ -60,13 +61,10 @@ const selection: Record<
       label: "City & tool overview",
       poster: "showcase-poster",
     },
-    { id: "editor-controls", label: "Editor controls", poster: "tool-panel" },
-    {
-      id: "locked-neighbor",
-      label: "Lock & rebuild",
-      poster: "rebuild-before",
-    },
-    { id: "street-traffic", label: "Street view", poster: "street" },
+    { id: "street-layout", label: "Street plan", poster: "designer" },
+    { id: "prefab-kit", label: "Prefab kit", poster: "prefab-kit" },
+    { id: "pin-regenerate", label: "Pin & regenerate", poster: "pin-before" },
+    { id: "city-result", label: "City result", poster: "lawns" },
   ],
   "rhythm-rider": [
     { id: "showcase", label: "Gameplay highlights", poster: "earned-perfect" },
